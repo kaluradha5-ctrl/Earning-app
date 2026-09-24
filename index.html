@@ -251,3 +251,280 @@
     </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Rewards Hub</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f6f9; color: #333; padding-bottom: 70px; }
+
+        /* Top Header */
+        .top-header { background: linear-gradient(135deg, #4e54c8, #8f94fb); color: white; padding: 20px 15px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .user-info { display: flex; justify-content: space-between; align-items: center; }
+        .balance-box { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px); padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; }
+
+        /* Announcement Bar */
+        .notice-bar { background: #fff3cd; color: #856404; padding: 8px 12px; font-size: 12px; font-weight: bold; border-left: 4px solid #ffeba1; margin: 10px; border-radius: 5px; display: flex; align-items: center; gap: 8px; }
+
+        /* Tab Content Containers */
+        .tab-content { display: none; padding: 15px; max-width: 480px; margin: 0 auto; }
+        .tab-content.active { display: block; }
+
+        /* Cards & Grids */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+        .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; cursor: pointer; transition: 0.2s; }
+        .card:active { transform: scale(0.97); }
+        .card-icon { font-size: 30px; margin-bottom: 5px; }
+        .card h4 { font-size: 14px; color: #333; }
+        .card p { font-size: 11px; color: #777; margin-top: 2px; }
+
+        /* SPIN WHEEL ANIMATION STYLES */
+        .wheel-box { position: relative; width: 220px; height: 220px; margin: 20px auto; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 8px solid #ff4757; background: conic-gradient(#ff6b6b 0 72deg, #feca57 72deg 144deg, #1dd1a1 144deg 216deg, #54a0ff 216deg 288deg, #5f27cd 288deg 360deg); transition: transform 3s cubic-bezier(0.15, 0.9, 0.15, 1); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 2px #000; }
+        .wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid #2e86de; z-index: 10; }
+
+        /* Buttons & Forms */
+        .btn { width: 100%; background: #4e54c8; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 10px; }
+        .btn-success { background: #28a745; }
+        input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
+        .nav-item { text-align: center; color: #777; font-size: 11px; cursor: pointer; text-decoration: none; flex: 1; }
+        .nav-item.active { color: #4e54c8; font-weight: bold; }
+        .nav-item div { font-size: 18px; margin-bottom: 2px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="top-header">
+        <div class="user-info">
+            <div>
+                <h3 id="displayUser">Welcome User</h3>
+                <small id="refDisplay">Ref Code: LOADING</small>
+            </div>
+            <div class="balance-box">
+                💰 <span id="coinBalance">0</span> Coins<br>
+                <small>(≈ ₹<span id="rupeeBalance">0.00</span>)</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Bar -->
+    <div class="notice-bar">
+        📢 <span>Naya Offer: Dosto ko invite karein aur har referral par ₹5 paayein!</span>
+    </div>
+
+    <!-- TAB 1: HOME (Dashboard) -->
+    <div id="homeTab" class="tab-content active">
+        <h3>🔥 Daily Rewards</h3>
+        <div class="card" style="margin-top:10px; background: linear-gradient(135deg, #ff9a9e, #fecfef);" onclick="claimDailyReward()">
+            <div class="card-icon">🎁</div>
+            <h4>Daily Check-in Bonus</h4>
+            <p>Receive up to 100 Coins Daily</p>
+        </div>
+
+        <h3 style="margin-top: 20px;">⚡ Quick Earning</h3>
+        <div class="grid-2">
+            <div class="card" onclick="watchAdReward()">
+                <div class="card-icon">📺</div>
+                <h4>Watch Ad Video</h4>
+                <p>+50 Coins / Video</p>
+            </div>
+            <div class="card" onclick="openReferralModal()">
+                <div class="card-icon">🤝</div>
+                <h4>Refer & Earn</h4>
+                <p>₹5 Per Referral</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 2: TASKS & OFFERS -->
+    <div id="taskTab" class="tab-content">
+        <h3>📋 Complete Tasks</h3>
+        <div class="card" style="margin-top:10px; text-align:left;" onclick="completeTask(100, 'Telegram Join')">
+            <h4>📲 Telegram Channel Join Karein</h4>
+            <p>Reward: 100 Coins | Time: 1 Min</p>
+        </div>
+        <div class="card" style="margin-top:10px; text-align:left;" onclick="completeTask(150, 'PlayStore Rating')">
+            <h4>⭐ PlayStore Par 5-Star Rating Dein</h4>
+            <p>Reward: 150 Coins | Instant Approval</p>
+        </div>
+    </div>
+
+    <!-- TAB 3: GAMES & SPIN -->
+    <div id="gameTab" class="tab-content">
+        <h3 style="text-align: center;">🎡 Lucky Spin Wheel</h3>
+        
+        <!-- Animated Wheel Box -->
+        <div class="wheel-box">
+            <div class="wheel-pointer"></div>
+            <div class="wheel" id="mainWheel">SPIN ME</div>
+        </div>
+        
+        <button class="btn" onclick="spinWheelAnimation()">SPIN NOW 🎯</button>
+
+        <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ccc;">
+
+        <div class="card" onclick="scratchCard()">
+            <div class="card-icon">🃏</div>
+            <h4>Scratch & Win</h4>
+            <p>Instant Bonus Card</p>
+        </div>
+    </div>
+
+    <!-- TAB 4: WALLET & WITHDRAW -->
+    <div id="walletTab" class="tab-content">
+        <h3>💸 Withdraw Earnings</h3>
+        <p style="font-size:12px; color:#666; margin-bottom:10px;">100 Coins = ₹1 Ratio | Instant Payout</p>
+        
+        <div class="card" style="text-align:left;">
+            <label>Payout Method:</label>
+            <select id="payMethod">
+                <option value="UPI">UPI (GooglePay/PhonePe/Paytm)</option>
+                <option value="Paytm Wallet">Paytm Wallet</option>
+            </select>
+
+            <label>Payment Address (UPI ID / Mobile):</label>
+            <input type="text" id="payAddress" placeholder="e.g. 9876543210@paytm">
+
+            <label>Select Amount (Coins Needed):</label>
+            <select id="withdrawAmount">
+                <option value="1000">₹10 (1,000 Coins)</option>
+                <option value="2500">₹25 (2,500 Coins)</option>
+                <option value="5000">₹50 (5,000 Coins)</option>
+                <option value="10000">₹100 (10,000 Coins)</option>
+                <option value="25000">₹250 (25,000 Coins)</option>
+            </select>
+
+            <button class="btn btn-success" onclick="processWithdrawal()">Request Redeem</button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Tabs -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('homeTab', this)">
+            <div>🏠</div>Home
+        </div>
+        <div class="nav-item" onclick="switchTab('taskTab', this)">
+            <div>📋</div>Tasks
+        </div>
+        <div class="nav-item" onclick="switchTab('gameTab', this)">
+            <div>🎮</div>Games
+        </div>
+        <div class="nav-item" onclick="switchTab('walletTab', this)">
+            <div>💰</div>Wallet
+        </div>
+    </div>
+
+    <script>
+        let userCoins = parseInt(localStorage.getItem('app_coins')) || 200;
+        let myRefCode = localStorage.getItem('app_ref') || 'REF' + Math.floor(100000 + Math.random() * 900000);
+        let currentRotation = 0;
+        let isSpinning = false;
+
+        localStorage.setItem('app_ref', myRefCode);
+        updateUI();
+
+        function updateUI() {
+            document.getElementById('coinBalance').innerText = userCoins;
+            document.getElementById('rupeeBalance').innerText = (userCoins / 100).toFixed(2);
+            document.getElementById('refDisplay').innerText = "Ref Code: " + myRefCode;
+        }
+
+        function addCoins(amount, message) {
+            userCoins += amount;
+            localStorage.setItem('app_coins', userCoins);
+            updateUI();
+            alert("🎉 " + message + "! +" + amount + " Coins Added.");
+        }
+
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            el.classList.add('active');
+        }
+
+        function claimDailyReward() {
+            let lastClaim = localStorage.getItem('last_checkin');
+            let today = new Date().toDateString();
+
+            if (lastClaim === today) {
+                alert("⚠️ Aaj ka bonus aap le chuke hain! Kal wapas aayein.");
+            } else {
+                localStorage.setItem('last_checkin', today);
+                addCoins(100, "Daily Check-in Reward");
+            }
+        }
+
+        function watchAdReward() {
+            alert("▶ Ad Play Ho Raha Hai... Full ad dekhne ke baad reward milega.");
+            setTimeout(() => {
+                addCoins(50, "Video Ad Reward");
+            }, 1000);
+        }
+
+        // REAL ROTATING SPIN WHEEL FUNCTION
+        function spinWheelAnimation() {
+            if(isSpinning) return;
+            isSpinning = true;
+
+            let randomDegree = Math.floor(1800 + Math.random() * 360); // Minimum 5 full rotations
+            currentRotation += randomDegree;
+
+            let wheel = document.getElementById('mainWheel');
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                let rewards = [20, 50, 100, 150, 200];
+                let won = rewards[Math.floor(Math.random() * rewards.length)];
+                addCoins(won, "Spin Wheel Reward");
+                isSpinning = false;
+            }, 3000); // 3-second spin time
+        }
+
+        function scratchCard() {
+            let won = Math.floor(Math.random() * 60) + 10;
+            addCoins(won, "Scratch Bonus");
+        }
+
+        function completeTask(coins, taskName) {
+            alert("⚙ Task complete karne ke liye instructions follow karein.");
+            addCoins(coins, taskName + " Bonus");
+        }
+
+        function openReferralModal() {
+            alert("📢 Aapka Referral Code: " + myRefCode + "\n\nIs code ko dosto ke saath share karein. Jab wo app join karenge, aapko ₹5 (500 coins) milenge!");
+        }
+
+        function processWithdrawal() {
+            let method = document.getElementById('payMethod').value;
+            let address = document.getElementById('payAddress').value;
+            let requiredCoins = parseInt(document.getElementById('withdrawAmount').value);
+
+            if (!address) {
+                alert("⚠️ Kripya apna Payment Address / UPI ID darj karein.");
+                return;
+            }
+
+            if (userCoins < requiredCoins) {
+                alert("❌ Aapke paas paryapt coins nahi hain! Minimum " + requiredCoins + " coins chahiye.");
+                return;
+            }
+
+            userCoins -= requiredCoins;
+            localStorage.setItem('app_coins', userCoins);
+            updateUI();
+
+            let rupeeAmt = requiredCoins / 100;
+            alert("✅ Request Successful!\n\n₹" + rupeeAmt + " ki withdrawal request " + method + " (" + address + ") par submit ho gayi hai. 24-48 ghante me paise mil jayenge.");
+        }
+    </script>
+</body>
+</html>
