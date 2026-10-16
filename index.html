@@ -1,183 +1,342 @@
+```html
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kismat Quest - Reward App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kismat Quest Rewards</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            emerald: '#02c59a',
+                            cyan: '#38bdf8',
+                            indigo: '#6366f1',
+                            dark: '#0b0f19',
+                            card: '#161f32',
+                            accent: '#1e293b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body {
-            background-color: #0f172a;
-            color: #ffffff;
-            margin: 0;
-            padding: 15px;
+            background-color: #05070c;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+
+        /* Glassmorphism & Custom Effects */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        h2 { text-align: center; color: #38bdf8; margin-bottom: 5px; }
-        .user-info {
-            background: #334155;
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 14px;
+
+        .neon-glow-emerald {
+            box-shadow: 0 0 20px rgba(2, 197, 154, 0.25);
         }
-        .coins-display {
-            font-size: 22px;
-            font-weight: bold;
-            color: #facc15;
-            margin-top: 5px;
+
+        .neon-glow-indigo {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.25);
         }
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #e2e8f0;
-            margin-bottom: 10px;
+
+        .gold-gradient {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         }
-        .earn-btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: bold;
-            text-align: center;
-            font-size: 16px;
-            color: #ffffff;
-            background: #2563eb;
-            margin-bottom: 25px;
-            transition: 0.2s;
+
+        .emerald-gradient {
+            background: linear-gradient(135deg, #02c59a 0%, #059669 100%);
         }
-        .earn-btn:hover { opacity: 0.9; }
-        
-        .input-group {
-            margin-bottom: 15px;
+
+        .indigo-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
         }
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            color: #cbd5e1;
-            margin-bottom: 5px;
+
+        /* Hide scrollbars for clean app feel */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #475569;
-            background: #0f172a;
-            color: #ffffff;
-            font-size: 14px;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
-        .withdraw-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .withdraw-btn {
-            background: #334155;
-            border: 1px solid #475569;
-            color: #ffffff;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 13px;
-        }
-        .withdraw-btn:hover {
-            background: #02c59a;
-            border-color: #02c59a;
+
+        /* Ripple / Press effect */
+        .active-scale:active {
+            transform: scale(0.96);
         }
     </style>
 </head>
-<body>
+<body class="flex justify-center items-center min-h-screen text-slate-100 antialiased">
 
-    <div class="container">
-        <h2>Kismat Quest Rewards</h2>
-        
-        <!-- User ID & Coins Info -->
-        <div class="user-info">
-            <div>User ID: <span id="display-user-id" style="color: #38bdf8;">--</span></div>
-            <div class="coins-display">🪙 Coins: <span id="display-coins">0</span></div>
-        </div>
+    <!-- Mobile Frame Wrapper for Desktop / Full screen on Mobile -->
+    <div class="w-full max-w-md h-screen md:h-[900px] bg-[#0b0f19] flex flex-col relative overflow-hidden md:rounded-[40px] md:shadow-2xl md:border-[6px] md:border-slate-800/80">
 
-        <!-- Task Section (CPX Hata diya gaya hai, sirf Torox hai) -->
-        <div class="section-title">🔥 Tasks & Offers</div>
-        <a id="torox-link" href="#" target="_blank" class="earn-btn">
-            Open Torox Offerwall
-        </a>
+        <!-- Top Header Navigation -->
+        <header class="px-5 pt-5 pb-3 flex justify-between items-center bg-[#0b0f19]/90 backdrop-blur-md sticky top-0 z-30 border-b border-slate-800/50">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl indigo-gradient flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-gamepad text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-extrabold tracking-wide bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+                        Kismat Quest
+                    </h1>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="text-[11px] text-slate-400 font-medium">Rewards Portal</span>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Old Withdrawal System -->
-        <div class="section-title">💳 Withdraw Money</div>
-        <div class="input-group">
-            <label for="upiId">Paytm Mobile Number / UPI ID:</label>
-            <input type="text" id="upiId" placeholder="e.g. 9876543210@paytm">
-        </div>
+            <!-- Header Action Right -->
+            <div class="flex items-center gap-2">
+                <button onclick="showModal('support-modal')" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 flex items-center justify-center text-slate-300 transition-colors border border-slate-700/50 active-scale">
+                    <i class="fa-solid fa-headset text-sm"></i>
+                </button>
+            </div>
+        </header>
 
-        <div style="font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 10px;">Rashi Chunein:</div>
-        <div class="withdraw-grid">
-            <button class="withdraw-btn" onclick="requestWithdraw(2000, 50)">💸 ₹50 (2000 C)</button>
-            <button class="withdraw-btn" onclick="requestWithdraw(4000, 100)">💸 ₹100 (4000 C)</button>
-            <button class="withdraw-btn" onclick="requestWithdraw(6000, 150)">💸 ₹150 (6000 C)</button>
-            <button class="withdraw-btn" onclick="requestWithdraw(8000, 200)">💸 ₹200 (8000 C)</button>
-            <button class="withdraw-btn" onclick="requestWithdraw(10000, 250)">💸 ₹250 (10000 C)</button>
-            <button class="withdraw-btn" onclick="requestWithdraw(20000, 500)">💸 ₹500 (20000 C)</button>
-        </div>
-    </div>
+        <!-- Main App Content Scrollable Body -->
+        <main class="flex-1 overflow-y-auto no-scrollbar p-5 space-y-5 pb-24">
 
-    <script>
-        // Old User ID Management Logic
-        let userId = localStorage.getItem("kismat_user_id");
-        if (!userId) {
-            userId = "user_" + Math.random().toString(36).substring(2, 10);
-            localStorage.setItem("kismat_user_id", userId);
-        }
-        document.getElementById("display-user-id").innerText = userId;
+            <!-- Wallet & User ID Status Card -->
+            <div class="relative overflow-hidden rounded-3xl glass-card p-5 border border-slate-700/60 shadow-xl">
+                <!-- Background Glow Accents -->
+                <div class="absolute -top-12 -right-12 w-36 h-36 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-12 -left-12 w-36 h-36 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
-        // Display Current Coins
-        let currentCoins = parseInt(localStorage.getItem('coins')) || 0;
-        document.getElementById("display-coins").innerText = currentCoins;
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">User Identity</span>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span id="display-user-id" class="text-sm font-bold text-slate-200 font-mono bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700/50">user_loading</span>
+                            <button onclick="copyUserId()" class="text-slate-400 hover:text-brand-emerald text-xs transition-colors p-1" title="Copy ID">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 text-[11px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center gap-1">
+                        <i class="fa-solid fa-shield-halved text-[10px]"></i> Verified
+                    </span>
+                </div>
 
-        // Torox Link Assignment
-        let toroxUrl = "https://qckclk.com/wall/S?subid=" + userId;
-        document.getElementById("torox-link").href = toroxUrl;
+                <!-- Main Balance Display -->
+                <div class="pt-2 border-t border-slate-800/80 flex justify-between items-end">
+                    <div>
+                        <span class="text-xs font-medium text-slate-400">Total Balance</span>
+                        <div class="flex items-baseline gap-2 mt-0.5">
+                            <span id="display-coins" class="text-3xl font-black text-amber-400 tracking-tight">0</span>
+                            <span class="text-sm font-bold text-amber-500">Coins</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400 block">Est. Value</span>
+                        <span id="display-rupees" class="text-lg font-bold text-emerald-400">≈ ₹0.00</span>
+                    </div>
+                </div>
+            </div>
 
-        // Old Withdrawal System Logic
-        function requestWithdraw(requiredCoins, rupeeAmount) {
-            const upi = document.getElementById('upiId').value.trim();
-            if (!upi) {
-                alert('⚠️ Kripya apna Paytm number ya UPI ID darj karein!');
-                return;
-            }
+            <!-- TAB 1: HOME & EARN SECTION -->
+            <div id="tab-home" class="tab-content space-y-5">
+                
+                <!-- Daily Reward Banner -->
+                <div class="glass-card rounded-2xl p-4 border border-amber-500/30 flex items-center justify-between relative overflow-hidden bg-gradient-to-r from-amber-500/10 via-transparent to-transparent">
+                    <div class="flex items-center gap-3.5 z-10">
+                        <div class="w-12 h-12 rounded-2xl gold-gradient flex items-center justify-center text-white text-xl shadow-lg shadow-amber-500/20">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-slate-100">Daily Free Bonus</h3>
+                            <p class="text-xs text-slate-400">Claim 50 free coins every 24h</p>
+                        </div>
+                    </div>
+                    <button id="claim-daily-btn" onclick="claimDailyReward()" class="z-10 px-4 py-2 rounded-xl gold-gradient text-white text-xs font-bold shadow-md shadow-amber-500/20 active-scale hover:brightness-110 transition-all">
+                        Claim
+                    </button>
+                </div>
 
-            const lastWithdrawDate = localStorage.getItem('last_withdraw_date');
-            const today = new Date().toISOString().split('T')[0];
+                <!-- Featured Task: Torox Offerwall -->
+                <div class="space-y-2.5">
+                    <div class="flex justify-between items-center px-1">
+                        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-fire text-orange-500"></i> High Earning Tasks
+                        </h2>
+                        <span class="text-[11px] font-semibold text-brand-emerald bg-brand-emerald/10 px-2 py-0.5 rounded-md">Instant Credit</span>
+                    </div>
 
-            if (lastWithdrawDate === today) {
-                alert('⚠️ Aap aaj ka apna 1 withdrawal pehle hi laga chuke hain. Kal dobara prayas karein!');
-                return;
-            }
+                    <!-- Torox Offerwall Card -->
+                    <div class="glass-card rounded-3xl p-5 border border-indigo-500/30 relative overflow-hidden group hover:border-indigo-500/60 transition-all shadow-lg">
+                        <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl"></div>
 
-            let coins = parseInt(localStorage.getItem('coins')) || 0;
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-2xl indigo-gradient flex items-center justify-center text-white text-xl shadow-lg shadow-indigo-500/30">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-base text-white">Torox Offerwall</h3>
+                                    <p class="text-xs text-slate-400">Apps, Games & Easy Surveys</p>
+                                </div>
+                            </div>
+                        </div>
 
-            if (coins < requiredCoins) {
-                alert(`❌ Aparyapt Coins! ₹${rupeeAmount} ke liye minimum ${requiredCoins} coins hone chahiye.`);
-                return;
-            }
+                        <!-- Features list -->
+                        <div class="grid grid-cols-2 gap-2 mb-4 text-[11px] text-slate-300">
+                            <div class="bg-slate-800/50 px-2.5 py-1.5 rounded-lg flex items-center gap-2 border border-slate-700/40">
+                                <i class="fa-solid fa-circle-check text-brand-emerald"></i>
+                                <span>100+ Live Offers</span>
+                            </div>
+                            <div class="bg-slate-800/50 px-2.5 py-1.5 rounded-lg flex items-center gap-2 border border-slate-700/40">
+                                <i class="fa-solid fa-circle-check text-brand-emerald"></i>
+                                <span>Highest Payouts</span>
+                            </div>
+                        </div>
 
-            coins -= requiredCoins;
-            localStorage.setItem('coins', coins);
-            localStorage.setItem('last_withdraw_date', today);
+                        <!-- Dynamic Launch Button -->
+                        <a id="torox-link" href="#" target="_blank" class="w-full py-3.5 rounded-xl indigo-gradient text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/25 active-scale hover:brightness-110 transition-all">
+                            <span>Open Torox Offerwall</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </a>
+                    </div>
+                </div>
 
-            alert(`✅ ₹${rupeeAmount} ki withdrawal request safaltapoorvak darj ho gayi hai! 24 ghante mein payment mil jayegi.`);
-            location.reload();
-        }
-    </script>
-</body>
-</html>
+                <!-- How it works Info Box -->
+                <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/80 text-xs text-slate-400 space-y-2">
+                    <div class="font-bold text-slate-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-info text-brand-cyan"></i> Kaise Kamayein?
+                    </div>
+                    <ul class="list-disc list-inside space-y-1 text-slate-400">
+                        <li>Torox Button par click karke offerwall kholien.</li>
+                        <li>Games install karein ya surveys poore karein.</li>
+                        <li>Coins aapke wallet mein automatic add ho jayenge.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- TAB 2: WITHDRAW SECTION -->
+            <div id="tab-withdraw" class="tab-content space-y-5 hidden">
+                <div class="glass-card rounded-3xl p-5 border border-slate-700/60 shadow-xl space-y-4">
+                    <div class="border-b border-slate-800 pb-3">
+                        <h2 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-wallet text-brand-emerald"></i> Payment Details
+                        </h2>
+                        <p class="text-xs text-slate-400">Enter your UPI ID or Paytm Number for instant payouts.</p>
+                    </div>
+
+                    <!-- Payment Input -->
+                    <div class="space-y-1.5">
+                        <label for="upiId" class="text-xs font-semibold text-slate-300 block">Paytm Mobile / UPI ID</label>
+                        <div class="relative">
+                            <input type="text" id="upiId" placeholder="e.g. 9876543210@paytm" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-emerald transition-colors">
+                            <div class="absolute right-3 top-3 text-slate-500 text-xs font-medium">UPI/Paytm</div>
+                        </div>
+                    </div>
+
+                    <!-- Select Cashout Amount Grid -->
+                    <div class="space-y-2 pt-2">
+                        <label class="text-xs font-semibold text-slate-300 block">Select Withdrawal Amount</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="requestWithdraw(2000, 50)" class="glass-card p-3.5 rounded-2xl border border-slate-700/60 hover:border-brand-emerald text-left transition-all active-scale group">
+                                <div class="text-xs text-slate-400 group-hover:text-brand-emerald transition-colors">Cashout</div>
+                                <div class="text-lg font-black text-white">₹50</div>
+                                <div class="text-[11px] font-semibold text-amber-400 mt-0.5">2,000 Coins</div>
+                            </button>
+
+                            <button onclick="requestWithdraw(4000, 100)" class="glass-card p-3.5 rounded-2xl border border-slate-700/60 hover:border-brand-emerald text-left transition-all active-scale group">
+                                <div class="text-xs text-slate-400 group-hover:text-brand-emerald transition-colors">Cashout</div>
+                                <div class="text-lg font-black text-white">₹100</div>
+                                <div class="text-[11px] font-semibold text-amber-400 mt-0.5">4,000 Coins</div>
+                            </button>
+
+                            <button onclick="requestWithdraw(6000, 150)" class="glass-card p-3.5 rounded-2xl border border-slate-700/60 hover:border-brand-emerald text-left transition-all active-scale group">
+                                <div class="text-xs text-slate-400 group-hover:text-brand-emerald transition-colors">Cashout</div>
+                                <div class="text-lg font-black text-white">₹150</div>
+                                <div class="text-[11px] font-semibold text-amber-400 mt-0.5">6,000 Coins</div>
+                            </button>
+
+                            <button onclick="requestWithdraw(8000, 200)" class="glass-card p-3.5 rounded-2xl border border-slate-700/60 hover:border-brand-emerald text-left transition-all active-scale group">
+                                <div class="text-xs text-slate-400 group-hover:text-brand-emerald transition-colors">Cashout</div>
+                                <div class="text-lg font-black text-white">₹200</div>
+                                <div class="text-[11px] font-semibold text-amber-400 mt-0.5">8,000 Coins</div>
+                            </button>
+
+                            <button onclick="requestWithdraw(10000, 250)" class="glass-card p-3.5 rounded-2xl border border-slate-700/60 hover:border-brand-emerald text-left transition-all active-scale group">
+                                <div class="text-xs text-slate-400 group-hover:text-brand-emerald transition-colors">Cashout</div>
+                                <div class="text-lg font-black text-white">₹250</div>
+                                <div class="text-[11px] font-semibold text-amber-400 mt-0.5">10,000 Coins</div>
+                            </button>
+
+                            <button onclick="requestWithdraw(20000, 500)" class="glass-card p-3.5 rounded-2xl border border-slate-700/60 hover:border-brand-emerald text-left transition-all active-scale group">
+                                <div class="text-xs text-slate-400 group-hover:text-brand-emerald transition-colors">Cashout</div>
+                                <div class="text-lg font-black text-white">₹500</div>
+                                <div class="text-[11px] font-semibold text-amber-400 mt-0.5">20,000 Coins</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Important Notes -->
+                <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200/80 space-y-1">
+                    <div class="font-bold text-amber-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Rules & Limits:
+                    </div>
+                    <p>• Din mein keval 1 withdrawal request lagayi ja sakti hai.</p>
+                    <p>• Payment 24 ghante ke andar aapke UPI/Paytm account me bhej di jayegi.</p>
+                </div>
+            </div>
+
+            <!-- TAB 3: HISTORY SECTION -->
+            <div id="tab-history" class="tab-content space-y-4 hidden">
+                <div class="flex justify-between items-center px-1">
+                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Withdrawal Activity</h2>
+                    <button onclick="clearHistory()" class="text-xs text-rose-400 hover:underline">Clear History</button>
+                </div>
+
+                <div id="history-list" class="space-y-2.5">
+                    <!-- Dynamic History Items render here -->
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="absolute bottom-0 left-0 right-0 bg-[#0b0f19]/95 backdrop-blur-md border-t border-slate-800/80 px-6 py-2.5 flex justify-around items-center z-40">
+            
+            <button onclick="switchTab('tab-home', this)" class="nav-btn active flex flex-col items-center gap-1 text-brand-emerald transition-colors active-scale">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span class="text-[10px] font-bold">Earn</span>
+            </button>
+
+            <button onclick="switchTab('tab-withdraw', this)" class="nav-btn flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 transition-colors active-scale">
+                <i class="fa-solid fa-money-bill-transfer text-lg"></i>
+                <span class="text-[10px] font-bold">Withdraw</span>
+            </button>
+
+            <button onclick="switchTab('tab-history', this)" class="nav-btn flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 transition-colors active-scale">
+                <i class="fa-solid fa-clock-rotate-left text-lg"></i>
+                <span class="text-[10px] font-bold">History</span>
+            </button>
+            
+        </nav>
+
+        <!-- Notification Toast Modal -->
+        <div id="toast" class="fixed top-5 left-1/2 
