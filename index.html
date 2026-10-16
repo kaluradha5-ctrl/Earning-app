@@ -53,27 +53,20 @@
         <p>टास्क पूरे करें और पाएं इंस्टेंट Paytm / UPI कैश!</p>
     </div>
 
-    <!-- Phone Auth View -->
+    <!-- Auth View -->
     <div id="auth-view" class="content-section">
         <div class="auth-box">
-            <h3 style="margin-bottom: 15px; color: #f8fafc;">मोबाइल नंबर से लॉगिन करें</h3>
-            
-            <div id="phone-step-1">
-                <div class="input-group">
-                    <label>मोबाइल नंबर (10 अंकों का)</label>
-                    <input type="tel" id="phone-number" placeholder="उदा: 9876543210">
-                </div>
-                <div id="recaptcha-container"></div>
-                <button class="btn-primary" onclick="sendOTP()"><i class="fa-solid fa-paper-plane"></i> OTP भेजें</button>
+            <h3 style="margin-bottom: 15px; color: #f8fafc;" id="auth-title">मोबाइल नंबर से लॉगिन करें</h3>
+            <div class="input-group">
+                <label>मोबाइल नंबर (10 अंकों का)</label>
+                <input type="tel" id="phone-number" placeholder="उदा: 9876543210" maxlength="10">
             </div>
-
-            <div id="phone-step-2" class="hidden">
-                <div class="input-group">
-                    <label>OTP दर्ज करें</label>
-                    <input type="number" id="otp-code" placeholder="6 अंकों का OTP डालें">
-                </div>
-                <button class="btn-secondary" onclick="verifyOTP()"><i class="fa-solid fa-check-circle"></i> OTP वेरीफाई करें</button>
+            <div class="input-group">
+                <label>पासवर्ड</label>
+                <input type="password" id="password" placeholder="अपना पासवर्ड बनाएं या दर्ज करें">
             </div>
+            <button class="btn-primary" onclick="loginUser()"><i class="fa-solid fa-right-to-bracket"></i> लॉगिन करें</button>
+            <button class="btn-secondary" onclick="registerUser()"><i class="fa-solid fa-user-plus"></i> नया अकाउंट बनाएं</button>
         </div>
     </div>
 
@@ -120,7 +113,7 @@
         <div id="tab-profile" class="content-section hidden">
             <div class="card-box" style="text-align: center;">
                 <i class="fa-solid fa-circle-user" style="font-size: 50px; color: #818cf8; margin-bottom: 10px;"></i>
-                <h4 style="justify-content: center;" id="user-phone-display">+91 XXXXXXXXXX</h4>
+                <h4 style="justify-content: center;" id="user-phone-display">मोबाइल यूज़र</h4>
                 <p style="font-size: 11px; color: #64748b; margin-top: 5px;">UID: <span id="display-uid"></span></p>
                 <br>
                 <button class="btn-secondary" style="background: #ef4444;" onclick="logoutUser()"><i class="fa-solid fa-arrow-right-from-bracket"></i> लॉगआउट करें</button>
@@ -135,16 +128,17 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+    // Aapka Asli Firebase Config
     const firebaseConfig = {
-      apiKey: "AizaSyAA-4jjhyD90E06W5kUc_YD7lpOcWumIZg",
+      apiKey: "AIzaSyAA-4jjhyD90E06WSkUc_YD7lpOoWumIZg",
       authDomain: "real-money-917a4.firebaseapp.com",
       projectId: "real-money-917a4",
-      storageBucket: "real-money-917a4.appspot.com",
+      storageBucket: "real-money-917a4.firebasestorage.app",
       messagingSenderId: "689077241203",
-      appId: "1:689077241203:web:679e9c25680ca88ec8b106",
+      appId: "1:689077241203:web:579e9c25680ca88ec8b106",
       measurementId: "G-ECSN7078SX"
     };
 
@@ -154,7 +148,6 @@
 
     let currentUserId = null;
 
-    // 1 डिवाइस में 1 आईडी का सुरक्षा नियम
     function checkDeviceLimit(uid) {
         const savedUser = localStorage.getItem('kismat_device_user');
         if (savedUser && savedUser !== uid) {
@@ -168,54 +161,39 @@
         return true;
     }
 
-    window.setupRecaptcha = function() {
-        if (!window.recaptchaVerifier) {
-            window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-                'size': 'invisible'
-            });
-        }
-    };
+    function getEmailFromPhone(phone) {
+        return phone + "@kismatquest.com";
+    }
 
-    window.sendOTP = async function() {
+    window.registerUser = async function() {
         const phone = document.getElementById('phone-number').value.trim();
-        if (phone.length < 10) return alert("कृपया 10 अंकों का सही मोबाइल नंबर डालें!");
+        const password = document.getElementById('password').value.trim();
+        if (phone.length < 10 || !password) return alert("कृपया 10 अंकों का सही मोबाइल नंबर और पासवर्ड दर्ज करें!");
 
-        setupRecaptcha();
-        const phoneNumber = "+91" + phone;
-        const appVerifier = window.recaptchaVerifier;
-
+        const email = getEmailFromPhone(phone);
         try {
-            const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
-            window.confirmationResultGlobal = confirmationResult;
-            document.getElementById('phone-step-1').classList.add('hidden');
-            document.getElementById('phone-step-2').classList.remove('hidden');
-            alert("आपके मोबाइल नंबर पर OTP भेज दिया गया है!");
+            const userCred = await createUserWithEmailAndPassword(auth, email, password);
+            await setDoc(doc(db, "users", userCred.user.uid), {
+                phone: phone,
+                coins: 0,
+                createdAt: new Date()
+            });
+            alert("अकाउंट सफलतापूर्वक बन गया!");
         } catch (error) {
-            alert("OTP भेजने में समस्या: " + error.message);
-            if (window.recaptchaVerifier) window.recaptchaVerifier.render().then(widgetId => grecaptcha.reset(widgetId));
+            alert("रजिस्ट्रेशन त्रुटि: " + error.message);
         }
     };
 
-    window.verifyOTP = async function() {
-        const code = document.getElementById('otp-code').value.trim();
-        if (code.length < 6) return alert("6 अंकों का सही OTP डालें!");
+    window.loginUser = async function() {
+        const phone = document.getElementById('phone-number').value.trim();
+        const password = document.getElementById('password').value.trim();
+        if (phone.length < 10 || !password) return alert("कृपया 10 अंकों का सही मोबाइल नंबर और पासवर्ड दर्ज करें!");
 
+        const email = getEmailFromPhone(phone);
         try {
-            const result = await window.confirmationResultGlobal.confirm(code);
-            const user = result.user;
-            
-            const userRef = doc(db, "users", user.uid);
-            const userSnap = await getDoc(userRef);
-            if (!userSnap.exists()) {
-                await setDoc(userRef, {
-                    phone: user.phoneNumber,
-                    coins: 0,
-                    createdAt: new Date()
-                });
-            }
-            alert("लॉगिन सफल!");
+            await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
-            alert("गलत OTP! कृपया दोबारा प्रयास करें।");
+            alert("लॉगिन विफल (गलत नंबर या पासवर्ड): " + error.message);
         }
     };
 
@@ -249,14 +227,14 @@
             document.getElementById('auth-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             document.getElementById('display-uid').innerText = user.uid;
-            document.getElementById('user-phone-display').innerText = user.phoneNumber || "मोबाइल यूज़र";
+            
+            const originalPhone = user.email ? user.email.split('@')[0] : "मोबाइल यूज़र";
+            document.getElementById('user-phone-display').innerText = "+91 " + originalPhone;
             loadUserData(user.uid);
         } else {
             currentUserId = null;
             document.getElementById('auth-view').classList.remove('hidden');
             document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('phone-step-1').classList.remove('hidden');
-            document.getElementById('phone-step-2').classList.add('hidden');
         }
     });
 
