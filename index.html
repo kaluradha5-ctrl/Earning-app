@@ -5,74 +5,176 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kismat Quest - Earn Rewards</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        .header {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-            letter-spacing: 1px;
-        }
-        .coin-box {
-            background: rgba(255, 255, 255, 0.15);
-            display: inline-block;
-            padding: 8px 18px;
-            margin-top: 12px;
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-            font-size: 16px;
-            font-weight: bold;
-            color: #ffd700;
-        }
-        .container {
-            padding: 12px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .offerwall-card {
-            background: #1e1e1e;
-            border-radius: 12px;
-            padding: 8px;
-            margin-top: 15px;
-            border: 1px solid #2a2a2a;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
-        iframe {
-            width: 100%;
-            height: 650px;
-            border: none;
-            border-radius: 8px;
-        }
+        body { font-family: Arial, sans-serif; background: #f4f4f9; margin: 0; padding: 20px; text-align: center; }
+        .card { background: white; max-width: 400px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        input, button { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+        button { background: #4CAF50; color: white; border: none; cursor: pointer; font-weight: bold; }
+        button:hover { background: #45a049; }
+        .hidden { display: none; }
+        .wallet { background: #e0f7fa; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-weight: bold; color: #00796b; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Kismat Quest Rewards</h1>
-        <div class="coin-box">
-            🪙 Coins Balance: <span id="user-coins">100</span>
+    <div class="card">
+        <h2>🔥 Kismat Quest Rewards</h2>
+
+        <!-- Login / Signup Section -->
+        <div id="auth-section">
+            <h3>Login / Register</h3>
+            <input type="email" id="email" placeholder="Email daalein">
+            <input type="password" id="password" placeholder="Password daalein">
+            <button onclick="loginUser()">Login Karein</button>
+            <button onclick="registerUser()" style="background: #2196F3;">Naya Account Banayein</button>
+        </div>
+
+        <!-- Dashboard Section (After Login) -->
+        <div id="dashboard-section" class="hidden">
+            <div class="wallet">Aapka Balance: <span id="user-coins">0</span> Coins (₹<span id="user-rupees">0</span>)</div>
+            <p>User ID: <span id="display-uid" style="font-size: 12px; color: gray;"></span></p>
+            
+            <hr>
+            <h3>🎁 Offerwall</h3>
+            <p>Neeche diye gaye offers poore karke coins kamayein:</p>
+            <button onclick="openOfferwall()" style="background: #ff9800;">🚀 Offers Kholein</button>
+
+            <hr>
+            <h3>💸 Withdraw / Recharge (70/30 Plan)</h3>
+            <p>1000 Coins = ₹25</p>
+            <input type="text" id="upi-phone" placeholder="UPI ID ya Paytm Number daalein">
+            <button onclick="requestWithdrawal()" style="background: #e91e63;">Withdraw ₹25 (1000 Coins)</button>
+
+            <br><br>
+            <button onclick="logoutUser()" style="background: #f44336;">Logout</button>
         </div>
     </div>
 
-    <div class="container">
-        <h2 style="margin-bottom: 5px; font-size: 20px;">🔥 Live Tasks & Offers</h2>
-        <p style="color: #aaa; font-size: 13px; margin-top: 0;">Complete offers below to earn instant rewards!</p>
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, collection, addFromServer, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        <div class="offerwall-card">
-            <!-- Your Live CPAlead Offerwall -->
-            <iframe src="https://www.qckclk.com/wall/hrdIv"></iframe>
-        </div>
-    </div>
+        // Aapka Firebase Config
+        const firebaseConfig = {
+          apiKey: "AizaSyAA-4jjhyD90E06W5kUc_YD7lpOcWumIZg",
+          authDomain: "real-money-917a4.firebaseapp.com",
+          projectId: "real-money-917a4",
+          storageBucket: "real-money-917a4.appspot.com",
+          messagingSenderId: "689077241203",
+          appId: "1:689077241203:web:679e9c25680ca88ec8b106",
+          measurementId: "G-ECSN7078SX"
+        };
 
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUserId = null;
+
+        // Global functions ko window par set karna
+        window.registerUser = async function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                const userCred = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCred.user;
+                // Firestore mein naya user wallet banana
+                await setDoc(doc(db, "users", user.uid), {
+                    email: email,
+                    coins: 0,
+                    createdAt: new Date()
+                });
+                alert("Account successfully ban gaya!");
+            } catch (error) {
+                alert("Error: " + error.message);
+            }
+        };
+
+        window.loginUser = async function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                alert("Login Fail: " + error.message);
+            }
+        };
+
+        window.logoutUser = async function() {
+            await signOut(auth);
+        };
+
+        // Auth state monitor
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUserId = user.uid;
+                document.getElementById('auth-section').classList.add('hidden');
+                document.getElementById('dashboard-section').classList.remove('hidden');
+                document.getElementById('display-uid').innerText = user.uid;
+                loadUserData(user.uid);
+            } else {
+                currentUserId = null;
+                document.getElementById('auth-section').classList.remove('hidden');
+                document.getElementById('dashboard-section').classList.add('hidden');
+            }
+        });
+
+        async function loadUserData(uid) {
+            const userRef = doc(db, "users", uid);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                const data = userSnap.data();
+                const coins = data.coins || 0;
+                document.getElementById('user-coins').innerText = coins;
+                // 1000 Coins = ₹25 calculation
+                const rupees = (coins / 1000) * 25;
+                document.getElementById('user-rupees').innerText = rupees.toFixed(2);
+            }
+        }
+
+        window.openOfferwall = function() {
+            if (!currentUserId) return alert("Pehle login karein!");
+            // CPAlead Offerwall link with User ID (subid)
+            const offerwallUrl = `https://www.cpalead.com/offerwall/hrdIv?subid=${currentUserId}`;
+            window.open(offerwallUrl, '_blank');
+        };
+
+        window.requestWithdrawal = async function() {
+            const upiInput = document.getElementById('upi-phone').value;
+            if (!upiInput) return alert("Kripya apna UPI ID ya Paytm number daalein!");
+
+            const userRef = doc(db, "users", currentUserId);
+            const userSnap = await userRef.get();
+            const coins = userSnap.data().coins || 0;
+
+            if (coins < 1000) {
+                return alert("Withdrawal ke liye kam se kam 1000 Coins hone zaroori hain!");
+            }
+
+            try {
+                // 1. Turant 1000 Coins kaat lena (Deduct Coins)
+                await updateDoc(userRef, {
+                    coins: increment(-1000)
+                });
+
+                // 2. Admin ke liye withdrawal request save karna
+                await addDoc(collection(db, "withdrawals"), {
+                    userId: currentUserId,
+                    destination: upiInput,
+                    amount: 25,
+                    coinsDeducted: 1000,
+                    status: "Pending",
+                    date: new Date()
+                });
+
+                alert("Aapki ₹25 ki withdrawal request safal ho gayi! 1000 Coins kaat liye gaye hain.");
+                loadUserData(currentUserId);
+                document.getElementById('upi-phone').value = "";
+            } catch (error) {
+                alert("Withdrawal Error: " + error.message);
+            }
+        };
+    </script>
 </body>
 </html>
