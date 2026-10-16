@@ -146,6 +146,19 @@
             margin-top: 4px;
             text-align: right;
         }
+        /* Timer Status Box Style */
+        .ad-status-box {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid #10b981;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 13px;
+            color: #34d399;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -191,11 +204,14 @@
             <div style="margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
                 <h3 style="font-size: 16px; font-weight: 600;">🎬 Watch Ads & Earn</h3>
                 <p class="note">
-                    Chhota video ad dekhein aur instantly +5 Coins apne wallet mein add karein!
+                    Video ad naye tab mein khulega. 10 second dekhein aur +5 Coins payein!
                 </p>
-                <button onclick="watchMonetagAd()" class="start-offer-btn ad-btn">
+                <button id="adBtn" onclick="watchMonetagAd()" class="start-offer-btn ad-btn">
                     🎬 Watch Video Ad (+5 Coins)
                 </button>
+                <div id="adStatus" class="ad-status-box">
+                    ⏳ Ad verification in progress... <span id="adTimer">10</span>s
+                </div>
             </div>
         </div>
 
@@ -256,20 +272,45 @@
             btn.classList.add('active');
         }
 
-        // 4. Monetag Rewarded Direct Link Ad Logic
+        // 4. Monetag Rewarded Direct Link Ad Logic with 10s Timer
+        let isAdWatching = false;
+
         function watchMonetagAd() {
+            if (isAdWatching) return;
+
             const monetagAdUrl = "https://uplcm.com/4/12045886";
             
             // Open Ad Link in new tab
             window.open(monetagAdUrl, '_blank');
 
-            // Reward 5 Coins
-            let currentCoins = parseInt(localStorage.getItem('coins') || '0');
-            currentCoins += 5;
-            localStorage.setItem('coins', currentCoins);
-            updateBalanceUI();
+            isAdWatching = true;
+            document.getElementById('adBtn').style.opacity = '0.5';
+            document.getElementById('adBtn').disabled = true;
+            document.getElementById('adStatus').style.display = 'block';
 
-            alert('🎉 Ad khul gaya hai! Aapke wallet mein +5 Coins add kar diye gaye hain.');
+            let secondsLeft = 10;
+            document.getElementById('adTimer').innerText = secondsLeft;
+
+            let timer = setInterval(() => {
+                secondsLeft--;
+                document.getElementById('adTimer').innerText = secondsLeft;
+
+                if (secondsLeft <= 0) {
+                    clearInterval(timer);
+                    isAdWatching = false;
+                    document.getElementById('adBtn').style.opacity = '1';
+                    document.getElementById('adBtn').disabled = false;
+                    document.getElementById('adStatus').style.display = 'none';
+
+                    // Reward +5 Coins
+                    let currentCoins = parseInt(localStorage.getItem('coins') || '0');
+                    currentCoins += 5;
+                    localStorage.setItem('coins', currentCoins);
+                    updateBalanceUI();
+
+                    alert('🎉 Badhai ho! Ad verified ho gaya hai, aapke wallet mein +5 Coins add kar diye gaye hain.');
+                }
+            }, 1000);
         }
 
         // 5. Withdrawal Processing Logic
