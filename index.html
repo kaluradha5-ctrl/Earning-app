@@ -1,180 +1,320 @@
-<!DOCTYPE html>
+<!<!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kismat Quest - Earn Rewards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kismat Quest - Gaming Rewards</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f9; margin: 0; padding: 20px; text-align: center; }
-        .card { background: white; max-width: 400px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        input, button { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
-        button { background: #4CAF50; color: white; border: none; cursor: pointer; font-weight: bold; }
-        button:hover { background: #45a049; }
-        .hidden { display: none; }
-        .wallet { background: #e0f7fa; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-weight: bold; color: #00796b; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #0f172a; color: #fff; display: flex; justify-content: center; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 480px; background: #1e293b; min-height: 100vh; display: flex; flex-direction: column; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        
+        /* Header Banner */
+        .app-header { background: linear-gradient(135deg, #6366f1, #a855f7); padding: 20px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4); }
+        .app-header h1 { font-size: 24px; font-weight: 800; letter-spacing: 1px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .app-header p { font-size: 13px; color: #e2e8f0; opacity: 0.9; margin-top: 4px; }
+
+        /* Wallet Card (Dream11 Style) */
+        .wallet-card { background: linear-gradient(135deg, #1e1b4b, #312e81); border: 1px solid #4338ca; border-radius: 16px; padding: 20px; margin: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .wallet-info h3 { font-size: 12px; text-transform: uppercase; color: #818cf8; letter-spacing: 1px; }
+        .wallet-info .balance { font-size: 28px; font-weight: 800; color: #fbbf24; margin-top: 4px; }
+        .wallet-info .rupees { font-size: 14px; color: #34d399; font-weight: 600; }
+        .wallet-icon { font-size: 40px; color: #fbbf24; background: rgba(251, 191, 36, 0.1); padding: 12px; border-radius: 12px; }
+
+        /* Navigation Tabs */
+        .tab-menu { display: flex; justify-content: space-around; background: #0f172a; margin: 0 20px; border-radius: 12px; padding: 5px; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: transparent; color: #94a3b8; font-weight: 600; font-size: 14px; cursor: pointer; border-radius: 8px; transition: all 0.3s; }
+        .tab-btn.active { background: #6366f1; color: #fff; box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4); }
+
+        /* Content Sections */
+        .content-section { padding: 20px; flex: 1; }
+        .hidden { display: none !important; }
+
+        /* Auth Form */
+        .auth-box { background: #0f172a; padding: 25px; border-radius: 16px; border: 1px solid #334155; margin-top: 20px; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 5px; }
+        .input-group input { width: 100%; padding: 14px; background: #1e293b; border: 1px solid #334155; border-radius: 10px; color: #fff; font-size: 15px; outline: none; }
+        .input-group input:focus { border-color: #6366f1; }
+
+        /* Buttons */
+        .btn-primary { width: 100%; padding: 14px; background: linear-gradient(135deg, #22c55e, #16a34a); border: none; border-radius: 10px; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3); margin-bottom: 10px; }
+        .btn-secondary { width: 100%; padding: 14px; background: linear-gradient(135deg, #3b82f6, #2563eb); border: none; border-radius: 10px; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+        .btn-orange { width: 100%; padding: 16px; background: linear-gradient(135deg, #f97316, #ea580c); border: none; border-radius: 12px; color: #fff; font-size: 18px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 15px rgba(249, 115, 22, 0.4); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Task & Withdraw Cards */
+        .card-box { background: #0f172a; border: 1px solid #334155; border-radius: 14px; padding: 18px; margin-bottom: 15px; text-align: left; }
+        .card-box h4 { color: #f8fafc; font-size: 16px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .card-box p { color: #94a3b8; font-size: 13px; line-height: 1.5; margin-bottom: 12px; }
+
+        /* Guide Banner */
+        .guide-box { background: rgba(99, 102, 241, 0.1); border-left: 4px solid #6366f1; padding: 12px; border-radius: 6px; margin-bottom: 15px; text-align: left; font-size: 13px; color: #cbd5e1; }
+        
+        .footer-note { text-align: center; color: #64748b; font-size: 12px; margin-top: auto; padding: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h2>🔥 Kismat Quest Rewards</h2>
+<div class="app-container">
+    <!-- Header -->
+    <div class="app-header">
+        <h1><i class="fa-solid fa-gamepad"></i> KISMAT QUEST</h1>
+        <p>टास्क पूरे करें और पाएं इंस्टेंट Paytm / UPI कैश!</p>
+    </div>
 
-        <!-- Login / Signup Section -->
-        <div id="auth-section">
-            <h3>Login / Register</h3>
-            <input type="email" id="email" placeholder="Email daalein">
-            <input type="password" id="password" placeholder="Password daalein">
-            <button onclick="loginUser()">Login Karein</button>
-            <button onclick="registerUser()" style="background: #2196F3;">Naya Account Banayein</button>
-        </div>
-
-        <!-- Dashboard Section (After Login) -->
-        <div id="dashboard-section" class="hidden">
-            <div class="wallet">Aapka Balance: <span id="user-coins">0</span> Coins (₹<span id="user-rupees">0</span>)</div>
-            <p>User ID: <span id="display-uid" style="font-size: 12px; color: gray;"></span></p>
-            
-            <hr>
-            <h3>🎁 Offerwall</h3>
-            <p>Neeche diye gaye offers poore karke coins kamayein:</p>
-            <button onclick="openOfferwall()" style="background: #ff9800;">🚀 Offers Kholein</button>
-
-            <hr>
-            <h3>💸 Withdraw / Recharge (70/30 Plan)</h3>
-            <p>1000 Coins = ₹25</p>
-            <input type="text" id="upi-phone" placeholder="UPI ID ya Paytm Number daalein">
-            <button onclick="requestWithdrawal()" style="background: #e91e63;">Withdraw ₹25 (1000 Coins)</button>
-
-            <br><br>
-            <button onclick="logoutUser()" style="background: #f44336;">Logout</button>
+    <!-- Login/Register View -->
+    <div id="auth-view" class="content-section">
+        <div class="auth-box">
+            <h3 style="margin-bottom: 15px; color: #f8fafc;">लॉगिन / अकाउंट बनाएं</h3>
+            <div class="input-group">
+                <label>ईमेल आईडी (Email)</label>
+                <input type="email" id="email" placeholder="अपनी ईमेल आईडी डालें">
+            </div>
+            <div class="input-group">
+                <label>पासवर्ड (Password)</label>
+                <input type="password" id="password" placeholder="पासवर्ड बनाएं">
+            </div>
+            <button class="btn-primary" onclick="loginUser()"><i class="fa-solid fa-right-to-bracket"></i> लॉगिन करें</button>
+            <button class="btn-secondary" onclick="registerUser()"><i class="fa-solid fa-user-plus"></i> नया अकाउंट बनाएं</button>
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, collection, addFromServer, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <!-- Dashboard View -->
+    <div id="dashboard-view" class="hidden" style="display: flex; flex-direction: column; flex: 1;">
+        <!-- Wallet Card -->
+        <div class="wallet-card">
+            <div class="wallet-info">
+                <h3>कुल कॉइन्स बैलेंस</h3>
+                <div class="balance"><i class="fa-solid fa-coins"></i> <span id="user-coins">0</span></div>
+                <div class="rupees">बराबर ₹<span id="user-rupees">0.00</span> नगद</div>
+            </div>
+            <div class="wallet-icon"><i class="fa-solid fa-wallet"></i></div>
+        </div>
 
-        // Aapka Firebase Config
-        const firebaseConfig = {
-          apiKey: "AizaSyAA-4jjhyD90E06W5kUc_YD7lpOcWumIZg",
-          authDomain: "real-money-917a4.firebaseapp.com",
-          projectId: "real-money-917a4",
-          storageBucket: "real-money-917a4.appspot.com",
-          messagingSenderId: "689077241203",
-          appId: "1:689077241203:web:679e9c25680ca88ec8b106",
-          measurementId: "G-ECSN7078SX"
-        };
+        <!-- Navigation Tabs -->
+        <div class="tab-menu">
+            <button class="tab-btn active" onclick="switchTab('tasks')"><i class="fa-solid fa-list-check"></i> टास्क</button>
+            <button class="tab-btn" onclick="switchTab('withdraw')"><i class="fa-solid fa-money-bill-transfer"></i> निकासी</button>
+            <button class="tab-btn" onclick="switchTab('profile')"><i class="fa-solid fa-user"></i> प्रोफाइल</button>
+        </div>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        <!-- Tasks Section -->
+        <div id="tab-tasks" class="content-section">
+            <div class="guide-box">
+                💡 <b>कैसे कमाएं:</b> नीचे दिए ऑरेंज बटन पर टच करें, ऐप/टास्क को निर्देश अनुसार पूरा करें। कॉइन्स तुरंत आपके वॉलेट में जुड़ जाएंगे!
+            </div>
+            <div class="card-box">
+                <h4><i class="fa-solid fa-fire" style="color: #f97316;"></i> हॉट ऑफरवॉल (CPAlead)</h4>
+                <p>यहां ऐप डाउनलोड करें, गेम्स खेलें और सबसे ज्यादा कॉइन्स कमाएं।</p>
+                <button class="btn-orange" onclick="openOfferwall()"><i class="fa-solid fa-rocket"></i> ऑफ़र चालू करें</button>
+            </div>
+        </div>
 
-        let currentUserId = null;
+        <!-- Withdraw Section -->
+        <div id="tab-withdraw" class="content-section hidden">
+            <div class="card-box">
+                <h4><i class="fa-solid fa-building-columns" style="color: #22c55e;"></i> रिडीम / रिचार्ज (70/30 प्लान)</h4>
+                <p><b>1000 कॉइन्स = ₹25 नगद</b> (निकासी लगाते ही कॉइन्स कट जाएंगे और 10-15 मिनट में पेमेंट मिल जाएगी)।</p>
+                <div class="input-group">
+                    <label>Paytm नंबर या UPI ID डालें</label>
+                    <input type="text" id="upi-phone" placeholder="उदा: 9876543210@paytm">
+                </div>
+                <button class="btn-primary" onclick="requestWithdrawal()"><i class="fa-solid fa-paper-plane"></i> ₹25 निकालें (1000 Coins)</button>
+            </div>
+        </div>
 
-        // Global functions ko window par set karna
-        window.registerUser = async function() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            try {
-                const userCred = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCred.user;
-                // Firestore mein naya user wallet banana
-                await setDoc(doc(db, "users", user.uid), {
-                    email: email,
-                    coins: 0,
-                    createdAt: new Date()
-                });
-                alert("Account successfully ban gaya!");
-            } catch (error) {
-                alert("Error: " + error.message);
-            }
-        };
+        <!-- Profile Section -->
+        <div id="tab-profile" class="content-section hidden">
+            <div class="card-box" style="text-align: center;">
+                <i class="fa-solid fa-circle-user" style="font-size: 50px; color: #818cf8; margin-bottom: 10px;"></i>
+                <h4 style="justify-content: center;" id="user-email-display">user@gmail.com</h4>
+                <p style="font-size: 11px; color: #64748b; margin-top: 5px;">UID: <span id="display-uid"></span></p>
+                <br>
+                <button class="btn-secondary" style="background: #ef4444;" onclick="logoutUser()"><i class="fa-solid fa-arrow-right-from-bracket"></i> लॉगआउट करें</button>
+            </div>
+        </div>
+    </div>
 
-        window.loginUser = async function() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                alert("Login Fail: " + error.message);
-            }
-        };
+    <div class="footer-note">
+        🛡️ 100% Safe & Instant Payment Platform
+    </div>
+</div>
 
-        window.logoutUser = async function() {
-            await signOut(auth);
-        };
+<!-- Firebase Code -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Auth state monitor
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUserId = user.uid;
-                document.getElementById('auth-section').classList.add('hidden');
-                document.getElementById('dashboard-section').classList.remove('hidden');
-                document.getElementById('display-uid').innerText = user.uid;
-                loadUserData(user.uid);
-            } else {
-                currentUserId = null;
-                document.getElementById('auth-section').classList.remove('hidden');
-                document.getElementById('dashboard-section').classList.add('hidden');
-            }
+    const firebaseConfig = {
+      apiKey: "AizaSyAA-4jjhyD90E06W5kUc_YD7lpOcWumIZg",
+      authDomain: "real-money-917a4.firebaseapp.com",
+      projectId: "real-money-917a4",
+      storageBucket: "real-money-917a4.appspot.com",
+      messagingSenderId: "689077241203",
+      appId: "1:689077241203:web:679e9c25680ca88ec8b106",
+      measurementId: "G-ECSN7078SX"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUserId = null;
+
+    window.registerUser = async function() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        if(!email || !password) return alert("ईमेल और पासवर्ड दर्ज करें!");
+        try {
+            const userCred = await createUserWithEmailAndPassword(auth, email, password);
+            await setDoc(doc(db, "users", userCred.user.uid), {
+                email: email,
+                coins: 0,
+                createdAt: new Date()
+            });
+            alert("अकाउंट सफलतापूर्वक बन गया!");
+        } catch (error) {
+            alert("त्रुटि: " + error.message);
+        }
+    };
+
+    window.loginUser = async function() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        if(!email || !password) return alert("ईमेल और पासवर्ड दर्ज करें!");
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            alert("लॉगिन विफल: " + error.message);
+        }
+    };
+
+    window.logoutUser = async function() {
+        await signOut(auth);
+    };
+
+    window.switchTab = function(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.content-section').forEach(sec => {
+            if(sec.id !== 'auth-view') sec.classList.add('hidden');
         });
 
-        async function loadUserData(uid) {
-            const userRef = doc(db, "users", uid);
-            const userSnap = await getDoc(userRef);
-            if (userSnap.exists()) {
-                const data = userSnap.data();
-                const coins = data.coins || 0;
-                document.getElementById('user-coins').innerText = coins;
-                // 1000 Coins = ₹25 calculation
-                const rupees = (coins / 1000) * 25;
-                document.getElementById('user-rupees').innerText = rupees.toFixed(2);
-            }
+        if(tabName === 'tasks') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('tab-tasks').classList.remove('hidden');
+        } else if(tabName === 'withdraw') {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('tab-withdraw').classList.remove('hidden');
+        } else if(tabName === 'profile') {
+            document.querySelectorAll('.tab-btn')[2].classList.add('active');
+            document.getElementById('tab-profile').classList.remove('hidden');
+        }
+    };
+
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            currentUserId = user.uid;
+            document.getElementById('auth-view').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            document.getElementById('display-uid').innerText = user.uid;
+            document.getElementById('user-email-display').innerText = user.email;
+            loadUserData(user.uid);
+        } else {
+            currentUserId = null;
+            document.getElementById('auth-view').classList.remove('hidden');
+            document.getElementById('dashboard-view').classList.add('hidden');
+        }
+    });
+
+    async function loadUserData(uid) {
+        const userRef = doc(db, "users", uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+            const coins = userSnap.data().coins || 0;
+            document.getElementById('user-coins').innerText = coins;
+            const rupees = (coins / 1000) * 25;
+            document.getElementById('user-rupees').innerText = rupees.toFixed(2);
+        }
+    }
+
+    window.openOfferwall = function() {
+        if (!currentUserId) return alert("पहले लॉगिन करें!");
+        const offerwallUrl = `https://www.cpalead.com/offerwall/hrdIv?subid=${currentUserId}`;
+        window.open(offerwallUrl, '_blank');
+    };
+
+    window.requestWithdrawal = async function() {
+        const upiInput = document.getElementById('upi-phone').value;
+        if (!upiInput) return alert("अपना UPI ID या Paytm नंबर डालें!");
+
+        const userRef = doc(db, "users", currentUserId);
+        const userSnap = await getDoc(userRef);
+        const coins = userSnap.data().coins || 0;
+
+        if (coins < 1000) {
+            return alert("निकासी के लिए कम से कम 1000 कॉइन्स होने चाहिए!");
         }
 
-        window.openOfferwall = function() {
-            if (!currentUserId) return alert("Pehle login karein!");
-            // CPAlead Offerwall link with User ID (subid)
-            const offerwallUrl = `https://www.cpalead.com/offerwall/hrdIv?subid=${currentUserId}`;
-            window.open(offerwallUrl, '_blank');
-        };
+        try {
+            await updateDoc(userRef, {
+                coins: increment(-1000)
+            });
 
-        window.requestWithdrawal = async function() {
-            const upiInput = document.getElementById('upi-phone').value;
-            if (!upiInput) return alert("Kripya apna UPI ID ya Paytm number daalein!");
+            await addDoc(collection(db, "withdrawals"), {
+                userId: currentUserId,
+                destination: upiInput,
+                amount: 25,
+                coinsDeducted: 1000,
+                status: "Pending",
+                date: new Date()
+            });
 
-            const userRef = doc(db, "users", currentUserId);
-            const userSnap = await userRef.get();
-            const coins = userSnap.data().coins || 0;
+            alert("आपकी ₹25 की निकासी रिक्वेस्ट दर्ज हो गई है! 1000 कॉइन्स वॉलेट से काट लिए गए हैं।");
+            loadUserData(currentUserId);
+            document.getElementById('upi-phone').value = "";
+        } catch (error) {
+            alert("निकासी में समस्या: " + error.message);
+        }
+    };
+</script>
+</body>// 1. डिवाइस सुरक्षा चेक फ़ंक्शन
+function checkDeviceLimit(uid) {
+    const savedDeviceId = localStorage.getItem('kismat_device_user');
+    
+    // अगर इस डिवाइस पर पहले से कोई और आईडी लॉगिन है
+    if (savedDeviceId && savedDeviceId !== uid) {
+        alert("सुरक्षा नियम: एक फोन में केवल एक ही आईडी चलाई जा सकती है! आप किसी दूसरे अकाउंट से लॉगिन नहीं कर सकते।");
+        auth.signOut(); // तुरंत लॉगआउट कर दें
+        return false;
+    }
+    
+    // पहली बार लॉगिन होने पर इस आईडी को डिवाइस से लॉक कर दें
+    if (!savedDeviceId) {
+        localStorage.setItem('kismat_device_user', uid);
+    }
+    return true;
+}
 
-            if (coins < 1000) {
-                return alert("Withdrawal ke liye kam se kam 1000 Coins hone zaroori hain!");
-            }
+// 2. Auth Monitor में इसे जोड़ें
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        // डिवाइस चेक करें
+        const isDeviceAllowed = checkDeviceLimit(user.uid);
+        if (!isDeviceAllowed) return;
 
-            try {
-                // 1. Turant 1000 Coins kaat lena (Deduct Coins)
-                await updateDoc(userRef, {
-                    coins: increment(-1000)
-                });
-
-                // 2. Admin ke liye withdrawal request save karna
-                await addDoc(collection(db, "withdrawals"), {
-                    userId: currentUserId,
-                    destination: upiInput,
-                    amount: 25,
-                    coinsDeducted: 1000,
-                    status: "Pending",
-                    date: new Date()
-                });
-
-                alert("Aapki ₹25 ki withdrawal request safal ho gayi! 1000 Coins kaat liye gaye hain.");
-                loadUserData(currentUserId);
-                document.getElementById('upi-phone').value = "";
-            } catch (error) {
-                alert("Withdrawal Error: " + error.message);
-            }
-        };
-    </script>
-</body>
+        currentUserId = user.uid;
+        document.getElementById('auth-view').classList.add('hidden');
+        document.getElementById('dashboard-view').classList.remove('hidden');
+        document.getElementById('display-uid').innerText = user.uid;
+        document.getElementById('user-email-display').innerText = user.email;
+        loadUserData(user.uid);
+    } else {
+        currentUserId = null;
+        document.getElementById('auth-view').classList.remove('hidden');
+        document.getElementById('dashboard-view').classList.add('hidden');
+    }
+});
+    
 </html>
