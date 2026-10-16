@@ -239,3 +239,23 @@
     </script>
 </body>
 </html>
+<!-- CPX Research Survey Wall Integration -->
+<div id="cpx-survey-container"></div>
+<script>
+  const cpxConfig = {
+    app_id: 37301,
+    ext_user_id: "USER_ID_HERE", // अपने यूज़र की डायनामिक आईडी यहाँ डालें
+    style_color: "#02c59a"
+  };
+  
+  (function(window, document) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://cdn.cpx-research.com/assets/js/integration.js';
+    script.onload = function() {
+      CPXResearch.init(cpxConfig);
+    };
+    document.head.appendChild(script);
+  })(window, document);
+</script>
