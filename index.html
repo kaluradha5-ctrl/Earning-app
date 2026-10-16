@@ -239,12 +239,19 @@
     </script>
 </body>
 </html>
-<!-- CPX Research Survey Wall Integration -->
+<!-- CPX Research Survey Wall Integration for All Users -->
 <div id="cpx-survey-container"></div>
 <script>
+  // Agar user ki koi ID website par save hai toh woh le lo, nahi toh ek nayi temporary ID bana do
+  let userId = localStorage.getItem("kismat_user_id");
+  if (!userId) {
+    userId = "user_" + Math.random().toString(36).substring(2, 10);
+    localStorage.setItem("kismat_user_id", userId);
+  }
+
   const cpxConfig = {
     app_id: 37301,
-    ext_user_id: "USER_ID_HERE", // अपने यूज़र की डायनामिक आईडी यहाँ डालें
+    ext_user_id: userId,
     style_color: "#02c59a"
   };
   
@@ -259,3 +266,4 @@
     document.head.appendChild(script);
   })(window, document);
 </script>
+
