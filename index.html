@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -17,7 +16,7 @@
         body {
             background-color: #f0f2f5;
             color: #1c1e21;
-            padding-bottom: 70px; /* Bottom Nav Space */
+            padding-bottom: 75px;
         }
 
         /* Top App Header */
@@ -149,12 +148,16 @@
             background: #11998e;
             color: white;
             text-decoration: none;
-            padding: 10px;
+            padding: 11px;
             border-radius: 10px;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 14px;
             box-shadow: 0 3px 6px rgba(17, 153, 142, 0.2);
-            transition: background 0.2s;
+            transition: transform 0.1s, background 0.2s;
+        }
+
+        .btn-action:active {
+            transform: scale(0.98);
         }
 
         .btn-orange {
@@ -169,7 +172,7 @@
             left: 0;
             right: 0;
             background: white;
-            height: 60px;
+            height: 62px;
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -188,6 +191,8 @@
             font-size: 11px;
             font-weight: 600;
             cursor: pointer;
+            width: 25%;
+            padding: 5px 0;
         }
 
         .nav-item.active {
@@ -213,7 +218,7 @@
     <!-- Top App Bar -->
     <div class="app-header">
         <div class="app-title">📱 KISMAT QUEST</div>
-        <div class="wallet-badge">
+        <div class="wallet-badge" onclick="switchTab('wallet', document.querySelectorAll('.nav-item')[3])" style="cursor:pointer;">
             <span>🪙 0 Coins</span>
         </div>
     </div>
@@ -242,7 +247,7 @@
                     </div>
                     <div class="reward-tag">Up to ₹100</div>
                 </div>
-                <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action">Start Task Now</a>
+                <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener" class="btn-action">Start Task Now</a>
             </div>
 
             <!-- CPALead Task -->
@@ -254,7 +259,7 @@
                     </div>
                     <div class="reward-tag">₹10 - ₹30</div>
                 </div>
-                <a href="#" class="btn-action">Download & Earn</a>
+                <a href="https://cpalead.com" target="_blank" rel="noopener" class="btn-action">Download & Earn</a>
             </div>
 
             <div class="section-header">
@@ -271,7 +276,8 @@
                     </div>
                     <div class="reward-tag" style="color:#e65100; background:#fff3e0;">₹500 Cash</div>
                 </div>
-                <a href="#" class="btn-action btn-orange">Apply Now</a>
+                <!-- यहाँ अपना बैंक/क्रेडिट कार्ड रेफरल लिंक पेस्ट करें -->
+                <a href="https://www.indusind.com" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
             </div>
 
         </div>
@@ -290,7 +296,18 @@
                     </div>
                     <div class="reward-tag">₹50/Day</div>
                 </div>
-                <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action">Play Now</a>
+                <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener" class="btn-action">Play Now</a>
+            </div>
+
+            <div class="task-card">
+                <div class="task-top">
+                    <div class="task-info">
+                        <h3>📱 Free App Tasks</h3>
+                        <p>सिंपल ऐप्स इंस्टॉल करके कॉइन्स कमाएँ।</p>
+                    </div>
+                    <div class="reward-tag">₹20</div>
+                </div>
+                <a href="https://cpalead.com" target="_blank" rel="noopener" class="btn-action">Start Install</a>
             </div>
         </div>
 
@@ -303,12 +320,23 @@
             <div class="task-card">
                 <div class="task-top">
                     <div class="task-info">
+                        <h3>💳 IndusInd Bank Credit Card</h3>
+                        <p>क्रेडिट कार्ड अप्लाई करें और तुरंत ₹500 तक का कैशबैक पाएँ।</p>
+                    </div>
+                    <div class="reward-tag" style="color:#e65100; background:#fff3e0;">₹500</div>
+                </div>
+                <a href="https://www.indusind.com" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+            </div>
+
+            <div class="task-card">
+                <div class="task-top">
+                    <div class="task-info">
                         <h3>📈 AngelOne Free Demat Account</h3>
                         <p>5 मिनट में फ्री अकाउंट खोलें और ₹200 कैशबैक पाएँ।</p>
                     </div>
                     <div class="reward-tag" style="color:#e65100; background:#fff3e0;">₹200</div>
                 </div>
-                <a href="#" class="btn-action btn-orange">Open Account</a>
+                <a href="https://www.angelone.in" target="_blank" rel="noopener" class="btn-action btn-orange">Open Account</a>
             </div>
         </div>
 
@@ -320,7 +348,7 @@
             <div class="task-card" style="text-align: center; padding: 25px;">
                 <h3 style="font-size: 24px; color: #11998e;">🪙 0 Coins</h3>
                 <p style="margin: 10px 0; color: #666;">Minimum Payout = 100 Coins (₹10)</p>
-                <button style="width: 100%; padding: 12px; background: #ccc; border: none; border-radius: 10px; color: white; font-weight: bold;">Redeem via UPI / Paytm</button>
+                <button onclick="alert('आपके पास पर्याप्त कॉइन्स नहीं हैं। पहले टास्क पूरे करें!')" style="width: 100%; padding: 12px; background: #11998e; border: none; border-radius: 10px; color: white; font-weight: bold; cursor: pointer;">Redeem via UPI / Paytm</button>
             </div>
         </div>
 
@@ -359,7 +387,10 @@
 
             // Show selected tab & set nav active
             document.getElementById('tab-' + tabName).classList.add('active');
-            element.classList.add('active');
+            if(element) element.classList.add('active');
+
+            // Scroll to top automatically
+            window.scrollTo(0, 0);
         }
     </script>
 </body>
