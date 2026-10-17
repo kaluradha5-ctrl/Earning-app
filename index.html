@@ -262,7 +262,7 @@
             box-shadow: 0 4px 10px rgba(17, 153, 142, 0.3);
         }
 
-        /* Login Modal Screen */
+        /* Login Screen Overlay */
         #login-screen {
             position: fixed;
             top: 0;
@@ -317,13 +317,13 @@
 </head>
 <body>
 
-    <!-- FIREBASE LOGIN / AUTH SCREEN -->
+    <!-- INSTANT LOGIN SCREEN -->
     <div id="login-screen">
         <div class="login-card">
             <h2>📱 KISMAT QUEST</h2>
             <p style="color:#666; font-size:13px; margin-bottom:20px;">Lgin karke apni earning start karein!</p>
-            <input type="email" id="user-email" class="login-input" placeholder="Apna Email Daalein">
-            <input type="text" id="user-name" class="login-input" placeholder="Apna Naam Daalein">
+            <input type="email" id="user-email" class="login-input" placeholder="Apna Email Daalein" value="user@kismatquest.com">
+            <input type="text" id="user-name" class="login-input" placeholder="Apna Naam Daalein" value="Anil Gurjar">
             <button onclick="handleLogin()" class="login-btn">Login / Register</button>
         </div>
     </div>
@@ -354,15 +354,15 @@
                 <div class="chip" onclick="filterCards('tasks', this)">🎓 Micro Tasks</div>
             </div>
 
-            <!-- CARDS CONTAINER (WITH VERIFY SYSTEM) -->
+            <!-- CARDS CONTAINER -->
             <div id="cards-container">
 
-                <!-- AU Bank -->
+                <!-- AU Small Finance Bank Credit Card -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 AU Small Finance Bank Card</h3>
-                            <p>Apply karein aur task complete hone par reward paayein.</p>
+                            <h3>💳 AU Small Finance Bank Credit Card</h3>
+                            <p>क्रेडिट कार्ड अप्लाई करें और तुरंत ₹450 का पेआउट पाएँ।</p>
                         </div>
                         <div class="reward-tag">₹450 Cash</div>
                     </div>
@@ -372,12 +372,12 @@
                     </div>
                 </div>
 
-                <!-- Axis Bank -->
+                <!-- Axis Bank Credit Card -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 Axis Bank Credit Card</h3>
-                            <p>Axis Bank card apply karein aur cashback paayein.</p>
+                            <p>Axis Bank कार्ड अप्रूव होने पर ₹400 कैशबैक पाएँ।</p>
                         </div>
                         <div class="reward-tag">₹400 Cash</div>
                     </div>
@@ -387,12 +387,12 @@
                     </div>
                 </div>
 
-                <!-- BOBCARD -->
+                <!-- BOBCARD ETIHAD GUEST Card -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 BOBCARD ETIHAD GUEST Card</h3>
-                            <p>BOBCARD apply karke reward earn karein.</p>
+                            <h3>💳 BOBCARD ETIHAD GUEST Credit Card</h3>
+                            <p>BOBCARD Etihad Guest Card अप्लाई करें और ₹450 पाएँ।</p>
                         </div>
                         <div class="reward-tag">₹450 Cash</div>
                     </div>
@@ -402,12 +402,12 @@
                     </div>
                 </div>
 
-                <!-- Federal Card -->
+                <!-- Federal Credit Card -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 Federal Bank Credit Card</h3>
-                            <p>Federal card apply karein.</p>
+                            <p>Federal Card अप्लाई करें और ₹549 का रिवॉर्ड पाएँ।</p>
                         </div>
                         <div class="reward-tag">₹549 Cash</div>
                     </div>
@@ -417,12 +417,12 @@
                     </div>
                 </div>
 
-                <!-- Scapia Card -->
+                <!-- Scapia Credit Card -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 Scapia Credit Card</h3>
-                            <p>Scapia card apply karke reward paayein.</p>
+                            <p>Scapia Card के लिए अप्लाई करें और ₹499 कैशबैक पाएँ।</p>
                         </div>
                         <div class="reward-tag">₹499 Cash</div>
                     </div>
@@ -432,12 +432,12 @@
                     </div>
                 </div>
 
-                <!-- HDFC Card -->
+                <!-- HDFC Bank Credit Card -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 HDFC Bank Credit Card</h3>
-                            <p>HDFC card apply karke reward paayein.</p>
+                            <p>HDFC बैंक क्रेडिट कार्ड अप्लाई करें और ₹700 रिवॉर्ड पाएँ।</p>
                         </div>
                         <div class="reward-tag">₹700 Cash</div>
                     </div>
@@ -452,7 +452,7 @@
                     <div class="task-top">
                         <div class="task-info">
                             <h3>▶️ TimeBucks Videos & Games</h3>
-                            <p>Videos dekhein aur games khelein.</p>
+                            <p>वीडियोज़ देखें, गेम्स खेलें और बिना KYC के कमाई करें।</p>
                         </div>
                         <div class="reward-tag">Up to ₹100</div>
                     </div>
@@ -462,12 +462,12 @@
                     </div>
                 </div>
 
-                <!-- Bitli Offer 1 -->
+                <!-- Premium Offer 1 -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 Premium Credit Offer</h3>
-                            <p>Task complete karke reward claim karein.</p>
+                            <p>लिंक से रजिस्टर करें और टास्क पूरा करके ₹1110 का कैशबैक हासिल करें।</p>
                         </div>
                         <div class="reward-tag">₹1110 Cash</div>
                     </div>
@@ -485,31 +485,31 @@
         <div id="tab-cards" class="tab-content">
             <div class="banner-card" style="background: linear-gradient(135deg, #FF9800, #F57C00);">
                 <h2>💳 All Credit Cards Zone</h2>
-                <p>Sabhi bank credit cards yahan available hain!</p>
+                <p>सभी बैंक और क्रेडिट कार्ड ऑफर्स यहाँ उपलब्ध हैं!</p>
             </div>
         </div>
 
         <!-- TAB 3: TASKS -->
         <div id="tab-tasks" class="tab-content">
             <div class="banner-card" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
-                <h2>🎓 Micro Tasks</h2>
-                <p>Easy tasks aur games complete karein!</p>
+                <h2>🎓 Micro Tasks Zone</h2>
+                <p>छोटे-छोटे टास्क पूरे करके तुरंत कॉइन्स कमाएँ!</p>
             </div>
         </div>
 
         <!-- TAB 4: FINANCE -->
         <div id="tab-finance" class="tab-content">
             <div class="banner-card" style="background: linear-gradient(135deg, #8e2de2, #4a00e0);">
-                <h2>📈 Demat & Banking</h2>
-                <p>Free demat accounts open karein!</p>
+                <h2>📈 Demat & Banking Accounts</h2>
+                <p>फ्री डीमैट अकाउंट्स और बैंकिंग ऑफर्स।</p>
             </div>
         </div>
 
-        <!-- TAB 5: WALLET & WITHDRAWAL SYSTEM -->
+        <!-- TAB 5: WALLET -->
         <div id="tab-wallet" class="tab-content">
             <div class="banner-card" style="background: linear-gradient(135deg, #00c6ff, #0072ff);">
                 <h2>👛 Wallet & Withdrawal</h2>
-                <p>Apne coins ko Paytm ya UPI par withdraw karein.</p>
+                <p>अपने कॉइन्स को Paytm या UPI पर आसानी से विथड्रॉ करें।</p>
             </div>
             <div class="wallet-box">
                 <p style="color:#666; font-size:13px; font-weight:bold;">TOTAL EARNINGS</p>
@@ -548,10 +548,10 @@
     </div>
 
     <script>
-        // User Wallet & Auth State
         let currentUser = null;
         let userCoins = 0;
 
+        // Login System Fix
         function handleLogin() {
             const email = document.getElementById('user-email').value;
             const name = document.getElementById('user-name').value;
@@ -559,23 +559,16 @@
             if(email && name) {
                 currentUser = { email, name };
                 document.getElementById('login-screen').style.display = 'none';
-                alert('Login Successful! Welcome ' + name);
+                alert('Login Successful! Welcome, ' + name);
             } else {
                 alert('Kripya Email aur Naam dono bharein!');
             }
         }
 
+        // Tab Switcher
         function switchTab(tabName, element) {
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.classList.remove('active'));
 
             const navs = document.querySelectorAll('.nav-item');
-            navs.forEach(nav => nav.classList.remove('active'));
-
-            document.getElementById('tab-' + tabName).classList.add('active');
-            if(element) element.classList.add('active');
-
-            window.scrollTo(0, 0);
-        }
-
-        function filterCards(category, element)
+            navs.forEach(nav =>
