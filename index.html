@@ -3,330 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KISMAT QUEST - High Paying Tasks & Instant Rewards</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Firebase SDK Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-
+    <title>KISMAT QUEST - Earn Cash & Rewards</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background: #090d16; color: #f1f5f9; padding: 12px; display: flex; justify-content: center; min-height: 100vh; }
-        .app-container { width: 100%; max-width: 500px; margin: 0 auto; }
-        
-        .header { 
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); 
-            text-align: center; color: white; padding: 20px; 
-            border-radius: 18px; margin-bottom: 15px; 
-            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .stat-card {
-            background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px; padding: 14px; text-align: center;
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            padding: 15px;
         }
-        .stat-card h4 { font-size: 11px; color: #94a3b8; font-weight: 500; }
-        .stat-card .val { font-size: 20px; font-weight: 700; color: #fbbf24; margin-top: 4px; }
-
-        .nav-tabs { display: flex; gap: 8px; margin-bottom: 15px; background: #1e293b; padding: 6px; border-radius: 12px; }
-        .tab-btn { 
-            flex: 1; padding: 10px; border: none; background: transparent; 
-            color: #94a3b8; border-radius: 8px; font-weight: 600; font-size: 11px; cursor: pointer; 
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .tab-btn.active { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; }
-
-        .card { 
-            background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            border-radius: 18px; padding: 18px; margin-bottom: 15px; 
+        header h1 {
+            font-size: 26px;
+            margin-bottom: 5px;
         }
-        .section-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; color: #f8fafc; }
-        
-        .task-box {
-            background: #0f172a; border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px; padding: 14px; margin-bottom: 12px;
-            display: flex; flex-direction: column; gap: 10px;
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
         }
-        .task-info h5 { font-size: 13px; color: #fff; margin-bottom: 2px; }
-        .task-info p { font-size: 12px; color: #34d399; font-weight: 700; }
-        
-        .btn-group { display: flex; gap: 8px; }
-        .action-btn {
-            flex: 1; text-align: center;
-            background: linear-gradient(135deg, #10b981, #059669); color: white;
-            border: none; padding: 10px; border-radius: 8px; font-size: 11px; font-weight: 600;
-            text-decoration: none; cursor: pointer;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .proof-btn {
-            flex: 1; background: #3b82f6; color: white;
-            border: none; padding: 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer;
+        .section-title {
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; margin-bottom: 6px; font-size: 12px; color: #cbd5e1; }
-        .input-group input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; outline: none; }
-        .withdraw-btn { width: 100%; background: #10b981; color: white; border: none; padding: 12px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; }
-        
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); justify-content: center; align-items: center; padding: 15px; z-index: 99; }
-        .modal-content { background: #1e293b; padding: 20px; border-radius: 16px; width: 100%; max-width: 400px; border: 1px solid rgba(255,255,255,0.1); }
+        .task-card {
+            background: white;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 5px solid #28a745;
+            transition: transform 0.2s;
+        }
+        .task-card:hover {
+            transform: translateY(-2px);
+        }
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .task-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #111;
+        }
+        .badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .task-desc {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .task-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 12px;
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .btn-complete {
+            display: block;
+            text-align: center;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .btn-complete:hover {
+            background: #218838;
+        }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- Header -->
-        <div class="header">
-            <h2>👑 KISMAT QUEST</h2>
-            <p style="font-size: 11px; opacity: 0.9; margin-top: 2px;">100% Free Tasks & Instant Rewards</p>
-        </div>
+<div class="container">
+    <header>
+        <h1>🎯 KISMAT QUEST</h1>
+        <p>टास्क पूरे करें और असली कैश कमाएँ!</p>
+    </header>
 
-        <!-- Dashboard Stats -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h4>Wallet Balance</h4>
-                <div class="val">₹<span id="userBalance">0.00</span></div>
-            </div>
-            <div class="stat-card">
-                <h4>User ID</h4>
-                <div class="val" style="font-size: 12px; color: #38bdf8;" id="displayUserId">Loading...</div>
-            </div>
-        </div>
-
-        <!-- Navigation Tabs -->
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="openTab('cardsTab', this)">💳 Credit Cards</button>
-            <button class="tab-btn" onclick="openTab('quickTab', this)">⚡ Quick Offers</button>
-            <button class="tab-btn" onclick="openTab('withdrawTab', this)">🏦 Withdraw</button>
-        </div>
-
-        <!-- 1. Credit Cards Tab -->
-        <div id="cardsTab" class="tab-content active">
-            <div class="card">
-                <div class="section-title">💳 High Paying Financial Tasks</div>
-                <div id="cardTaskList"></div>
-            </div>
-        </div>
-
-        <!-- 2. Quick Offers Tab -->
-        <div id="quickTab" class="tab-content">
-            <div class="card">
-                <div class="section-title">⚡ Special Quick Earning Tasks</div>
-                <p style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">Task pura karne ke baad wapas aakar proof submit karein.</p>
-                <div id="quickTaskList"></div>
-            </div>
-        </div>
-
-        <!-- 3. Withdraw Tab -->
-        <div id="withdrawTab" class="tab-content card">
-            <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">⚡ Paytm / UPI Payout</h3>
-            <p style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">• Minimum Payout: ₹300<br>• 24 hours verification time.</p>
-
-            <div class="input-group">
-                <label for="upiId">Enter Paytm Number / UPI ID:</label>
-                <input type="text" id="upiId" placeholder="e.g. 9876543210@paytm">
-            </div>
-
-            <button class="withdraw-btn" onclick="requestWithdraw()">💸 Redeem Balance</button>
-        </div>
-
+    <!-- Student Special Section -->
+    <div class="section-title">
+        <span>🎓 Student Special Tasks (No KYC / No Bank Required)</span>
     </div>
 
-    <!-- Proof Modal -->
-    <div id="proofModal" class="modal">
-        <div class="modal-content">
-            <h4 style="color: #fff; margin-bottom: 10px;" id="modalTaskTitle">Task Proof Submission</h4>
-            <div class="input-group">
-                <label>Registered Mobile Number / Name:</label>
-                <input type="text" id="proofMobile" placeholder="e.g. 9876543210">
-            </div>
-            <div class="input-group">
-                <label>Application / Reference ID:</label>
-                <input type="text" id="proofScreenshot" placeholder="Ref Number">
-            </div>
-            <div style="display: flex; gap: 8px;">
-                <button onclick="submitProofData()" class="action-btn" style="background: #10b981;">Submit Proof</button>
-                <button onclick="closeModal()" class="action-btn" style="background: #ef4444;">Cancel</button>
-            </div>
+    <!-- TimeBucks Task Card -->
+    <div class="task-card">
+        <div class="task-header">
+            <span class="task-title">🎮 Watch Videos, Games & Surveys</span>
+            <span class="badge">TimeBucks</span>
         </div>
+        <div class="task-desc">
+            वीडियो देखें, आसान गेम्स खेलें और छोटे-छोटे टास्क पूरे करके सीधे अपने मोबाइल से रोज़ाना कमाई करें।
+        </div>
+        <div class="task-meta">
+            <span>🎁 <b>Reward:</b> Up to ₹50 - ₹100/day</span>
+            <span>⚡ <b>Instant Access:</b> Easy</span>
+        </div>
+        <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-complete">Start Task Now</a>
     </div>
 
-    <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "YOUR_FIREBASE_API_KEY",
-            authDomain: "kismat-quest.firebaseapp.com",
-            databaseURL: "https://kismat-quest-default-rtdb.firebaseio.com",
-            projectId: "kismat-quest",
-            storageBucket: "kismat-quest.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:1234567890:web:abcdef123456"
-        };
+    <!-- CPALead / Quick App Installs -->
+    <div class="task-card" style="border-left-color: #17a2b8;">
+        <div class="task-header">
+            <span class="task-title">📱 App Install & Quick Games</span>
+            <span class="badge" style="background:#e0f7fa; color:#00838f;">Fast Task</span>
+        </div>
+        <div class="task-desc">
+            नए ऐप्स इंस्टॉल करें और गेम के लेवल पूरे करके कॉइन्स इकट्ठा करें।
+        </div>
+        <div class="task-meta">
+            <span>🎁 <b>Reward:</b> ₹10 - ₹30 per app</span>
+            <span>⚡ <b>Time:</b> 2 Mins</span>
+        </div>
+        <a href="#" class="btn-complete" style="background:#17a2b8;">Complete Task</a>
+    </div>
 
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        const db = firebase.database();
+</div>
 
-        let userId = localStorage.getItem('kismat_user_id');
-        if (!userId) {
-            userId = 'usr_' + Math.floor(100000 + Math.random() * 900000);
-            localStorage.setItem('kismat_user_id', userId);
-        }
-        document.getElementById('displayUserId').innerText = userId;
-
-        const userRef = db.ref('users/' + userId);
-        userRef.on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data && data.balance !== undefined) {
-                document.getElementById('userBalance').innerText = parseFloat(data.balance).toFixed(2);
-            } else {
-                userRef.set({ userId: userId, balance: 0.00, createdAt: new Date().toISOString() });
-            }
-        });
-
-        // Safe Offer Redirection Function (Opens in New Tab cleanly)
-        function openOfferLink(url) {
-            const newTab = window.open(url, '_blank');
-            if (newTab) {
-                newTab.focus();
-            } else {
-                window.location.href = url;
-            }
-        }
-
-        const cardOffers = [
-            { name: "HDFC Bank Premium Credit Card", reward: 1110, link: "https://bitli.in/m4kL17" },
-            { name: "HDFC Credit Card Offer", reward: 1099, link: "https://bitli.in/Vf5taQb" },
-            { name: "HDFC Bank Card", reward: 1050, link: "https://bitli.in/1wXQPXP" },
-            { name: "HDFC Special Credit Card", reward: 1040, link: "https://bitli.in/Vpr9bqw" },
-            { name: "SBI / HDFC Exclusive Card", reward: 1000, link: "https://bitli.in/k5f0wII" },
-            { name: "Axis Bank Credit Card", reward: 799, link: "https://bitli.in/pz08u85" },
-            { name: "Axis Select Credit Card", reward: 799, link: "https://bitli.in/w6D95RO" },
-            { name: "AU Small Finance Credit Card", reward: 699, link: "https://bitli.in/v8aQstG" },
-            { name: "Federal Credit Card", reward: 549, link: "https://ltsrn.in/lIZ" },
-            { name: "Scapia Credit Card", reward: 499, link: "https://ltsrn.in/lI0" }
-        ];
-
-        const quickOffers = [
-            { name: "Special Offer Task #1", reward: 500, link: "https://bilty.co/BG1Wgd" },
-            { name: "Special Offer Task #2", reward: 500, link: "https://bilty.co/K2JxOx" },
-            { name: "Special Offer Task #3", reward: 300, link: "https://bilty.co/JDyPNk" },
-            { name: "Special Offer Task #4", reward: 200, link: "https://bilty.co/od96tn" },
-            { name: "Quick Task #5", reward: 100, link: "https://bilty.co/L8m7hq" },
-            { name: "Quick Task #6", reward: 100, link: "https://bilty.co/C1c9lJ" },
-            { name: "Micro Task #7", reward: 50, link: "https://bilty.co/T7E3wM" },
-            { name: "Micro Task #8", reward: 50, link: "https://bilty.co/WF4ksX" }
-        ];
-
-        // Render Card Offers
-        const cardContainer = document.getElementById('cardTaskList');
-        cardOffers.forEach((item) => {
-            cardContainer.innerHTML += `
-                <div class="task-box">
-                    <div class="task-info">
-                        <h5>${item.name}</h5>
-                        <p>Earn: ₹${item.reward} Cash</p>
-                    </div>
-                    <div class="btn-group">
-                        <button onclick="openOfferLink('${item.link}')" class="action-btn">1. Start Task</button>
-                        <button onclick="openModal('${item.name}', ${item.reward})" class="proof-btn">2. Submit Proof</button>
-                    </div>
-                </div>
-            `;
-        });
-
-        // Render Quick Offers
-        const quickContainer = document.getElementById('quickTaskList');
-        quickOffers.forEach((item) => {
-            quickContainer.innerHTML += `
-                <div class="task-box">
-                    <div class="task-info">
-                        <h5>${item.name}</h5>
-                        <p>Earn: ₹${item.reward} Cash</p>
-                    </div>
-                    <div class="btn-group">
-                        <button onclick="openOfferLink('${item.link}')" class="action-btn">1. Start Task</button>
-                        <button onclick="openModal('${item.name}', ${item.reward})" class="proof-btn">2. Submit Proof</button>
-                    </div>
-                </div>
-            `;
-        });
-
-        function openTab(tabId, btn) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        let currentSelectedTask = "";
-        let currentSelectedReward = 0;
-
-        function openModal(taskName, reward) {
-            currentSelectedTask = taskName;
-            currentSelectedReward = reward;
-            document.getElementById('modalTaskTitle').innerText = taskName;
-            document.getElementById('proofModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('proofModal').style.display = 'none';
-        }
-
-        function submitProofData() {
-            const mobile = document.getElementById('proofMobile').value.trim();
-            const proof = document.getElementById('proofScreenshot').value.trim();
-
-            if (!mobile || !proof) {
-                alert('⚠️ Kripya Mobile Number aur Ref ID bharein!');
-                return;
-            }
-
-            db.ref('task_submissions').push().set({
-                userId: userId,
-                taskName: currentSelectedTask,
-                rewardAmount: currentSelectedReward,
-                mobileNumber: mobile,
-                proofDetails: proof,
-                status: "Pending",
-                timestamp: new Date().toISOString()
-            }).then(() => {
-                alert(`✅ Proof Submit Ho Gaya! Admin verify karke ₹${currentSelectedReward} approve karega.`);
-                closeModal();
-            });
-        }
-
-        function requestWithdraw() {
-            const upi = document.getElementById('upiId').value.trim();
-            userRef.once('value').then((snapshot) => {
-                const currentBalance = snapshot.val() ? (snapshot.val().balance || 0) : 0;
-
-                if (!upi) {
-                    alert('⚠️ Apna Paytm number ya UPI ID darj karein!');
-                    return;
-                }
-                if (currentBalance < 300) {
-                    alert('❌ Minimum Withdrawal Amount ₹300 Hai!');
-                    return;
-                }
-
-                db.ref('withdraw_requests').push().set({
-                    userId: userId,
-                    upiId: upi,
-                    amount: currentBalance,
-                    status: "Pending",
-                    timestamp: new Date().toISOString()
-                }).then(() => {
-                    userRef.update({ balance: 0.00 });
-                    alert(`✅ ₹${currentBalance} ki Withdrawal Request lag chuki hai!`);
-                });
-            });
-        }
-    </script>
 </body>
 </html>
