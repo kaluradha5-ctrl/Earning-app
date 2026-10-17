@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KISMAT QUEST APP</title>
+    <title>KISMAT QUEST - Earn Cash & Rewards</title>
     <style>
         * {
             box-sizing: border-box;
@@ -49,6 +49,7 @@
             align-items: center;
             gap: 5px;
             backdrop-filter: blur(5px);
+            cursor: pointer;
         }
 
         .container {
@@ -63,7 +64,7 @@
             color: white;
             padding: 18px;
             border-radius: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             box-shadow: 0 4px 15px rgba(221, 36, 118, 0.3);
         }
 
@@ -78,26 +79,39 @@
             line-height: 1.4;
         }
 
-        /* Section Titles */
-        .section-header {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-            margin: 20px 0 12px 0;
+        /* Category Filter Chips */
+        .category-scroll {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            scrollbar-width: none;
         }
 
-        .section-tag {
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 10px;
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chip {
+            background: white;
+            color: #555;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: bold;
+            white-space: nowrap;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .tag-green { background: #e8f5e9; color: #2e7d32; }
-        .tag-orange { background: #fff3e0; color: #e65100; }
+        .chip.active {
+            background: #11998e;
+            color: white;
+            border-color: #11998e;
+            box-shadow: 0 2px 6px rgba(17, 153, 142, 0.3);
+        }
 
         /* Task Cards */
         .task-card {
@@ -153,7 +167,7 @@
             font-weight: bold;
             font-size: 14px;
             box-shadow: 0 3px 6px rgba(17, 153, 142, 0.2);
-            transition: transform 0.1s, background 0.2s;
+            transition: transform 0.1s;
         }
 
         .btn-action:active {
@@ -165,7 +179,12 @@
             box-shadow: 0 3px 6px rgba(255, 152, 0, 0.2);
         }
 
-        /* Bottom App Navigation Bar */
+        .btn-purple {
+            background: #6f42c1;
+            box-shadow: 0 3px 6px rgba(111, 66, 193, 0.2);
+        }
+
+        /* Bottom Navigation Bar */
         .app-nav {
             position: fixed;
             bottom: 0;
@@ -191,7 +210,7 @@
             font-size: 11px;
             font-weight: 600;
             cursor: pointer;
-            width: 25%;
+            width: 20%;
             padding: 5px 0;
         }
 
@@ -203,7 +222,6 @@
             font-size: 18px;
         }
 
-        /* Tab Content Control */
         .tab-content {
             display: none;
         }
@@ -215,138 +233,183 @@
 </head>
 <body>
 
-    <!-- Top App Bar -->
+    <!-- Top App Header -->
     <div class="app-header">
         <div class="app-title">📱 KISMAT QUEST</div>
-        <div class="wallet-badge" onclick="switchTab('wallet', document.querySelectorAll('.nav-item')[3])" style="cursor:pointer;">
+        <div class="wallet-badge" onclick="switchTab('wallet', document.querySelectorAll('.nav-item')[4])">
             <span>🪙 0 Coins</span>
         </div>
     </div>
 
     <div class="container">
 
-        <!-- TAB 1: HOME (ALL TASKS) -->
+        <!-- TAB 1: HOME (ALL OFFERS) -->
         <div id="tab-home" class="tab-content active">
             
             <div class="banner-card">
                 <h2>🎮 KISMAT QUEST APP</h2>
-                <p>टास्क पूरे करें, कॉइन्स इकट्ठा करें और तुरंत अपने Paytm / UPI में रिडीम करें!</p>
+                <p>अपनी पसंदीदा केटेगरी चुनें और आसान टास्क पूरे करके रियल कैश कमाएँ!</p>
             </div>
 
-            <div class="section-header">
-                <span>🎓 Student Micro Tasks</span>
-                <span class="section-tag tag-green">NO KYC</span>
+            <!-- Category Filter Chips -->
+            <div class="category-scroll">
+                <div class="chip active" onclick="filterCards('all', this)">🔥 All Offers</div>
+                <div class="chip" onclick="filterCards('shopping', this)">🛍️ Shopping (EarnKaro/CashKaro)</div>
+                <div class="chip" onclick="filterCards('student', this)">🎓 Student (No KYC)</div>
+                <div class="chip" onclick="filterCards('banking', this)">💳 18+ Banking & Cards</div>
             </div>
 
-            <!-- TimeBucks Task -->
-            <div class="task-card">
-                <div class="task-top">
-                    <div class="task-info">
-                        <h3>▶️ Watch Videos & Play Games</h3>
-                        <p>30-सेकंड वीडियो देखें, क्विज़ खेलें और रोज़ कॉइन्स कमाएँ।</p>
+            <!-- ALL CARDS CONTAINER -->
+            <div id="cards-container">
+
+                <!-- EarnKaro Shopping Deal -->
+                <div class="task-card card-item shopping">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>🛍️ EarnKaro Deals & Cashback</h3>
+                            <p>Flipkart, Myntra और Amazon पर शॉपिंग करें या दोस्तों को शेयर करके प्रॉफिट कमाएँ।</p>
+                        </div>
+                        <div class="reward-tag" style="color:#6f42c1; background:#f3e8ff;">Up to 15% Profit</div>
                     </div>
-                    <div class="reward-tag">Up to ₹100</div>
+                    <a href="https://earnkaro.com" target="_blank" rel="noopener" class="btn-action btn-purple">Earn With EarnKaro</a>
                 </div>
-                <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener" class="btn-action">Start Task Now</a>
-            </div>
 
-            <!-- CPALead Task -->
-            <div class="task-card">
-                <div class="task-top">
-                    <div class="task-info">
-                        <h3>📲 Quick App Download & Play</h3>
-                        <p>ऐप्स इंस्टॉल करके 1 मिनट ओपन रखें और रिवॉर्ड पाएँ।</p>
+                <!-- CashKaro Offer -->
+                <div class="task-card card-item shopping">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💸 CashKaro Extra Cashback</h3>
+                            <p>शॉपिंग स्टोर्स पर सबसे ज़्यादा कैशबैक और फ्री डिस्काउंट कूपन हासिल करें।</p>
+                        </div>
+                        <div class="reward-tag" style="color:#6f42c1; background:#f3e8ff;">Flat Cashback</div>
                     </div>
-                    <div class="reward-tag">₹10 - ₹30</div>
+                    <a href="https://cashkaro.com" target="_blank" rel="noopener" class="btn-action btn-purple">Claim Cashback</a>
                 </div>
-                <a href="https://cpalead.com" target="_blank" rel="noopener" class="btn-action">Download & Earn</a>
-            </div>
 
-            <div class="section-header">
-                <span>💳 Financial Offers</span>
-                <span class="section-tag tag-orange">18+ ONLY</span>
-            </div>
-
-            <!-- Credit Card Offer -->
-            <div class="task-card">
-                <div class="task-top">
-                    <div class="task-info">
-                        <h3>💳 Apply IndusInd Credit Card</h3>
-                        <p>कार्ड अप्रूव होने पर बड़ा कैशबैक बोनस पाएँ। (PAN Card Required)</p>
+                <!-- TimeBucks -->
+                <div class="task-card card-item student">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>▶️ TimeBucks Videos & Games</h3>
+                            <p>30-सेकंड वीडियो देखें, क्विज़ खेलें और बिना KYC के रोज़ कमाई करें।</p>
+                        </div>
+                        <div class="reward-tag">Up to ₹100</div>
                     </div>
-                    <div class="reward-tag" style="color:#e65100; background:#fff3e0;">₹500 Cash</div>
+                    <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener" class="btn-action">Start Task Now</a>
                 </div>
-                <!-- यहाँ अपना बैंक/क्रेडिट कार्ड रेफरल लिंक पेस्ट करें -->
-                <a href="https://www.indusind.com" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+
+                <!-- CPALead -->
+                <div class="task-card card-item student">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>📲 CPALead Mobile App Tasks</h3>
+                            <p>आसान ऐप्स इंस्टॉल करें और 1 मिनट में डायरेक्ट रिवॉर्ड पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹10 - ₹30</div>
+                    </div>
+                    <a href="https://www.cpalead.com" target="_blank" rel="noopener" class="btn-action">Download & Earn</a>
+                </div>
+
+                <!-- IndusInd Credit Card -->
+                <div class="task-card card-item banking">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 IndusInd Credit Card Application</h3>
+                            <p>लाइफटाइम फ्री क्रेडिट कार्ड के लिए अप्लाई करें और अप्रूवल पर कैशबैक पाएँ।</p>
+                        </div>
+                        <div class="reward-tag" style="color:#e65100; background:#fff3e0;">₹500 Cash</div>
+                    </div>
+                    <a href="https://www.indusind.com" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <!-- AngelOne Demat -->
+                <div class="task-card card-item banking">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>📈 AngelOne Free Demat Account</h3>
+                            <p>5 मिनट में फ्री डीमैट अकाउंट खोलें और ट्रेडिंग ऑफर्स पाएँ। (PAN Card Needed)</p>
+                        </div>
+                        <div class="reward-tag" style="color:#e65100; background:#fff3e0;">₹200 Cash</div>
+                    </div>
+                    <a href="https://www.angelone.in" target="_blank" rel="noopener" class="btn-action btn-orange">Open Account</a>
+                </div>
+
             </div>
 
         </div>
 
-        <!-- TAB 2: STUDENTS ONLY -->
-        <div id="tab-student" class="tab-content">
-            <div class="section-header">
-                <span>🎓 Only Student Special (No Bank / KYC)</span>
+        <!-- TAB 2: SHOPPING (EarnKaro / CashKaro) -->
+        <div id="tab-shopping" class="tab-content">
+            <div class="banner-card" style="background: linear-gradient(135deg, #8e2de2, #4a00e0);">
+                <h2>🛍️ Shopping & Deals Zone</h2>
+                <p>EarnKaro और CashKaro के ज़रिए शॉपिंग करें और हर ऑर्डर पर guaranteed प्रॉफिट पाएँ।</p>
             </div>
 
             <div class="task-card">
                 <div class="task-top">
                     <div class="task-info">
-                        <h3>🎮 TimeBucks Video & Games</h3>
-                        <p>बिना किसी आईडी प्रूफ के केवल गेम खेलकर कमाई करें।</p>
+                        <h3>🛍️ EarnKaro Affiliate</h3>
+                        <p>अपने शॉपिंग लिंक्स दोस्तों के साथ शेयर करें और कमीशन पाएँ।</p>
+                    </div>
+                    <div class="reward-tag">10% - 15%</div>
+                </div>
+                <a href="https://earnkaro.com" target="_blank" rel="noopener" class="btn-action btn-purple">Open EarnKaro</a>
+            </div>
+
+            <div class="task-card">
+                <div class="task-top">
+                    <div class="task-info">
+                        <h3>💸 CashKaro Deals</h3>
+                        <p>Amazon, Flipkart पर खरीदारी करें और एक्स्ट्रा रियल कैश पाएँ।</p>
+                    </div>
+                    <div class="reward-tag">Flat Cashback</div>
+                </div>
+                <a href="https://cashkaro.com" target="_blank" rel="noopener" class="btn-action btn-purple">Open CashKaro</a>
+            </div>
+        </div>
+
+        <!-- TAB 3: STUDENT (TimeBucks / CPALead) -->
+        <div id="tab-student" class="tab-content">
+            <div class="banner-card" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                <h2>🎓 Student Zone (No KYC)</h2>
+                <p>बिना बैंक अकाउंट या आईडी वेरिफिकेशन के सीधे कॉइन्स और टास्क पूरे करें।</p>
+            </div>
+
+            <div class="task-card">
+                <div class="task-top">
+                    <div class="task-info">
+                        <h3>▶️ TimeBucks Micro Tasks</h3>
+                        <p>वीडियोज़ देखें, गेम्स खेलें और सर्वे पूरे करके कमाई करें।</p>
                     </div>
                     <div class="reward-tag">₹50/Day</div>
                 </div>
-                <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener" class="btn-action">Play Now</a>
-            </div>
-
-            <div class="task-card">
-                <div class="task-top">
-                    <div class="task-info">
-                        <h3>📱 Free App Tasks</h3>
-                        <p>सिंपल ऐप्स इंस्टॉल करके कॉइन्स कमाएँ।</p>
-                    </div>
-                    <div class="reward-tag">₹20</div>
-                </div>
-                <a href="https://cpalead.com" target="_blank" rel="noopener" class="btn-action">Start Install</a>
+                <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener" class="btn-action">Start TimeBucks</a>
             </div>
         </div>
 
-        <!-- TAB 3: 18+ BANKING -->
+        <!-- TAB 4: 18+ BANKING -->
         <div id="tab-banking" class="tab-content">
-            <div class="section-header">
-                <span>💳 High Paying Banking Offers (18+)</span>
+            <div class="banner-card" style="background: linear-gradient(135deg, #FF9800, #F57C00);">
+                <h2>💳 18+ Banking & Finance</h2>
+                <p>हाई-पेइंग क्रेडिट कार्ड्स, डीमैट अकाउंट्स और बैंक ऑफर्स।</p>
             </div>
 
             <div class="task-card">
                 <div class="task-top">
                     <div class="task-info">
-                        <h3>💳 IndusInd Bank Credit Card</h3>
-                        <p>क्रेडिट कार्ड अप्लाई करें और तुरंत ₹500 तक का कैशबैक पाएँ।</p>
+                        <h3>💳 IndusInd Credit Card</h3>
+                        <p>क्रेडिट कार्ड अप्लाई करें और तुरंत कैशबैक पाएँ।</p>
                     </div>
                     <div class="reward-tag" style="color:#e65100; background:#fff3e0;">₹500</div>
                 </div>
-                <a href="https://www.indusind.com" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-            </div>
-
-            <div class="task-card">
-                <div class="task-top">
-                    <div class="task-info">
-                        <h3>📈 AngelOne Free Demat Account</h3>
-                        <p>5 मिनट में फ्री अकाउंट खोलें और ₹200 कैशबैक पाएँ।</p>
-                    </div>
-                    <div class="reward-tag" style="color:#e65100; background:#fff3e0;">₹200</div>
-                </div>
-                <a href="https://www.angelone.in" target="_blank" rel="noopener" class="btn-action btn-orange">Open Account</a>
+                <a href="https://www.indusind.com" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Card</a>
             </div>
         </div>
 
-        <!-- TAB 4: WALLET -->
+        <!-- TAB 5: WALLET -->
         <div id="tab-wallet" class="tab-content">
-            <div class="section-header">
-                <span>👛 My Wallet & Withdrawal</span>
-            </div>
             <div class="task-card" style="text-align: center; padding: 25px;">
-                <h3 style="font-size: 24px; color: #11998e;">🪙 0 Coins</h3>
+                <h3 style="font-size: 26px; color: #11998e;">🪙 0 Coins</h3>
                 <p style="margin: 10px 0; color: #666;">Minimum Payout = 100 Coins (₹10)</p>
                 <button onclick="alert('आपके पास पर्याप्त कॉइन्स नहीं हैं। पहले टास्क पूरे करें!')" style="width: 100%; padding: 12px; background: #11998e; border: none; border-radius: 10px; color: white; font-weight: bold; cursor: pointer;">Redeem via UPI / Paytm</button>
             </div>
@@ -360,13 +423,17 @@
             <span class="nav-icon">🏠</span>
             <span>Home</span>
         </div>
+        <div class="nav-item" onclick="switchTab('shopping', this)">
+            <span class="nav-icon">🛍️</span>
+            <span>Shopping</span>
+        </div>
         <div class="nav-item" onclick="switchTab('student', this)">
             <span class="nav-icon">🎓</span>
             <span>Student</span>
         </div>
         <div class="nav-item" onclick="switchTab('banking', this)">
             <span class="nav-icon">💳</span>
-            <span>18+ Banking</span>
+            <span>18+ Bank</span>
         </div>
         <div class="nav-item" onclick="switchTab('wallet', this)">
             <span class="nav-icon">👛</span>
@@ -374,23 +441,37 @@
         </div>
     </div>
 
-    <!-- App Switcher JavaScript -->
     <script>
+        // Tab Switching Function
         function switchTab(tabName, element) {
-            // Hide all tabs
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.classList.remove('active'));
 
-            // Remove active class from nav items
             const navs = document.querySelectorAll('.nav-item');
             navs.forEach(nav => nav.classList.remove('active'));
 
-            // Show selected tab & set nav active
             document.getElementById('tab-' + tabName).classList.add('active');
             if(element) element.classList.add('active');
 
-            // Scroll to top automatically
             window.scrollTo(0, 0);
+        }
+
+        // Category Filter Function
+        function filterCards(category, element) {
+            const chips = document.querySelectorAll('.chip');
+            chips.forEach(chip => chip.classList.remove('active'));
+            element.classList.add('active');
+
+            const cards = document.querySelectorAll('.card-item');
+            cards.forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'flex';
+                } else if (card.classList.contains(category)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
     </script>
 </body>
