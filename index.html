@@ -82,7 +82,7 @@
         <!-- Header -->
         <div class="header">
             <h2>👑 KISMAT QUEST</h2>
-            <p style="font-size: 11px; opacity: 0.9; margin-top: 2px;">100% Free Tasks & Instant Payouts</p>
+            <p style="font-size: 11px; opacity: 0.9; margin-top: 2px;">100% Free Tasks & Instant Rewards</p>
         </div>
 
         <!-- Dashboard Stats -->
@@ -112,7 +112,7 @@
             </div>
         </div>
 
-        <!-- 2. Quick Offers Tab (New Links Added) -->
+        <!-- 2. Quick Offers Tab -->
         <div id="quickTab" class="tab-content">
             <div class="card">
                 <div class="section-title">⚡ Special Quick Earning Tasks</div>
@@ -193,7 +193,7 @@
         });
 
         // -------------------------------------------------------------
-        // Task Lists (Cards + New Quick Links)
+        // Task Lists (Clean Direct Links)
         // -------------------------------------------------------------
         const cardOffers = [
             { name: "HDFC Bank Premium Credit Card", reward: 1110, link: "https://bitli.in/m4kL17" },
@@ -208,7 +208,6 @@
             { name: "Scapia Credit Card", reward: 499, link: "https://ltsrn.in/lI0" }
         ];
 
-        // Newly Added Quick Links
         const quickOffers = [
             { name: "Special Offer Task #1", reward: 500, link: "https://bilty.co/BG1Wgd" },
             { name: "Special Offer Task #2", reward: 500, link: "https://bilty.co/K2JxOx" },
@@ -220,10 +219,9 @@
             { name: "Micro Task #8", reward: 50, link: "https://bilty.co/WF4ksX" }
         ];
 
-        // Render Card Offers
+        // Render Card Offers (Direct Link Without ?subid= Parameter)
         const cardContainer = document.getElementById('cardTaskList');
         cardOffers.forEach((item) => {
-            const trackingUrl = `${item.link}?subid=${userId}`;
             cardContainer.innerHTML += `
                 <div class="task-box">
                     <div class="task-info">
@@ -231,7 +229,7 @@
                         <p>Earn: ₹${item.reward} Cash</p>
                     </div>
                     <div class="btn-group">
-                        <a href="${trackingUrl}" target="_blank" class="action-btn">1. Start Task</a>
+                        <a href="${item.link}" target="_blank" class="action-btn">1. Start Task</a>
                         <button onclick="openModal('${item.name}', ${item.reward})" class="proof-btn">2. Submit Proof</button>
                     </div>
                 </div>
@@ -241,7 +239,6 @@
         // Render Quick Offers
         const quickContainer = document.getElementById('quickTaskList');
         quickOffers.forEach((item) => {
-            const trackingUrl = `${item.link}?subid=${userId}`;
             quickContainer.innerHTML += `
                 <div class="task-box">
                     <div class="task-info">
@@ -249,7 +246,7 @@
                         <p>Earn: ₹${item.reward} Cash</p>
                     </div>
                     <div class="btn-group">
-                        <a href="${trackingUrl}" target="_blank" class="action-btn">1. Start Task</a>
+                        <a href="${item.link}" target="_blank" class="action-btn">1. Start Task</a>
                         <button onclick="openModal('${item.name}', ${item.reward})" class="proof-btn">2. Submit Proof</button>
                     </div>
                 </div>
@@ -330,4 +327,3 @@
     </script>
 </body>
 </html>
-
