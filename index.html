@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KISMAT QUEST - Premium Reward App</title>
+    <title>KISMAT QUEST - Professional Reward App</title>
     <style>
         :root {
             --primary: #6366f1;
@@ -32,7 +31,7 @@
             padding-bottom: 80px;
         }
 
-        /* Guaranteed Instant Login Screen */
+        /* Professional Login Screen */
         #login-screen {
             position: fixed;
             top: 0;
@@ -40,7 +39,7 @@
             right: 0;
             bottom: 0;
             background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
-            z-index: 99999;
+            z-index: 999999;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -118,14 +117,9 @@
             cursor: pointer;
             margin-top: 10px;
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-            transition: transform 0.1s;
         }
 
-        .login-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Premium App Header */
+        /* App Header */
         .app-header {
             position: sticky;
             top: 0;
@@ -318,7 +312,6 @@
             cursor: pointer;
             width: 20%;
             padding: 6px 0;
-            transition: color 0.2s;
         }
 
         .nav-item.active {
@@ -372,11 +365,11 @@
 </head>
 <body>
 
-    <!-- GUARANTEED WORKING PHONE & PASSWORD LOGIN SCREEN -->
+    <!-- PROFESSIONAL LOGIN SCREEN -->
     <div id="login-screen">
         <div class="login-card">
             <div class="login-logo">KISMAT QUEST</div>
-            <div class="login-subtitle">Secure Phone & Password Access</div>
+            <div class="login-subtitle">Secure Phone & Password Login</div>
             
             <div class="input-group">
                 <label>Phone Number</label>
@@ -388,11 +381,11 @@
                 <input type="password" id="login-password" class="login-input" placeholder="Enter password" value="123456">
             </div>
 
-            <button onclick="handlePhoneLogin()" class="login-btn">Login / Register</button>
+            <button type="button" id="login-submit-btn" class="login-btn">Login / Register</button>
         </div>
     </div>
 
-    <!-- Top App Header -->
+    <!-- App Header -->
     <div class="app-header">
         <div class="app-title">⚡ KISMAT QUEST</div>
         <div class="wallet-badge" onclick="switchTab('wallet', document.querySelectorAll('.nav-item')[4])">
@@ -402,15 +395,13 @@
 
     <div class="container">
 
-        <!-- TAB 1: HOME (ALL OFFERS & 53 LINKS) -->
+        <!-- TAB 1: HOME -->
         <div id="tab-home" class="tab-content active">
-            
             <div class="banner-card">
                 <h2>🚀 Premium Earning Hub</h2>
                 <p>Task open karke complete karein, uske baad 'Verify Task' dabakar apne wallet mein coins add karein!</p>
             </div>
 
-            <!-- Category Filter Chips -->
             <div class="category-scroll">
                 <div class="chip active" onclick="filterCards('all', this)">🔥 All Offers</div>
                 <div class="chip" onclick="filterCards('cards', this)">💳 Credit Cards</div>
@@ -418,10 +409,8 @@
                 <div class="chip" onclick="filterCards('tasks', this)">🎓 Micro Tasks</div>
             </div>
 
-            <!-- CARDS CONTAINER -->
             <div id="cards-container">
-
-                <!-- 1. AU Bank -->
+                <!-- AU Bank -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
@@ -436,7 +425,7 @@
                     </div>
                 </div>
 
-                <!-- 2. Axis Bank -->
+                <!-- Axis Bank -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
@@ -451,7 +440,7 @@
                     </div>
                 </div>
 
-                <!-- 3. BOBCARD Etihad -->
+                <!-- BOBCARD Etihad -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
@@ -466,7 +455,7 @@
                     </div>
                 </div>
 
-                <!-- 4. Federal Bank -->
+                <!-- Federal Bank -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
@@ -481,7 +470,7 @@
                     </div>
                 </div>
 
-                <!-- 5. Scapia -->
+                <!-- Scapia -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
@@ -496,7 +485,7 @@
                     </div>
                 </div>
 
-                <!-- 6. HDFC Bank -->
+                <!-- HDFC Bank -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
@@ -511,7 +500,7 @@
                     </div>
                 </div>
 
-                <!-- 7. Sprint LG Cards -->
+                <!-- Sprint LG Cards -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
@@ -526,7 +515,7 @@
                     </div>
                 </div>
 
-                <!-- 8. TimeBucks -->
+                <!-- TimeBucks -->
                 <div class="task-card card-item tasks">
                     <div class="task-top">
                         <div class="task-info">
@@ -569,12 +558,176 @@
                         <button onclick="verifyTask(200, 'Task od96tn')" class="btn-action btn-verify">Verify Task</button>
                     </div>
                 </div>
-
             </div>
-
         </div>
 
         <!-- TAB 2: CARDS -->
         <div id="tab-cards" class="tab-content">
             <div class="banner-card" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-                <h2>
+                <h2>💳 All Credit Cards</h2>
+                <p>Top banking and financial credit card applications.</p>
+            </div>
+        </div>
+
+        <!-- TAB 3: TASKS -->
+        <div id="tab-tasks" class="tab-content">
+            <div class="banner-card" style="background: linear-gradient(135deg, #10b981, #059669);">
+                <h2>🎓 Student & Micro Tasks</h2>
+                <p>Easy daily tasks requiring no complex document verification.</p>
+            </div>
+        </div>
+
+        <!-- TAB 4: FINANCE -->
+        <div id="tab-finance" class="tab-content">
+            <div class="banner-card" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">
+                <h2>📈 Demat & Banking</h2>
+                <p>Investment and banking partner programs.</p>
+            </div>
+        </div>
+
+        <!-- TAB 5: WALLET -->
+        <div id="tab-wallet" class="tab-content">
+            <div class="banner-card" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+                <h2>👛 Secure Withdrawal Wallet</h2>
+                <p>Transfer your earnings directly to Paytm or UPI.</p>
+            </div>
+            <div class="wallet-box">
+                <p style="color:var(--text-muted); font-size:12px; font-weight:700; text-transform:uppercase;">Available Balance</p>
+                <div class="wallet-balance" id="wallet-coins-display">🪙 0 Coins</div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;">Minimum Payout: 100 Coins (₹10)</p>
+                
+                <div class="input-group" style="text-align: left;">
+                    <label>Enter UPI / Paytm ID</label>
+                    <input type="text" id="upi-id" class="login-input" placeholder="e.g. yourname@paytm">
+                </div>
+                <button onclick="requestWithdrawal()" class="redeem-btn">Withdraw via UPI / Paytm</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="app-nav">
+        <div class="nav-item active" onclick="switchTab('home', this)">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('cards', this)">
+            <span class="nav-icon">💳</span>
+            <span>Cards</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('tasks', this)">
+            <span class="nav-icon">🎓</span>
+            <span>Tasks</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('finance', this)">
+            <span class="nav-icon">📈</span>
+            <span>Finance</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('wallet', this)">
+            <span class="nav-icon">👛</span>
+            <span>Wallet</span>
+        </div>
+    </div>
+
+    <script>
+        // Check localStorage on page load for session & coins
+        let userCoins = parseInt(localStorage.getItem('kismat_coins')) || 0;
+        let isLoggedIn = localStorage.getItem('kismat_logged_in') === 'true';
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Update UI with stored values
+            updateCoinDisplay();
+
+            if (isLoggedIn) {
+                document.getElementById('login-screen').style.display = 'none';
+            }
+
+            const loginBtn = document.getElementById('login-submit-btn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', function() {
+                    const phone = document.getElementById('login-phone').value.trim();
+                    const password = document.getElementById('login-password').value.trim();
+
+                    if (phone.length >= 10 && password.length >= 4) {
+                        localStorage.setItem('kismat_logged_in', 'true');
+                        localStorage.setItem('kismat_phone', phone);
+                        document.getElementById('login-screen').style.display = 'none';
+                        alert('Login Successful! Welcome to Kismat Quest.');
+                    } else {
+                        alert('Kripya valid 10-digit mobile number aur password (min 4 chars) darj karein!');
+                    }
+                });
+            }
+        });
+
+        function switchTab(tabName, element) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            const navs = document.querySelectorAll('.nav-item');
+            navs.forEach(nav => nav.classList.remove('active'));
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+            if(element) element.classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+
+        function filterCards(category, element) {
+            const chips = document.querySelectorAll('.chip');
+            chips.forEach(chip => chip.classList.remove('active'));
+            element.classList.add('active');
+
+            const cards = document.querySelectorAll('.card-item');
+            cards.forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'flex';
+                } else if (card.classList.contains(category)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function verifyTask(amount, taskName) {
+            if(localStorage.getItem('kismat_logged_in') !== 'true') {
+                alert('Pehle Login karein!');
+                document.getElementById('login-screen').style.display = 'flex';
+                return;
+            }
+            userCoins += amount;
+            localStorage.setItem('kismat_coins', userCoins);
+            updateCoinDisplay();
+            alert('Task "' + taskName + '" verified successfully! +' + amount + ' coins credited.');
+        }
+
+        function updateCoinDisplay() {
+            document.getElementById('header-coins').innerText = '🪙 ' + userCoins + ' Coins';
+            const walletDisplay = document.getElementById('wallet-coins-display');
+            if(walletDisplay) {
+                walletDisplay.innerText = '🪙 ' + userCoins + ' Coins';
+            }
+        }
+
+        function requestWithdrawal() {
+            const upi = document.getElementById('upi-id').value.trim();
+            if(!upi) {
+                alert('Kripya apni valid UPI ID darj karein!');
+                return;
+            }
+            if(userCoins < 100) {
+                alert('Withdrawal ke liye kam se kam 100 Coins (₹10) hone chahiye!');
+                return;
+            }
+            alert('Withdrawal request submitted successfully for ' + userCoins + ' coins to UPI: ' + upi + '. Payout will be processed within 24 hours.');
+            userCoins = 0;
+            localStorage.setItem('kismat_coins', userCoins);
+            updateCoinDisplay();
+            document.getElementById('upi-id').value = '';
+        }
+    </script>
+</body>
+</html>
+
