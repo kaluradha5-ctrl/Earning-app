@@ -156,27 +156,34 @@
             white-space: nowrap;
         }
 
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
         .btn-action {
+            flex: 1;
             display: block;
             text-align: center;
             background: #11998e;
             color: white;
             text-decoration: none;
-            padding: 11px;
+            padding: 10px;
             border-radius: 10px;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             box-shadow: 0 3px 6px rgba(17, 153, 142, 0.2);
-            transition: transform 0.1s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-verify {
+            background: #ff9800;
+            box-shadow: 0 3px 6px rgba(255, 152, 0, 0.2);
         }
 
         .btn-action:active {
             transform: scale(0.98);
-        }
-
-        .btn-orange {
-            background: #ff9800;
-            box-shadow: 0 3px 6px rgba(255, 152, 0, 0.2);
         }
 
         /* Bottom Navigation Bar */
@@ -225,7 +232,7 @@
             display: block;
         }
 
-        /* Wallet Styling */
+        /* Wallet & Profile Styles */
         .wallet-box {
             background: white;
             padding: 20px;
@@ -254,15 +261,78 @@
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(17, 153, 142, 0.3);
         }
+
+        /* Login Modal Screen */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #f0f2f5;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .login-card h2 {
+            margin-bottom: 10px;
+            color: #11998e;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #11998e;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
+
+    <!-- FIREBASE LOGIN / AUTH SCREEN -->
+    <div id="login-screen">
+        <div class="login-card">
+            <h2>📱 KISMAT QUEST</h2>
+            <p style="color:#666; font-size:13px; margin-bottom:20px;">Lgin karke apni earning start karein!</p>
+            <input type="email" id="user-email" class="login-input" placeholder="Apna Email Daalein">
+            <input type="text" id="user-name" class="login-input" placeholder="Apna Naam Daalein">
+            <button onclick="handleLogin()" class="login-btn">Login / Register</button>
+        </div>
+    </div>
 
     <!-- Top App Header -->
     <div class="app-header">
         <div class="app-title">📱 KISMAT QUEST</div>
         <div class="wallet-badge" onclick="switchTab('wallet', document.querySelectorAll('.nav-item')[4])">
-            <span>🪙 0 Coins</span>
+            <span id="header-coins">🪙 0 Coins</span>
         </div>
     </div>
 
@@ -273,7 +343,7 @@
             
             <div class="banner-card">
                 <h2>🎮 KISMAT QUEST APP</h2>
-                <p>सभी 53 स्पेशल ऑफर्स 100% वर्किंग हैं! टास्क पूरा करके तुरंत रिवॉर्ड्स पाएँ।</p>
+                <p>Task poore karein, 'Verify Task' button dabayein aur instant coins paayein!</p>
             </div>
 
             <!-- Category Filter Chips -->
@@ -284,91 +354,97 @@
                 <div class="chip" onclick="filterCards('tasks', this)">🎓 Micro Tasks</div>
             </div>
 
-            <!-- CARDS CONTAINER -->
+            <!-- CARDS CONTAINER (WITH VERIFY SYSTEM) -->
             <div id="cards-container">
 
-                <!-- AU Small Finance Bank Credit Card -->
+                <!-- AU Bank -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 AU Small Finance Bank Credit Card</h3>
-                            <p>क्रेडिट कार्ड अप्लाई करें और तुरंत ₹450 का पेआउट पाएँ।</p>
+                            <h3>💳 AU Small Finance Bank Card</h3>
+                            <p>Apply karein aur task complete hone par reward paayein.</p>
                         </div>
                         <div class="reward-tag">₹450 Cash</div>
                     </div>
-                    <a href="https://ltsrn.in/lIV" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                    <div class="btn-group">
+                        <a href="https://ltsrn.in/lIV" target="_blank" rel="noopener" class="btn-action">Open Link</a>
+                        <button onclick="verifyTask(450, 'AU Credit Card')" class="btn-action btn-verify">Verify Task</button>
+                    </div>
                 </div>
 
-                <!-- Axis Bank Credit Card -->
+                <!-- Axis Bank -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 Axis Bank Credit Card</h3>
-                            <p>Axis Bank कार्ड अप्रूव होने पर ₹400 कैशबैक पाएँ।</p>
+                            <p>Axis Bank card apply karein aur cashback paayein.</p>
                         </div>
                         <div class="reward-tag">₹400 Cash</div>
                     </div>
-                    <a href="https://ltsrn.in/lIW" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                    <div class="btn-group">
+                        <a href="https://ltsrn.in/lIW" target="_blank" rel="noopener" class="btn-action">Open Link</a>
+                        <button onclick="verifyTask(400, 'Axis Bank Card')" class="btn-action btn-verify">Verify Task</button>
+                    </div>
                 </div>
 
-                <!-- BOBCARD ETIHAD GUEST Card -->
+                <!-- BOBCARD -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 BOBCARD ETIHAD GUEST Credit Card</h3>
-                            <p>BOBCARD Etihad Guest Card अप्लाई करें और ₹450 पाएँ।</p>
+                            <h3>💳 BOBCARD ETIHAD GUEST Card</h3>
+                            <p>BOBCARD apply karke reward earn karein.</p>
                         </div>
                         <div class="reward-tag">₹450 Cash</div>
                     </div>
-                    <a href="https://ltsrn.in/lIX" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                    <div class="btn-group">
+                        <a href="https://ltsrn.in/lIX" target="_blank" rel="noopener" class="btn-action">Open Link</a>
+                        <button onclick="verifyTask(450, 'BOBCARD')" class="btn-action btn-verify">Verify Task</button>
+                    </div>
                 </div>
 
-                <!-- Federal Credit Card -->
+                <!-- Federal Card -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 Federal Bank Credit Card</h3>
-                            <p>Federal Card अप्लाई करें और ₹549 का रिवॉर्ड पाएँ।</p>
+                            <p>Federal card apply karein.</p>
                         </div>
                         <div class="reward-tag">₹549 Cash</div>
                     </div>
-                    <a href="https://ltsrn.in/lIZ" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                    <div class="btn-group">
+                        <a href="https://ltsrn.in/lIZ" target="_blank" rel="noopener" class="btn-action">Open Link</a>
+                        <button onclick="verifyTask(549, 'Federal Card')" class="btn-action btn-verify">Verify Task</button>
+                    </div>
                 </div>
 
-                <!-- Scapia Credit Card -->
+                <!-- Scapia Card -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 Scapia Credit Card</h3>
-                            <p>Scapia Card के लिए अप्लाई करें और ₹499 कैशबैक पाएँ।</p>
+                            <p>Scapia card apply karke reward paayein.</p>
                         </div>
                         <div class="reward-tag">₹499 Cash</div>
                     </div>
-                    <a href="https://ltsrn.in/lI0" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                    <div class="btn-group">
+                        <a href="https://ltsrn.in/lI0" target="_blank" rel="noopener" class="btn-action">Open Link</a>
+                        <button onclick="verifyTask(499, 'Scapia Card')" class="btn-action btn-verify">Verify Task</button>
+                    </div>
                 </div>
 
-                <!-- HDFC Bank Credit Card -->
+                <!-- HDFC Card -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 HDFC Bank Credit Card</h3>
-                            <p>HDFC बैंक क्रेडिट कार्ड अप्लाई करें और ₹700 रिवॉर्ड पाएँ।</p>
+                            <p>HDFC card apply karke reward paayein.</p>
                         </div>
                         <div class="reward-tag">₹700 Cash</div>
                     </div>
-                    <a href="https://ltsrn.in/lI8" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <!-- Sprint LG Cards -->
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Sprint LG Credit Cards</h3>
-                            <p>Sprint LG कार्ड अप्लाई करके ₹590 का बोनस पाएँ।</p>
-                        </div>
-                        <div class="reward-tag">₹590 Cash</div>
+                    <div class="btn-group">
+                        <a href="https://ltsrn.in/lI8" target="_blank" rel="noopener" class="btn-action">Open Link</a>
+                        <button onclick="verifyTask(700, 'HDFC Card')" class="btn-action btn-verify">Verify Task</button>
                     </div>
-                    <a href="https://ltsrn.in/lI9" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
                 </div>
 
                 <!-- TimeBucks -->
@@ -376,67 +452,29 @@
                     <div class="task-top">
                         <div class="task-info">
                             <h3>▶️ TimeBucks Videos & Games</h3>
-                            <p>वीडियोज़ देखें, गेम्स खेलें और बिना KYC के कमाई करें।</p>
+                            <p>Videos dekhein aur games khelein.</p>
                         </div>
                         <div class="reward-tag">Up to ₹100</div>
                     </div>
-                    <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener" class="btn-action">Start Task Now</a>
+                    <div class="btn-group">
+                        <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener" class="btn-action">Open Link</a>
+                        <button onclick="verifyTask(50, 'TimeBucks Task')" class="btn-action btn-verify">Verify Task</button>
+                    </div>
                 </div>
 
-                <!-- Short Links Fixed Cards -->
+                <!-- Bitli Offer 1 -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 Premium Offer (₹1110 Reward)</h3>
-                            <p>विशेष क्रेडिट ऑफर—अप्लाई करें और ₹1110 कैशबैक पाएँ।</p>
+                            <h3>💳 Premium Credit Offer</h3>
+                            <p>Task complete karke reward claim karein.</p>
                         </div>
                         <div class="reward-tag">₹1110 Cash</div>
                     </div>
-                    <a href="https://bitli.in/m4kL17" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Premium Offer (₹1099 Reward)</h3>
-                            <p>क्रेडिट कार्ड ऑफर—अप्लाई करें और ₹1099 कैशबैक पाएँ।</p>
-                        </div>
-                        <div class="reward-tag">₹1099 Cash</div>
+                    <div class="btn-group">
+                        <a href="https://bitli.in/m4kL17" target="_blank" rel="noopener" class="btn-action">Open Link</a>
+                        <button onclick="verifyTask(1110, 'Premium Offer 1')" class="btn-action btn-verify">Verify Task</button>
                     </div>
-                    <a href="https://bitli.in/Vf5taQb" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Premium Offer (₹1050 Reward)</h3>
-                            <p>क्रेडिट कार्ड ऑफर—अप्लाई करें और ₹1050 कैशबैक पाएँ।</p>
-                        </div>
-                        <div class="reward-tag">₹1050 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/1wXQPXP" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item tasks">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>📱 Instant Task (₹200 Reward)</h3>
-                            <p>1 मिनट में टास्क पूरा करके ₹200 कैशबैक पाएँ।</p>
-                        </div>
-                        <div class="reward-tag">₹200 Cash</div>
-                    </div>
-                    <a href="https://bilty.co/od96tn" target="_blank" rel="noopener" class="btn-action">Complete Task</a>
-                </div>
-
-                <div class="task-card card-item tasks">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>📱 Micro Task (₹100 Reward)</h3>
-                            <p>आसान टास्क पूरा करके ₹100 कॉइन्स रिडीम करें।</p>
-                        </div>
-                        <div class="reward-tag">₹100 Cash</div>
-                    </div>
-                    <a href="https://bilty.co/L8m7hq" target="_blank" rel="noopener" class="btn-action">Complete Task</a>
                 </div>
 
             </div>
@@ -446,81 +484,40 @@
         <!-- TAB 2: CARDS -->
         <div id="tab-cards" class="tab-content">
             <div class="banner-card" style="background: linear-gradient(135deg, #FF9800, #F57C00);">
-                <h2>💳 All Credit Cards Offers</h2>
-                <p>सभी बैंक क्रेडिट कार्ड्स—अप्लाई करें और सीधे पेआउट्स प्राप्त करें!</p>
-            </div>
-            <div id="cards-tab-list">
-                <!-- Direct Active Cards Link Output -->
-                <div class="task-card">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 AU Small Finance Bank Card</h3>
-                            <p>फ्लैट ₹450 कैशबैक ऑफर।</p>
-                        </div>
-                        <div class="reward-tag">₹450</div>
-                    </div>
-                    <a href="https://ltsrn.in/lIV" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-                <div class="task-card">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Axis Bank Credit Card</h3>
-                            <p>फ्लैट ₹400 कैशबैक ऑफर।</p>
-                        </div>
-                        <div class="reward-tag">₹400</div>
-                    </div>
-                    <a href="https://ltsrn.in/lIW" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
+                <h2>💳 All Credit Cards Zone</h2>
+                <p>Sabhi bank credit cards yahan available hain!</p>
             </div>
         </div>
 
         <!-- TAB 3: TASKS -->
         <div id="tab-tasks" class="tab-content">
             <div class="banner-card" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
-                <h2>🎓 Student & Micro Tasks Zone</h2>
-                <p>बिना किसी बैंक या आईडी प्रूफ के तुरंत टास्क पूरे करें!</p>
-            </div>
-            <div class="task-card">
-                <div class="task-top">
-                    <div class="task-info">
-                        <h3>▶️ TimeBucks Games & Videos</h3>
-                        <p>गेम्स खेलकर और वीडियो देखकर रोज़ कमाई करें।</p>
-                    </div>
-                    <div class="reward-tag">₹50/Day</div>
-                </div>
-                <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener" class="btn-action">Play Now</a>
+                <h2>🎓 Micro Tasks</h2>
+                <p>Easy tasks aur games complete karein!</p>
             </div>
         </div>
 
         <!-- TAB 4: FINANCE -->
         <div id="tab-finance" class="tab-content">
             <div class="banner-card" style="background: linear-gradient(135deg, #8e2de2, #4a00e0);">
-                <h2>📈 Demat & Banking Accounts</h2>
-                <p>डीमैट अकाउंट्स और बैंकिंग ऑफर्स।</p>
-            </div>
-            <div class="task-card">
-                <div class="task-top">
-                    <div class="task-info">
-                        <h3>📈 Free Demat Account</h3>
-                        <p>फ्री अकाउंट खोलें और ₹300 तक का बोनस पाएँ।</p>
-                    </div>
-                    <div class="reward-tag">₹300</div>
-                </div>
-                <a href="https://bilty.co/JDyPNk" target="_blank" rel="noopener" class="btn-action">Open Account</a>
+                <h2>📈 Demat & Banking</h2>
+                <p>Free demat accounts open karein!</p>
             </div>
         </div>
 
-        <!-- TAB 5: WALLET -->
+        <!-- TAB 5: WALLET & WITHDRAWAL SYSTEM -->
         <div id="tab-wallet" class="tab-content">
             <div class="banner-card" style="background: linear-gradient(135deg, #00c6ff, #0072ff);">
-                <h2>👛 My Earnings & Wallet</h2>
-                <p>अपने जमा किए हुए कॉइन्स देखें और Paytm / UPI से रिडीम करें।</p>
+                <h2>👛 Wallet & Withdrawal</h2>
+                <p>Apne coins ko Paytm ya UPI par withdraw karein.</p>
             </div>
             <div class="wallet-box">
-                <p style="color:#666; font-size:13px; font-weight:bold;">TOTAL BALANCE</p>
-                <div class="wallet-balance">🪙 0 Coins</div>
-                <p style="font-size: 12px; color: #888; margin-bottom: 15px;">Minimum Redeem: 100 Coins (₹10)</p>
-                <button onclick="alert('आपके पास पर्याप्त कॉइन्स नहीं हैं। पहले ऑफर्स पूरे करें!')" class="redeem-btn">Redeem via UPI / Paytm</button>
+                <p style="color:#666; font-size:13px; font-weight:bold;">TOTAL EARNINGS</p>
+                <div class="wallet-balance" id="wallet-coins-display">🪙 0 Coins</div>
+                <p style="font-size: 12px; color: #888; margin-bottom: 15px;">Minimum Payout: 100 Coins (₹10)</p>
+                
+                <input type="text" id="upi-id" class="login-input" placeholder="Enter UPI ID (e.g. paytm@upi)">
+                <button onclick="requestWithdrawal()" class="redeem-btn">Withdraw via UPI / Paytm</button>
             </div>
         </div>
 
@@ -534,4 +531,51 @@
         </div>
         <div class="nav-item" onclick="switchTab('cards', this)">
             <span class="nav-icon">💳</span>
-     
+            <span>Cards</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('tasks', this)">
+            <span class="nav-icon">🎓</span>
+            <span>Tasks</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('finance', this)">
+            <span class="nav-icon">📈</span>
+            <span>Finance</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('wallet', this)">
+            <span class="nav-icon">👛</span>
+            <span>Wallet</span>
+        </div>
+    </div>
+
+    <script>
+        // User Wallet & Auth State
+        let currentUser = null;
+        let userCoins = 0;
+
+        function handleLogin() {
+            const email = document.getElementById('user-email').value;
+            const name = document.getElementById('user-name').value;
+
+            if(email && name) {
+                currentUser = { email, name };
+                document.getElementById('login-screen').style.display = 'none';
+                alert('Login Successful! Welcome ' + name);
+            } else {
+                alert('Kripya Email aur Naam dono bharein!');
+            }
+        }
+
+        function switchTab(tabName, element) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            const navs = document.querySelectorAll('.nav-item');
+            navs.forEach(nav => nav.classList.remove('active'));
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+            if(element) element.classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+
+        function filterCards(category, element)
