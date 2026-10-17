@@ -104,7 +104,7 @@
             <button class="tab-btn" onclick="openTab('withdrawTab', this)">🏦 Withdraw</button>
         </div>
 
-        <!-- 1. Credit Cards & Heavy Tasks Tab -->
+        <!-- 1. Credit Cards Tab -->
         <div id="cardsTab" class="tab-content active">
             <div class="card">
                 <div class="section-title">💳 High Paying Financial Tasks</div>
@@ -116,7 +116,7 @@
         <div id="quickTab" class="tab-content">
             <div class="card">
                 <div class="section-title">⚡ Special Quick Earning Tasks</div>
-                <p style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">In tasks ko pura karein aur jaldi reward payein.</p>
+                <p style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">Task pura karne ke baad wapas aakar proof submit karein.</p>
                 <div id="quickTaskList"></div>
             </div>
         </div>
@@ -156,9 +156,7 @@
     </div>
 
     <script>
-        // -------------------------------------------------------------
         // Firebase Configuration
-        // -------------------------------------------------------------
         const firebaseConfig = {
             apiKey: "YOUR_FIREBASE_API_KEY",
             authDomain: "kismat-quest.firebaseapp.com",
@@ -174,7 +172,6 @@
         }
         const db = firebase.database();
 
-        // User ID Setup
         let userId = localStorage.getItem('kismat_user_id');
         if (!userId) {
             userId = 'usr_' + Math.floor(100000 + Math.random() * 900000);
@@ -192,9 +189,16 @@
             }
         });
 
-        // -------------------------------------------------------------
-        // Task Lists (Clean Direct Links)
-        // -------------------------------------------------------------
+        // Safe Offer Redirection Function (Opens in New Tab cleanly)
+        function openOfferLink(url) {
+            const newTab = window.open(url, '_blank');
+            if (newTab) {
+                newTab.focus();
+            } else {
+                window.location.href = url;
+            }
+        }
+
         const cardOffers = [
             { name: "HDFC Bank Premium Credit Card", reward: 1110, link: "https://bitli.in/m4kL17" },
             { name: "HDFC Credit Card Offer", reward: 1099, link: "https://bitli.in/Vf5taQb" },
@@ -219,7 +223,7 @@
             { name: "Micro Task #8", reward: 50, link: "https://bilty.co/WF4ksX" }
         ];
 
-        // Render Card Offers (Direct Link Without ?subid= Parameter)
+        // Render Card Offers
         const cardContainer = document.getElementById('cardTaskList');
         cardOffers.forEach((item) => {
             cardContainer.innerHTML += `
@@ -229,7 +233,7 @@
                         <p>Earn: ₹${item.reward} Cash</p>
                     </div>
                     <div class="btn-group">
-                        <a href="${item.link}" target="_blank" class="action-btn">1. Start Task</a>
+                        <button onclick="openOfferLink('${item.link}')" class="action-btn">1. Start Task</button>
                         <button onclick="openModal('${item.name}', ${item.reward})" class="proof-btn">2. Submit Proof</button>
                     </div>
                 </div>
@@ -246,14 +250,13 @@
                         <p>Earn: ₹${item.reward} Cash</p>
                     </div>
                     <div class="btn-group">
-                        <a href="${item.link}" target="_blank" class="action-btn">1. Start Task</a>
+                        <button onclick="openOfferLink('${item.link}')" class="action-btn">1. Start Task</button>
                         <button onclick="openModal('${item.name}', ${item.reward})" class="proof-btn">2. Submit Proof</button>
                     </div>
                 </div>
             `;
         });
 
-        // Tabs & Modal Logic
         function openTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
