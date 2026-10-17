@@ -224,11 +224,41 @@
         .tab-content.active {
             display: block;
         }
+
+        /* Wallet Styling */
+        .wallet-box {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .wallet-balance {
+            font-size: 32px;
+            font-weight: 800;
+            color: #11998e;
+            margin: 10px 0;
+        }
+
+        .redeem-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(17, 153, 142, 0.3);
+        }
     </style>
 </head>
 <body>
 
-    <!-- Top App Bar -->
+    <!-- Top App Header -->
     <div class="app-header">
         <div class="app-title">📱 KISMAT QUEST</div>
         <div class="wallet-badge" onclick="switchTab('wallet', document.querySelectorAll('.nav-item')[4])">
@@ -243,7 +273,7 @@
             
             <div class="banner-card">
                 <h2>🎮 KISMAT QUEST APP</h2>
-                <p>सभी 53 स्पेशल ऑफर्स चालू हैं! अपनी पसंद का टास्क पूरा करें और तुरंत कैश पाएँ!</p>
+                <p>सभी 53 स्पेशल ऑफर्स 100% वर्किंग हैं! टास्क पूरा करके तुरंत रिवॉर्ड्स पाएँ।</p>
             </div>
 
             <!-- Category Filter Chips -->
@@ -254,15 +284,111 @@
                 <div class="chip" onclick="filterCards('tasks', this)">🎓 Micro Tasks</div>
             </div>
 
-            <!-- ALL 53 CARDS CONTAINER -->
+            <!-- CARDS CONTAINER -->
             <div id="cards-container">
 
-                <!-- Highest Payouts First -->
+                <!-- AU Small Finance Bank Credit Card -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 Premium Credit Offer 1</h3>
-                            <p>लिंक से रजिस्टर करें और टास्क पूरा करके ₹1110 का कैशबैक हासिल करें।</p>
+                            <h3>💳 AU Small Finance Bank Credit Card</h3>
+                            <p>क्रेडिट कार्ड अप्लाई करें और तुरंत ₹450 का पेआउट पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹450 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lIV" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <!-- Axis Bank Credit Card -->
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Axis Bank Credit Card</h3>
+                            <p>Axis Bank कार्ड अप्रूव होने पर ₹400 कैशबैक पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹400 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lIW" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <!-- BOBCARD ETIHAD GUEST Card -->
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 BOBCARD ETIHAD GUEST Credit Card</h3>
+                            <p>BOBCARD Etihad Guest Card अप्लाई करें और ₹450 पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹450 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lIX" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <!-- Federal Credit Card -->
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Federal Bank Credit Card</h3>
+                            <p>Federal Card अप्लाई करें और ₹549 का रिवॉर्ड पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹549 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lIZ" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <!-- Scapia Credit Card -->
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Scapia Credit Card</h3>
+                            <p>Scapia Card के लिए अप्लाई करें और ₹499 कैशबैक पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹499 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lI0" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <!-- HDFC Bank Credit Card -->
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 HDFC Bank Credit Card</h3>
+                            <p>HDFC बैंक क्रेडिट कार्ड अप्लाई करें और ₹700 रिवॉर्ड पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹700 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lI8" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <!-- Sprint LG Cards -->
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Sprint LG Credit Cards</h3>
+                            <p>Sprint LG कार्ड अप्लाई करके ₹590 का बोनस पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹590 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lI9" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <!-- TimeBucks -->
+                <div class="task-card card-item tasks">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>▶️ TimeBucks Videos & Games</h3>
+                            <p>वीडियोज़ देखें, गेम्स खेलें और बिना KYC के कमाई करें।</p>
+                        </div>
+                        <div class="reward-tag">Up to ₹100</div>
+                    </div>
+                    <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener" class="btn-action">Start Task Now</a>
+                </div>
+
+                <!-- Short Links Fixed Cards -->
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Premium Offer (₹1110 Reward)</h3>
+                            <p>विशेष क्रेडिट ऑफर—अप्लाई करें और ₹1110 कैशबैक पाएँ।</p>
                         </div>
                         <div class="reward-tag">₹1110 Cash</div>
                     </div>
@@ -272,8 +398,8 @@
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 Premium Credit Offer 2</h3>
-                            <p>ऑफर पूरा करने पर पायें ₹1099 का इंस्टेंट बोनस।</p>
+                            <h3>💳 Premium Offer (₹1099 Reward)</h3>
+                            <p>क्रेडिट कार्ड ऑफर—अप्लाई करें और ₹1099 कैशबैक पाएँ।</p>
                         </div>
                         <div class="reward-tag">₹1099 Cash</div>
                     </div>
@@ -283,236 +409,129 @@
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 Premium Credit Offer 3</h3>
-                            <p>फॉर्म भरें और ₹1050 कैशबैक रिवॉर्ड पाएँ।</p>
+                            <h3>💳 Premium Offer (₹1050 Reward)</h3>
+                            <p>क्रेडिट कार्ड ऑफर—अप्लाई करें और ₹1050 कैशबैक पाएँ।</p>
                         </div>
                         <div class="reward-tag">₹1050 Cash</div>
                     </div>
                     <a href="https://bitli.in/1wXQPXP" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
                 </div>
 
-                <div class="task-card card-item cards">
+                <div class="task-card card-item tasks">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 High Value Offer 4</h3>
-                            <p>कार्ड अप्रूवल पर ₹1040 का सीधा लाभ।</p>
+                            <h3>📱 Instant Task (₹200 Reward)</h3>
+                            <p>1 मिनट में टास्क पूरा करके ₹200 कैशबैक पाएँ।</p>
                         </div>
-                        <div class="reward-tag">₹1040 Cash</div>
+                        <div class="reward-tag">₹200 Cash</div>
                     </div>
-                    <a href="https://bitli.in/Vpr9bqw" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                    <a href="https://bilty.co/od96tn" target="_blank" rel="noopener" class="btn-action">Complete Task</a>
                 </div>
 
-                <div class="task-card card-item cards">
+                <div class="task-card card-item tasks">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 Exclusive Card Offer 5</h3>
-                            <p>टास्क पूरा करके ₹1000 का फ्लैट रिवॉर्ड हासिल करें।</p>
+                            <h3>📱 Micro Task (₹100 Reward)</h3>
+                            <p>आसान टास्क पूरा करके ₹100 कॉइन्स रिडीम करें।</p>
                         </div>
-                        <div class="reward-tag">₹1000 Cash</div>
+                        <div class="reward-tag">₹100 Cash</div>
                     </div>
-                    <a href="https://bitli.in/k5f0wII" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                    <a href="https://bilty.co/L8m7hq" target="_blank" rel="noopener" class="btn-action">Complete Task</a>
                 </div>
 
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Special Financial Offer 6</h3>
-                            <p>रजिस्टर करें और ₹799 का कैशबैक प्राप्त करें।</p>
-                        </div>
-                        <div class="reward-tag">₹799 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/pz08u85" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
+            </div>
 
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Special Financial Offer 7</h3>
-                            <p>₹799 का इंस्टेंट कैशबैक रिवॉर्ड।</p>
-                        </div>
-                        <div class="reward-tag">₹799 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/w6D95RO" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
+        </div>
 
-                <div class="task-card card-item cards">
+        <!-- TAB 2: CARDS -->
+        <div id="tab-cards" class="tab-content">
+            <div class="banner-card" style="background: linear-gradient(135deg, #FF9800, #F57C00);">
+                <h2>💳 All Credit Cards Offers</h2>
+                <p>सभी बैंक क्रेडिट कार्ड्स—अप्लाई करें और सीधे पेआउट्स प्राप्त करें!</p>
+            </div>
+            <div id="cards-tab-list">
+                <!-- Direct Active Cards Link Output -->
+                <div class="task-card">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 HDFC Bank Credit Card</h3>
-                            <p>HDFC बैंक क्रेडिट कार्ड अप्लाई करें और ₹700 का रिवॉर्ड पाएँ।</p>
+                            <h3>💳 AU Small Finance Bank Card</h3>
+                            <p>फ्लैट ₹450 कैशबैक ऑफर।</p>
                         </div>
-                        <div class="reward-tag">₹700 Cash</div>
-                    </div>
-                    <a href="https://ltsrn.in/lI8" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 High Value Offer 8</h3>
-                            <p>फ्लैट ₹750 का कैशबैक रिवॉर्ड।</p>
-                        </div>
-                        <div class="reward-tag">₹750 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/oQvxSh6" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 High Value Offer 9</h3>
-                            <p>₹740 का कैशबैक पाएँ।</p>
-                        </div>
-                        <div class="reward-tag">₹740 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/kteLofa" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Special Card Offer 10</h3>
-                            <p>₹699 का कैशबैक बोनस।</p>
-                        </div>
-                        <div class="reward-tag">₹699 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/Gsh0AtC" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Special Card Offer 11</h3>
-                            <p>₹699 का फ्लैट कैशबैक।</p>
-                        </div>
-                        <div class="reward-tag">₹699 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/v8aQstG" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Sprint LG Cards</h3>
-                            <p>Sprint LG कार्ड अप्लाई करके ₹590 का बोनस पाएँ।</p>
-                        </div>
-                        <div class="reward-tag">₹590 Cash</div>
-                    </div>
-                    <a href="https://ltsrn.in/lI9" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Card Offer 12</h3>
-                            <p>₹599 का रिवॉर्ड कैश।</p>
-                        </div>
-                        <div class="reward-tag">₹599 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/8U1okpG" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Federal Credit Card</h3>
-                            <p>Federal Card अप्लाई करके ₹549 का रिवॉर्ड पाएँ।</p>
-                        </div>
-                        <div class="reward-tag">₹549 Cash</div>
-                    </div>
-                    <a href="https://ltsrn.in/lIZ" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Federal / Partner Offer</h3>
-                            <p>₹549 कैशबैक रिवॉर्ड प्राप्त करें।</p>
-                        </div>
-                        <div class="reward-tag">₹549 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/aQoJYOr" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Card Offer 13</h3>
-                            <p>₹549 का रिवॉर्ड बोनस।</p>
-                        </div>
-                        <div class="reward-tag">₹549 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/TY3Qrxi" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Card Offer 14</h3>
-                            <p>₹540 का कैशबैक बोनस।</p>
-                        </div>
-                        <div class="reward-tag">₹540 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/FpowMY1" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Scapia Credit Card</h3>
-                            <p>Scapia Card अप्लाई करें और ₹499 कैशबैक पाएँ।</p>
-                        </div>
-                        <div class="reward-tag">₹499 Cash</div>
-                    </div>
-                    <a href="https://ltsrn.in/lI0" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Scapia Partner Card</h3>
-                            <p>₹499 का फ्लैट कैशबैक।</p>
-                        </div>
-                        <div class="reward-tag">₹499 Cash</div>
-                    </div>
-                    <a href="https://bitli.in/SxZaU5a" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
-                </div>
-
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 AU Small Finance Bank Credit Card</h3>
-                            <p>AU Bank Credit Card के लिए अप्लाई करें और ₹450 पाएँ।</p>
-                        </div>
-                        <div class="reward-tag">₹450 Cash</div>
+                        <div class="reward-tag">₹450</div>
                     </div>
                     <a href="https://ltsrn.in/lIV" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
                 </div>
-
-                <div class="task-card card-item cards">
+                <div class="task-card">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 BOBCARD ETIHAD GUEST Card</h3>
-                            <p>BOBCARD Etihad Guest Card अप्लाई करके ₹450 पाएँ।</p>
+                            <h3>💳 Axis Bank Credit Card</h3>
+                            <p>फ्लैट ₹400 कैशबैक ऑफर।</p>
                         </div>
-                        <div class="reward-tag">₹450 Cash</div>
+                        <div class="reward-tag">₹400</div>
                     </div>
-                    <a href="https://ltsrn.in/lIX" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                    <a href="https://ltsrn.in/lIW" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
                 </div>
+            </div>
+        </div>
 
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Card Offer 15</h3>
-                            <p>₹560 का स्पेशल बोनस।</p>
-                        </div>
-                        <div class="reward-tag">₹560 Cash</div>
+        <!-- TAB 3: TASKS -->
+        <div id="tab-tasks" class="tab-content">
+            <div class="banner-card" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                <h2>🎓 Student & Micro Tasks Zone</h2>
+                <p>बिना किसी बैंक या आईडी प्रूफ के तुरंत टास्क पूरे करें!</p>
+            </div>
+            <div class="task-card">
+                <div class="task-top">
+                    <div class="task-info">
+                        <h3>▶️ TimeBucks Games & Videos</h3>
+                        <p>गेम्स खेलकर और वीडियो देखकर रोज़ कमाई करें।</p>
                     </div>
-                    <a href="https://bitli.in/tzaSQpU" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                    <div class="reward-tag">₹50/Day</div>
                 </div>
+                <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener" class="btn-action">Play Now</a>
+            </div>
+        </div>
 
-                <div class="task-card card-item cards">
-                    <div class="task-top">
-                        <div class="task-info">
-                            <h3>💳 Card Offer 16</h3>
-                            <p>₹550 का 
+        <!-- TAB 4: FINANCE -->
+        <div id="tab-finance" class="tab-content">
+            <div class="banner-card" style="background: linear-gradient(135deg, #8e2de2, #4a00e0);">
+                <h2>📈 Demat & Banking Accounts</h2>
+                <p>डीमैट अकाउंट्स और बैंकिंग ऑफर्स।</p>
+            </div>
+            <div class="task-card">
+                <div class="task-top">
+                    <div class="task-info">
+                        <h3>📈 Free Demat Account</h3>
+                        <p>फ्री अकाउंट खोलें और ₹300 तक का बोनस पाएँ।</p>
+                    </div>
+                    <div class="reward-tag">₹300</div>
+                </div>
+                <a href="https://bilty.co/JDyPNk" target="_blank" rel="noopener" class="btn-action">Open Account</a>
+            </div>
+        </div>
+
+        <!-- TAB 5: WALLET -->
+        <div id="tab-wallet" class="tab-content">
+            <div class="banner-card" style="background: linear-gradient(135deg, #00c6ff, #0072ff);">
+                <h2>👛 My Earnings & Wallet</h2>
+                <p>अपने जमा किए हुए कॉइन्स देखें और Paytm / UPI से रिडीम करें।</p>
+            </div>
+            <div class="wallet-box">
+                <p style="color:#666; font-size:13px; font-weight:bold;">TOTAL BALANCE</p>
+                <div class="wallet-balance">🪙 0 Coins</div>
+                <p style="font-size: 12px; color: #888; margin-bottom: 15px;">Minimum Redeem: 100 Coins (₹10)</p>
+                <button onclick="alert('आपके पास पर्याप्त कॉइन्स नहीं हैं। पहले ऑफर्स पूरे करें!')" class="redeem-btn">Redeem via UPI / Paytm</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="app-nav">
+        <div class="nav-item active" onclick="switchTab('home', this)">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('cards', this)">
+            <span class="nav-icon">💳</span>
+     
