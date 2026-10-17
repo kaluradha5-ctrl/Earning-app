@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KISMAT QUEST - Earn Free Cash & Pocket Money</title>
+    <title>KISMAT QUEST - High Paying Tasks & Instant Rewards</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <!-- Firebase SDK Scripts (Compat Mode for Easy Integration) -->
+    <!-- Firebase SDK Scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
@@ -33,7 +33,7 @@
         .nav-tabs { display: flex; gap: 8px; margin-bottom: 15px; background: #1e293b; padding: 6px; border-radius: 12px; }
         .tab-btn { 
             flex: 1; padding: 10px; border: none; background: transparent; 
-            color: #94a3b8; border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; 
+            color: #94a3b8; border-radius: 8px; font-weight: 600; font-size: 11px; cursor: pointer; 
         }
         .tab-btn.active { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; }
 
@@ -82,47 +82,56 @@
         <!-- Header -->
         <div class="header">
             <h2>👑 KISMAT QUEST</h2>
-            <p style="font-size: 11px; opacity: 0.9; margin-top: 2px;">100% Free High Paying Tasks & Instant Wallet Credit</p>
+            <p style="font-size: 11px; opacity: 0.9; margin-top: 2px;">100% Free Tasks & Instant Payouts</p>
         </div>
 
         <!-- Dashboard Stats -->
         <div class="stats-grid">
             <div class="stat-card">
-                <h4>My Wallet Balance</h4>
+                <h4>Wallet Balance</h4>
                 <div class="val">₹<span id="userBalance">0.00</span></div>
             </div>
             <div class="stat-card">
-                <h4>My User ID</h4>
-                <div class="val" style="font-size: 13px; color: #38bdf8;" id="displayUserId">Loading...</div>
+                <h4>User ID</h4>
+                <div class="val" style="font-size: 12px; color: #38bdf8;" id="displayUserId">Loading...</div>
             </div>
         </div>
 
         <!-- Navigation Tabs -->
         <div class="nav-tabs">
-            <button class="tab-btn active" onclick="openTab('tasksTab', this)">🔥 Free High Pay Offers</button>
-            <button class="tab-btn" onclick="openTab('withdrawTab', this)">🏦 Withdraw Balance</button>
+            <button class="tab-btn active" onclick="openTab('cardsTab', this)">💳 Credit Cards</button>
+            <button class="tab-btn" onclick="openTab('quickTab', this)">⚡ Quick Offers</button>
+            <button class="tab-btn" onclick="openTab('withdrawTab', this)">🏦 Withdraw</button>
         </div>
 
-        <!-- 1. Tasks Tab -->
-        <div id="tasksTab" class="tab-content active">
+        <!-- 1. Credit Cards & Heavy Tasks Tab -->
+        <div id="cardsTab" class="tab-content active">
             <div class="card">
-                <div class="section-title">💳 Approved Financial Offers</div>
-                <p style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">Pehle 'Start Task' par click karke form bharein, fir 'Submit Proof' se confirmation bhej dein.</p>
-                <div id="taskList"></div>
+                <div class="section-title">💳 High Paying Financial Tasks</div>
+                <div id="cardTaskList"></div>
             </div>
         </div>
 
-        <!-- 2. Withdraw Tab -->
+        <!-- 2. Quick Offers Tab (New Links Added) -->
+        <div id="quickTab" class="tab-content">
+            <div class="card">
+                <div class="section-title">⚡ Special Quick Earning Tasks</div>
+                <p style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">In tasks ko pura karein aur jaldi reward payein.</p>
+                <div id="quickTaskList"></div>
+            </div>
+        </div>
+
+        <!-- 3. Withdraw Tab -->
         <div id="withdrawTab" class="tab-content card">
-            <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">⚡ Instant Paytm / UPI Transfer</h3>
-            <p style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">• Minimum Payout: ₹300<br>• Directly credited to your Bank/UPI.</p>
+            <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">⚡ Paytm / UPI Payout</h3>
+            <p style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">• Minimum Payout: ₹300<br>• 24 hours verification time.</p>
 
             <div class="input-group">
-                <label for="upiId">Enter Paytm Mobile / UPI ID:</label>
+                <label for="upiId">Enter Paytm Number / UPI ID:</label>
                 <input type="text" id="upiId" placeholder="e.g. 9876543210@paytm">
             </div>
 
-            <button class="withdraw-btn" onclick="requestWithdraw()">💸 Redeem All Earnings</button>
+            <button class="withdraw-btn" onclick="requestWithdraw()">💸 Redeem Balance</button>
         </div>
 
     </div>
@@ -130,17 +139,17 @@
     <!-- Proof Modal -->
     <div id="proofModal" class="modal">
         <div class="modal-content">
-            <h4 style="color: #fff; margin-bottom: 10px;" id="modalTaskTitle">Task Proof Verification</h4>
+            <h4 style="color: #fff; margin-bottom: 10px;" id="modalTaskTitle">Task Proof Submission</h4>
             <div class="input-group">
                 <label>Registered Mobile Number / Name:</label>
-                <input type="text" id="proofMobile" placeholder="Jis Number se Apply kiya hai">
+                <input type="text" id="proofMobile" placeholder="e.g. 9876543210">
             </div>
             <div class="input-group">
-                <label>Application Reference Number / App ID:</label>
-                <input type="text" id="proofScreenshot" placeholder="e.g. Ref No. 849201">
+                <label>Application / Reference ID:</label>
+                <input type="text" id="proofScreenshot" placeholder="Ref Number">
             </div>
             <div style="display: flex; gap: 8px;">
-                <button onclick="submitProofData()" class="action-btn" style="background: #10b981;">Submit to Admin</button>
+                <button onclick="submitProofData()" class="action-btn" style="background: #10b981;">Submit Proof</button>
                 <button onclick="closeModal()" class="action-btn" style="background: #ef4444;">Cancel</button>
             </div>
         </div>
@@ -148,7 +157,7 @@
 
     <script>
         // -------------------------------------------------------------
-        // 1. Firebase Configuration (Apne Firebase Dashboard Se Match Karein)
+        // Firebase Configuration
         // -------------------------------------------------------------
         const firebaseConfig = {
             apiKey: "YOUR_FIREBASE_API_KEY",
@@ -160,15 +169,12 @@
             appId: "1:1234567890:web:abcdef123456"
         };
 
-        // Initialize Firebase
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         const db = firebase.database();
 
-        // -------------------------------------------------------------
-        // 2. User ID Setup & Realtime Balance Listener
-        // -------------------------------------------------------------
+        // User ID Setup
         let userId = localStorage.getItem('kismat_user_id');
         if (!userId) {
             userId = 'usr_' + Math.floor(100000 + Math.random() * 900000);
@@ -176,26 +182,20 @@
         }
         document.getElementById('displayUserId').innerText = userId;
 
-        // Sync Balance from Firebase Database in Realtime
         const userRef = db.ref('users/' + userId);
         userRef.on('value', (snapshot) => {
             const data = snapshot.val();
             if (data && data.balance !== undefined) {
                 document.getElementById('userBalance').innerText = parseFloat(data.balance).toFixed(2);
             } else {
-                // Initial creation in DB if user is new
-                userRef.set({
-                    userId: userId,
-                    balance: 0.00,
-                    createdAt: new Date().toISOString()
-                });
+                userRef.set({ userId: userId, balance: 0.00, createdAt: new Date().toISOString() });
             }
         });
 
         // -------------------------------------------------------------
-        // 3. Offers List With Real Affiliate Links
+        // Task Lists (Cards + New Quick Links)
         // -------------------------------------------------------------
-        const offers = [
+        const cardOffers = [
             { name: "HDFC Bank Premium Credit Card", reward: 1110, link: "https://bitli.in/m4kL17" },
             { name: "HDFC Credit Card Offer", reward: 1099, link: "https://bitli.in/Vf5taQb" },
             { name: "HDFC Bank Card", reward: 1050, link: "https://bitli.in/1wXQPXP" },
@@ -203,23 +203,28 @@
             { name: "SBI / HDFC Exclusive Card", reward: 1000, link: "https://bitli.in/k5f0wII" },
             { name: "Axis Bank Credit Card", reward: 799, link: "https://bitli.in/pz08u85" },
             { name: "Axis Select Credit Card", reward: 799, link: "https://bitli.in/w6D95RO" },
-            { name: "HDFC Card Special", reward: 750, link: "https://bitli.in/oQvxSh6" },
             { name: "AU Small Finance Credit Card", reward: 699, link: "https://bitli.in/v8aQstG" },
-            { name: "AU Bank Credit Card", reward: 699, link: "https://bitli.in/Gsh0AtC" },
-            { name: "Sprint LG Credit Card", reward: 590, link: "https://ltsrn.in/lI9" },
             { name: "Federal Credit Card", reward: 549, link: "https://ltsrn.in/lIZ" },
-            { name: "Scapia Credit Card (Free)", reward: 499, link: "https://ltsrn.in/lI0" },
-            { name: "AU Bank Account / Card", reward: 450, link: "https://ltsrn.in/lIV" },
-            { name: "Axis Bank Credit Card", reward: 400, link: "https://ltsrn.in/lIW" }
+            { name: "Scapia Credit Card", reward: 499, link: "https://ltsrn.in/lI0" }
         ];
 
-        // Render Offers with SubID Tracking
-        const taskListContainer = document.getElementById('taskList');
-        offers.forEach((item) => {
-            // Append User ID as SubID Parameter for Tracking
-            const trackingUrl = `${item.link}?subid=${userId}`;
+        // Newly Added Quick Links
+        const quickOffers = [
+            { name: "Special Offer Task #1", reward: 500, link: "https://bilty.co/BG1Wgd" },
+            { name: "Special Offer Task #2", reward: 500, link: "https://bilty.co/K2JxOx" },
+            { name: "Special Offer Task #3", reward: 300, link: "https://bilty.co/JDyPNk" },
+            { name: "Special Offer Task #4", reward: 200, link: "https://bilty.co/od96tn" },
+            { name: "Quick Task #5", reward: 100, link: "https://bilty.co/L8m7hq" },
+            { name: "Quick Task #6", reward: 100, link: "https://bilty.co/C1c9lJ" },
+            { name: "Micro Task #7", reward: 50, link: "https://bilty.co/T7E3wM" },
+            { name: "Micro Task #8", reward: 50, link: "https://bilty.co/WF4ksX" }
+        ];
 
-            const html = `
+        // Render Card Offers
+        const cardContainer = document.getElementById('cardTaskList');
+        cardOffers.forEach((item) => {
+            const trackingUrl = `${item.link}?subid=${userId}`;
+            cardContainer.innerHTML += `
                 <div class="task-box">
                     <div class="task-info">
                         <h5>${item.name}</h5>
@@ -231,12 +236,27 @@
                     </div>
                 </div>
             `;
-            taskListContainer.innerHTML += html;
         });
 
-        // -------------------------------------------------------------
-        // 4. Tab Navigation & Modal Functions
-        // -------------------------------------------------------------
+        // Render Quick Offers
+        const quickContainer = document.getElementById('quickTaskList');
+        quickOffers.forEach((item) => {
+            const trackingUrl = `${item.link}?subid=${userId}`;
+            quickContainer.innerHTML += `
+                <div class="task-box">
+                    <div class="task-info">
+                        <h5>${item.name}</h5>
+                        <p>Earn: ₹${item.reward} Cash</p>
+                    </div>
+                    <div class="btn-group">
+                        <a href="${trackingUrl}" target="_blank" class="action-btn">1. Start Task</a>
+                        <button onclick="openModal('${item.name}', ${item.reward})" class="proof-btn">2. Submit Proof</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Tabs & Modal Logic
         function openTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -258,19 +278,16 @@
             document.getElementById('proofModal').style.display = 'none';
         }
 
-        // Save Proof Directly to Firebase Admin Queue
         function submitProofData() {
             const mobile = document.getElementById('proofMobile').value.trim();
             const proof = document.getElementById('proofScreenshot').value.trim();
 
             if (!mobile || !proof) {
-                alert('⚠️ Kripya Mobile Number aur Application Ref No. dono bharein!');
+                alert('⚠️ Kripya Mobile Number aur Ref ID bharein!');
                 return;
             }
 
-            // Push Submission to Firebase
-            const proofRef = db.ref('task_submissions').push();
-            proofRef.set({
+            db.ref('task_submissions').push().set({
                 userId: userId,
                 taskName: currentSelectedTask,
                 rewardAmount: currentSelectedReward,
@@ -279,25 +296,18 @@
                 status: "Pending",
                 timestamp: new Date().toISOString()
             }).then(() => {
-                alert(`✅ Task Proof Safaltapoorvak Submit Ho Gaya!\n\nAdmin LetsEarn/EarnKaro dashboard me lead confirm karke ₹${currentSelectedReward} aapke Firebase wallet me add kar dega.`);
+                alert(`✅ Proof Submit Ho Gaya! Admin verify karke ₹${currentSelectedReward} approve karega.`);
                 closeModal();
-            }).catch(err => {
-                alert('Error submitting proof: ' + err.message);
             });
         }
 
-        // -------------------------------------------------------------
-        // 5. Withdrawal Logic
-        // -------------------------------------------------------------
         function requestWithdraw() {
             const upi = document.getElementById('upiId').value.trim();
-            
             userRef.once('value').then((snapshot) => {
-                const data = snapshot.val();
-                const currentBalance = data ? (data.balance || 0) : 0;
+                const currentBalance = snapshot.val() ? (snapshot.val().balance || 0) : 0;
 
                 if (!upi) {
-                    alert('⚠️ Kripya apna Paytm Number ya UPI ID bharein!');
+                    alert('⚠️ Apna Paytm number ya UPI ID darj karein!');
                     return;
                 }
                 if (currentBalance < 300) {
@@ -305,21 +315,19 @@
                     return;
                 }
 
-                // Create Withdraw Request in Firebase
-                const withdrawRef = db.ref('withdraw_requests').push();
-                withdrawRef.set({
+                db.ref('withdraw_requests').push().set({
                     userId: userId,
                     upiId: upi,
                     amount: currentBalance,
                     status: "Pending",
                     timestamp: new Date().toISOString()
                 }).then(() => {
-                    // Reset user balance in DB
                     userRef.update({ balance: 0.00 });
-                    alert(`✅ ₹${currentBalance} ki Withdrawal Request Submit Ho Gayi! 24 Ghante ke andar UPI/Paytm par bhej di jayegi.`);
+                    alert(`✅ ₹${currentBalance} ki Withdrawal Request lag chuki hai!`);
                 });
             });
         }
     </script>
 </body>
 </html>
+
