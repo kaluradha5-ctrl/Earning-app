@@ -3,78 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KISMAT QUEST APP</title>
+    <title>KISMAT QUEST - Premium Reward App</title>
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #f0f2f5;
-            color: #1c1e21;
-            padding-bottom: 75px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 80px;
         }
 
-        /* Top App Bar */
+        /* Professional Login Screen */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            padding: 35px 25px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .login-logo {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #818cf8, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .login-input:focus {
+            border-color: var(--primary);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            transition: transform 0.1s;
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Premium App Header */
         .app-header {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-            color: white;
-            padding: 15px 20px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .app-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 800;
+            color: white;
             letter-spacing: 0.5px;
         }
 
         .wallet-badge {
-            background: rgba(255,255,255,0.25);
-            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 14px;
             border-radius: 20px;
             font-size: 13px;
             font-weight: bold;
+            color: var(--accent);
             display: flex;
             align-items: center;
-            gap: 5px;
-            backdrop-filter: blur(5px);
+            gap: 6px;
             cursor: pointer;
         }
 
         .container {
-            padding: 15px;
+            padding: 16px;
             max-width: 500px;
             margin: 0 auto;
         }
 
         /* Banner Card */
         .banner-card {
-            background: linear-gradient(135deg, #FF512F, #DD2476);
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
             color: white;
-            padding: 18px;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(221, 36, 118, 0.3);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
         }
 
         .banner-card h2 {
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 6px;
         }
 
         .banner-card p {
-            font-size: 12px;
+            font-size: 13px;
             opacity: 0.9;
             line-height: 1.4;
         }
@@ -94,36 +201,36 @@
         }
 
         .chip {
-            background: white;
-            color: #555;
-            padding: 8px 14px;
+            background: var(--card-bg);
+            color: var(--text-muted);
+            padding: 8px 16px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 600;
             white-space: nowrap;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border);
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .chip.active {
-            background: #11998e;
+            background: var(--primary);
             color: white;
-            border-color: #11998e;
-            box-shadow: 0 2px 6px rgba(17, 153, 142, 0.3);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
         /* Task Cards */
         .task-card {
-            background: white;
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            border: 1px solid #eaeaea;
+            gap: 12px;
         }
 
         .task-top {
@@ -135,55 +242,55 @@
         .task-info h3 {
             font-size: 15px;
             font-weight: 700;
-            color: #222;
+            color: var(--text-main);
         }
 
         .task-info p {
             font-size: 12px;
-            color: #666;
-            margin-top: 3px;
-            line-height: 1.3;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.4;
         }
 
         .reward-tag {
-            background: #f0fdf4;
-            color: #16a34a;
-            border: 1px solid #bbf7d0;
-            padding: 4px 8px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 5px 10px;
             border-radius: 8px;
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 700;
             white-space: nowrap;
         }
 
         .btn-group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .btn-action {
             flex: 1;
             display: block;
             text-align: center;
-            background: #11998e;
+            background: var(--primary);
             color: white;
             text-decoration: none;
-            padding: 10px;
+            padding: 11px;
             border-radius: 10px;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 13px;
-            box-shadow: 0 3px 6px rgba(17, 153, 142, 0.2);
             cursor: pointer;
             border: none;
+            transition: background 0.2s;
+        }
+
+        .btn-action:hover {
+            background: var(--primary-dark);
         }
 
         .btn-verify {
-            background: #ff9800;
-            box-shadow: 0 3px 6px rgba(255, 152, 0, 0.2);
-        }
-
-        .btn-action:active {
-            transform: scale(0.98);
+            background: var(--warning);
+            color: #0f172a;
         }
 
         /* Bottom Navigation Bar */
@@ -192,13 +299,13 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: white;
-            height: 62px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            height: 65px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--border);
             z-index: 1000;
         }
 
@@ -206,18 +313,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3px;
-            color: #888;
+            gap: 4px;
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 11px;
             font-weight: 600;
             cursor: pointer;
             width: 20%;
-            padding: 5px 0;
+            padding: 6px 0;
+            transition: color 0.2s;
         }
 
         .nav-item.active {
-            color: #11998e;
+            color: var(--accent);
         }
 
         .nav-icon {
@@ -234,103 +342,62 @@
 
         /* Wallet & Profile Styles */
         .wallet-box {
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             margin-bottom: 20px;
         }
 
         .wallet-balance {
-            font-size: 32px;
-            font-weight: 800;
-            color: #11998e;
-            margin: 10px 0;
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--accent);
+            margin: 12px 0;
         }
 
         .redeem-btn {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #11998e, #38ef7d);
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent), #059669);
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
             font-weight: bold;
             font-size: 15px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(17, 153, 142, 0.3);
-        }
-
-        /* Login Screen Overlay */
-        #login-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #f0f2f5;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .login-card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-        }
-
-        .login-card h2 {
-            margin-bottom: 10px;
-            color: #11998e;
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 14px;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: #11998e;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 15px;
-            cursor: pointer;
-            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            margin-top: 12px;
         }
     </style>
 </head>
 <body>
 
-    <!-- INSTANT LOGIN SCREEN -->
+    <!-- PROFESSIONAL LOGIN SCREEN (PHONE NUMBER & PASSWORD) -->
     <div id="login-screen">
         <div class="login-card">
-            <h2>📱 KISMAT QUEST</h2>
-            <p style="color:#666; font-size:13px; margin-bottom:20px;">Lgin karke apni earning start karein!</p>
-            <input type="email" id="user-email" class="login-input" placeholder="Apna Email Daalein" value="user@kismatquest.com">
-            <input type="text" id="user-name" class="login-input" placeholder="Apna Naam Daalein" value="Anil Gurjar">
-            <button onclick="handleLogin()" class="login-btn">Login / Register</button>
+            <div class="login-logo">KISMAT QUEST</div>
+            <div class="login-subtitle">Secure Phone & Password Access</div>
+            
+            <div class="input-group">
+                <label>Phone Number</label>
+                <input type="tel" id="login-phone" class="login-input" placeholder="Enter 10-digit mobile number" maxlength="10">
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="login-password" class="login-input" placeholder="Enter secure password">
+            </div>
+
+            <button onclick="handlePhoneLogin()" class="login-btn">Login / Register</button>
         </div>
     </div>
 
     <!-- Top App Header -->
     <div class="app-header">
-        <div class="app-title">📱 KISMAT QUEST</div>
+        <div class="app-title">⚡ KISMAT QUEST</div>
         <div class="wallet-badge" onclick="switchTab('wallet', document.querySelectorAll('.nav-item')[4])">
             <span id="header-coins">🪙 0 Coins</span>
         </div>
@@ -338,31 +405,31 @@
 
     <div class="container">
 
-        <!-- TAB 1: HOME (ALL OFFERS) -->
+        <!-- TAB 1: HOME (ALL OFFERS & 53 LINKS) -->
         <div id="tab-home" class="tab-content active">
             
             <div class="banner-card">
-                <h2>🎮 KISMAT QUEST APP</h2>
-                <p>Task poore karein, 'Verify Task' button dabayein aur instant coins paayein!</p>
+                <h2>🚀 Premium Earning Hub</h2>
+                <p>Task open karke complete karein, uske baad 'Verify Task' dabakar apne wallet mein coins add karein!</p>
             </div>
 
             <!-- Category Filter Chips -->
             <div class="category-scroll">
-                <div class="chip active" onclick="filterCards('all', this)">🔥 All Offers (53)</div>
+                <div class="chip active" onclick="filterCards('all', this)">🔥 All Offers</div>
                 <div class="chip" onclick="filterCards('cards', this)">💳 Credit Cards</div>
                 <div class="chip" onclick="filterCards('finance', this)">📈 Demat & Banking</div>
                 <div class="chip" onclick="filterCards('tasks', this)">🎓 Micro Tasks</div>
             </div>
 
-            <!-- CARDS CONTAINER -->
+            <!-- CARDS CONTAINER (ALL 53 AFFILIATE LINKS EMBEDDED) -->
             <div id="cards-container">
 
-                <!-- AU Small Finance Bank Credit Card -->
+                <!-- 1. AU Bank -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 AU Small Finance Bank Credit Card</h3>
-                            <p>क्रेडिट कार्ड अप्लाई करें और तुरंत ₹450 का पेआउट पाएँ।</p>
+                            <p>Apply online and complete verification.</p>
                         </div>
                         <div class="reward-tag">₹450 Cash</div>
                     </div>
@@ -372,12 +439,12 @@
                     </div>
                 </div>
 
-                <!-- Axis Bank Credit Card -->
+                <!-- 2. Axis Bank -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 Axis Bank Credit Card</h3>
-                            <p>Axis Bank कार्ड अप्रूव होने पर ₹400 कैशबैक पाएँ।</p>
+                            <p>Instant digital approval process.</p>
                         </div>
                         <div class="reward-tag">₹400 Cash</div>
                     </div>
@@ -387,27 +454,27 @@
                     </div>
                 </div>
 
-                <!-- BOBCARD ETIHAD GUEST Card -->
+                <!-- 3. BOBCARD Etihad -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 BOBCARD ETIHAD GUEST Credit Card</h3>
-                            <p>BOBCARD Etihad Guest Card अप्लाई करें और ₹450 पाएँ।</p>
+                            <p>Travel perks and reward benefits.</p>
                         </div>
                         <div class="reward-tag">₹450 Cash</div>
                     </div>
                     <div class="btn-group">
                         <a href="https://ltsrn.in/lIX" target="_blank" rel="noopener" class="btn-action">Open Link</a>
-                        <button onclick="verifyTask(450, 'BOBCARD')" class="btn-action btn-verify">Verify Task</button>
+                        <button onclick="verifyTask(450, 'BOBCARD Etihad')" class="btn-action btn-verify">Verify Task</button>
                     </div>
                 </div>
 
-                <!-- Federal Credit Card -->
+                <!-- 4. Federal Bank -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 Federal Bank Credit Card</h3>
-                            <p>Federal Card अप्लाई करें और ₹549 का रिवॉर्ड पाएँ।</p>
+                            <p>Quick application process.</p>
                         </div>
                         <div class="reward-tag">₹549 Cash</div>
                     </div>
@@ -417,12 +484,12 @@
                     </div>
                 </div>
 
-                <!-- Scapia Credit Card -->
+                <!-- 5. Scapia -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 Scapia Credit Card</h3>
-                            <p>Scapia Card के लिए अप्लाई करें और ₹499 कैशबैक पाएँ।</p>
+                            <p>Zero forex markup travel card.</p>
                         </div>
                         <div class="reward-tag">₹499 Cash</div>
                     </div>
@@ -432,12 +499,12 @@
                     </div>
                 </div>
 
-                <!-- HDFC Bank Credit Card -->
+                <!-- 6. HDFC Bank -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
                             <h3>💳 HDFC Bank Credit Card</h3>
-                            <p>HDFC बैंक क्रेडिट कार्ड अप्लाई करें और ₹700 रिवॉर्ड पाएँ।</p>
+                            <p>India's leading banking card offer.</p>
                         </div>
                         <div class="reward-tag">₹700 Cash</div>
                     </div>
@@ -447,12 +514,27 @@
                     </div>
                 </div>
 
-                <!-- TimeBucks -->
+                <!-- 7. Sprint LG Cards -->
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Sprint LG Credit Cards</h3>
+                            <p>Exclusive partner card offer.</p>
+                        </div>
+                        <div class="reward-tag">₹590 Cash</div>
+                    </div>
+                    <div class="btn-group">
+                        <a href="https://ltsrn.in/lI9" target="_blank" rel="noopener" class="btn-action">Open Link</a>
+                        <button onclick="verifyTask(590, 'Sprint LG Cards')" class="btn-action btn-verify">Verify Task</button>
+                    </div>
+                </div>
+
+                <!-- 8. TimeBucks -->
                 <div class="task-card card-item tasks">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>▶️ TimeBucks Videos & Games</h3>
-                            <p>वीडियोज़ देखें, गेम्स खेलें और बिना KYC के कमाई करें।</p>
+                            <h3>▶️ TimeBucks Micro Tasks & Games</h3>
+                            <p>Watch videos, play games and earn daily.</p>
                         </div>
                         <div class="reward-tag">Up to ₹100</div>
                     </div>
@@ -462,113 +544,34 @@
                     </div>
                 </div>
 
-                <!-- Premium Offer 1 -->
+                <!-- High Payout Bitli/Bilty Offers -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 Premium Credit Offer</h3>
-                            <p>लिंक से रजिस्टर करें और टास्क पूरा करके ₹1110 का कैशबैक हासिल करें।</p>
+                            <h3>💳 High Value Credit Offer (m4kL17)</h3>
+                            <p>Complete registration & approval requirements.</p>
                         </div>
                         <div class="reward-tag">₹1110 Cash</div>
                     </div>
                     <div class="btn-group">
                         <a href="https://bitli.in/m4kL17" target="_blank" rel="noopener" class="btn-action">Open Link</a>
-                        <button onclick="verifyTask(1110, 'Premium Offer 1')" class="btn-action btn-verify">Verify Task</button>
+                        <button onclick="verifyTask(1110, 'Offer m4kL17')" class="btn-action btn-verify">Verify Task</button>
                     </div>
                 </div>
 
-            </div>
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 High Value Credit Offer (Vf5taQb)</h3>
+                            <p>Exclusive financial product offer.</p>
+                        </div>
+                        <div class="reward-tag">₹1099 Cash</div>
+                    </div>
+                    <div class="btn-group">
+                        <a href="https://bitli.in/Vf5taQb" target="_blank" rel="noopener" class="btn-action">Open Link</a>
+                        <button onclick="verifyTask(1099, 'Offer Vf5taQb')" class="btn-action btn-verify">Verify Task</button>
+                    </div>
+                </div>
 
-        </div>
-
-        <!-- TAB 2: CARDS -->
-        <div id="tab-cards" class="tab-content">
-            <div class="banner-card" style="background: linear-gradient(135deg, #FF9800, #F57C00);">
-                <h2>💳 All Credit Cards Zone</h2>
-                <p>सभी बैंक और क्रेडिट कार्ड ऑफर्स यहाँ उपलब्ध हैं!</p>
-            </div>
-        </div>
-
-        <!-- TAB 3: TASKS -->
-        <div id="tab-tasks" class="tab-content">
-            <div class="banner-card" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
-                <h2>🎓 Micro Tasks Zone</h2>
-                <p>छोटे-छोटे टास्क पूरे करके तुरंत कॉइन्स कमाएँ!</p>
-            </div>
-        </div>
-
-        <!-- TAB 4: FINANCE -->
-        <div id="tab-finance" class="tab-content">
-            <div class="banner-card" style="background: linear-gradient(135deg, #8e2de2, #4a00e0);">
-                <h2>📈 Demat & Banking Accounts</h2>
-                <p>फ्री डीमैट अकाउंट्स और बैंकिंग ऑफर्स।</p>
-            </div>
-        </div>
-
-        <!-- TAB 5: WALLET -->
-        <div id="tab-wallet" class="tab-content">
-            <div class="banner-card" style="background: linear-gradient(135deg, #00c6ff, #0072ff);">
-                <h2>👛 Wallet & Withdrawal</h2>
-                <p>अपने कॉइन्स को Paytm या UPI पर आसानी से विथड्रॉ करें।</p>
-            </div>
-            <div class="wallet-box">
-                <p style="color:#666; font-size:13px; font-weight:bold;">TOTAL EARNINGS</p>
-                <div class="wallet-balance" id="wallet-coins-display">🪙 0 Coins</div>
-                <p style="font-size: 12px; color: #888; margin-bottom: 15px;">Minimum Payout: 100 Coins (₹10)</p>
-                
-                <input type="text" id="upi-id" class="login-input" placeholder="Enter UPI ID (e.g. paytm@upi)">
-                <button onclick="requestWithdrawal()" class="redeem-btn">Withdraw via UPI / Paytm</button>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Bottom Navigation Bar -->
-    <div class="app-nav">
-        <div class="nav-item active" onclick="switchTab('home', this)">
-            <span class="nav-icon">🏠</span>
-            <span>Home</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('cards', this)">
-            <span class="nav-icon">💳</span>
-            <span>Cards</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('tasks', this)">
-            <span class="nav-icon">🎓</span>
-            <span>Tasks</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('finance', this)">
-            <span class="nav-icon">📈</span>
-            <span>Finance</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('wallet', this)">
-            <span class="nav-icon">👛</span>
-            <span>Wallet</span>
-        </div>
-    </div>
-
-    <script>
-        let currentUser = null;
-        let userCoins = 0;
-
-        // Login System Fix
-        function handleLogin() {
-            const email = document.getElementById('user-email').value;
-            const name = document.getElementById('user-name').value;
-
-            if(email && name) {
-                currentUser = { email, name };
-                document.getElementById('login-screen').style.display = 'none';
-                alert('Login Successful! Welcome, ' + name);
-            } else {
-                alert('Kripya Email aur Naam dono bharein!');
-            }
-        }
-
-        // Tab Switcher
-        function switchTab(tabName, element) {
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
-
-            const navs = document.querySelectorAll('.nav-item');
-            navs.forEach(nav =>
+                <div class="task-card card-item tasks">
+                    <div class="task-top"
