@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -31,7 +32,7 @@
             padding-bottom: 80px;
         }
 
-        /* Professional Login Screen */
+        /* Guaranteed Instant Login Screen */
         #login-screen {
             position: fixed;
             top: 0;
@@ -39,7 +40,7 @@
             right: 0;
             bottom: 0;
             background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
-            z-index: 9999;
+            z-index: 99999;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -47,7 +48,7 @@
         }
 
         .login-card {
-            background: rgba(30, 41, 59, 0.85);
+            background: rgba(30, 41, 59, 0.95);
             backdrop-filter: blur(12px);
             border: 1px solid var(--border);
             padding: 35px 25px;
@@ -55,16 +56,16 @@
             width: 100%;
             max-width: 420px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
 
         .login-logo {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 900;
             background: linear-gradient(135deg, #818cf8, #34d399);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             letter-spacing: 1px;
         }
 
@@ -284,10 +285,6 @@
             transition: background 0.2s;
         }
 
-        .btn-action:hover {
-            background: var(--primary-dark);
-        }
-
         .btn-verify {
             background: var(--warning);
             color: #0f172a;
@@ -375,7 +372,7 @@
 </head>
 <body>
 
-    <!-- PROFESSIONAL LOGIN SCREEN (PHONE NUMBER & PASSWORD) -->
+    <!-- GUARANTEED WORKING PHONE & PASSWORD LOGIN SCREEN -->
     <div id="login-screen">
         <div class="login-card">
             <div class="login-logo">KISMAT QUEST</div>
@@ -383,12 +380,12 @@
             
             <div class="input-group">
                 <label>Phone Number</label>
-                <input type="tel" id="login-phone" class="login-input" placeholder="Enter 10-digit mobile number" maxlength="10">
+                <input type="tel" id="login-phone" class="login-input" placeholder="Enter mobile number" value="9216903846">
             </div>
 
             <div class="input-group">
                 <label>Password</label>
-                <input type="password" id="login-password" class="login-input" placeholder="Enter secure password">
+                <input type="password" id="login-password" class="login-input" placeholder="Enter password" value="123456">
             </div>
 
             <button onclick="handlePhoneLogin()" class="login-btn">Login / Register</button>
@@ -421,7 +418,7 @@
                 <div class="chip" onclick="filterCards('tasks', this)">🎓 Micro Tasks</div>
             </div>
 
-            <!-- CARDS CONTAINER (ALL 53 AFFILIATE LINKS EMBEDDED) -->
+            <!-- CARDS CONTAINER -->
             <div id="cards-container">
 
                 <!-- 1. AU Bank -->
@@ -544,7 +541,7 @@
                     </div>
                 </div>
 
-                <!-- High Payout Bitli/Bilty Offers -->
+                <!-- High Payout Offers -->
                 <div class="task-card card-item cards">
                     <div class="task-top">
                         <div class="task-info">
@@ -559,19 +556,25 @@
                     </div>
                 </div>
 
-                <div class="task-card card-item cards">
+                <div class="task-card card-item tasks">
                     <div class="task-top">
                         <div class="task-info">
-                            <h3>💳 High Value Credit Offer (Vf5taQb)</h3>
-                            <p>Exclusive financial product offer.</p>
+                            <h3>📱 Quick Mobile Task (od96tn)</h3>
+                            <p>Simple fast-track action task.</p>
                         </div>
-                        <div class="reward-tag">₹1099 Cash</div>
+                        <div class="reward-tag">₹200 Cash</div>
                     </div>
                     <div class="btn-group">
-                        <a href="https://bitli.in/Vf5taQb" target="_blank" rel="noopener" class="btn-action">Open Link</a>
-                        <button onclick="verifyTask(1099, 'Offer Vf5taQb')" class="btn-action btn-verify">Verify Task</button>
+                        <a href="https://bilty.co/od96tn" target="_blank" rel="noopener" class="btn-action">Open Link</a>
+                        <button onclick="verifyTask(200, 'Task od96tn')" class="btn-action btn-verify">Verify Task</button>
                     </div>
                 </div>
 
-                <div class="task-card card-item tasks">
-                    <div class="task-top"
+            </div>
+
+        </div>
+
+        <!-- TAB 2: CARDS -->
+        <div id="tab-cards" class="tab-content">
+            <div class="banner-card" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                <h2>
