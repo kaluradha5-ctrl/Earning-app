@@ -1,314 +1,518 @@
-
-```html
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KISMAT QUEST - Real Rewards & Task App</title>
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>KISMAT QUEST APP</title>
     <style>
         * {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-        }
-        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #0d1117;
-            color: #f0f6fc;
+            -webkit-tap-highlight-color: transparent;
         }
-        /* Custom scrollbar hiding */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+
+        body {
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            padding-bottom: 75px;
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
+
+        /* Top App Bar */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .app-title {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .wallet-badge {
+            background: rgba(255,255,255,0.25);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+        }
+
+        .container {
+            padding: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Banner Card */
+        .banner-card {
+            background: linear-gradient(135deg, #FF512F, #DD2476);
+            color: white;
+            padding: 18px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(221, 36, 118, 0.3);
+        }
+
+        .banner-card h2 {
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .banner-card p {
+            font-size: 12px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Category Filter Chips */
+        .category-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
             scrollbar-width: none;
         }
-        /* Gradient cards */
-        .gradient-banner {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+
+        .category-scroll::-webkit-scrollbar {
+            display: none;
         }
-        .gradient-card-gold {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+
+        .chip {
+            background: white;
+            color: #555;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .gradient-card-blue {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+
+        .chip.active {
+            background: #11998e;
+            color: white;
+            border-color: #11998e;
+            box-shadow: 0 2px 6px rgba(17, 153, 142, 0.3);
         }
-        .gradient-card-purple {
-            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-        }
+
+        /* Task Cards */
         .task-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background: white;
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid #eaeaea;
         }
-        .task-card:active {
+
+        .task-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .task-info h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .task-info p {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+            line-height: 1.3;
+        }
+
+        .reward-tag {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .btn-action {
+            display: block;
+            text-align: center;
+            background: #11998e;
+            color: white;
+            text-decoration: none;
+            padding: 11px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 3px 6px rgba(17, 153, 142, 0.2);
+            transition: transform 0.1s;
+        }
+
+        .btn-action:active {
             transform: scale(0.98);
+        }
+
+        .btn-orange {
+            background: #ff9800;
+            box-shadow: 0 3px 6px rgba(255, 152, 0, 0.2);
+        }
+
+        /* Bottom Navigation Bar */
+        .app-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            height: 62px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            border-top: 1px solid #eee;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            color: #888;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 20%;
+            padding: 5px 0;
+        }
+
+        .nav-item.active {
+            color: #11998e;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
     </style>
 </head>
-<body class="pb-20 max-w-md mx-auto min-h-screen border-x border-gray-800 relative">
+<body>
 
-    <!-- APP HEADER -->
-    <header class="sticky top-0 z-50 bg-gray-900/90 backdrop-blur-md border-b border-gray-800 px-4 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center font-black text-gray-950 text-lg">K</div>
-            <span class="font-extrabold text-lg tracking-wide text-white">KISMAT QUEST</span>
-        </div>
-        <div onclick="switchTab('wallet', document.getElementById('nav-wallet'))" class="cursor-pointer bg-gray-800 hover:bg-gray-700 border border-emerald-500/30 px-3 py-1.5 rounded-full flex items-center gap-1.5 transition">
-            <span class="text-base">🪙</span>
-            <span id="header-coins" class="text-xs font-bold text-emerald-400">0 Coins</span>
-        </div>
-    </header>
-
-    <!-- MAIN CONTAINER -->
-    <main class="p-4 space-y-4">
-
-        <!-- TAB 1: HOME (ALL CARDS & FILTERS) -->
-        <section id="tab-home" class="tab-content block">
-            
-            <!-- Hero Banner -->
-            <div class="gradient-banner rounded-2xl p-4 text-white shadow-lg mb-4 relative overflow-hidden">
-                <div class="relative z-10">
-                    <span class="bg-black/20 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">🔥 Daily Tasks & Offers</span>
-                    <h2 class="text-xl font-bold mt-2">Apna Card Chunien Aur Instant Paise Kamayein!</h2>
-                    <p class="text-xs opacity-90 mt-1">Niche diye gaye kisi bhi link par click karein, card ya account banayein aur rewards paayein.</p>
-                </div>
-            </div>
-
-            <!-- Quick Category Filter Chips -->
-            <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 mb-4">
-                <button onclick="filterCards('all', this)" class="chip-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-gray-950 whitespace-nowrap shadow-sm">🔥 All Tasks</button>
-                <button onclick="filterCards('credit-card', this)" class="chip-btn px-4 py-2 rounded-xl text-xs font-bold bg-gray-800 text-gray-300 border border-gray-700 whitespace-nowrap">💳 Credit Cards</button>
-                <button onclick="filterCards('demat', this)" class="chip-btn px-4 py-2 rounded-xl text-xs font-bold bg-gray-800 text-gray-300 border border-gray-700 whitespace-nowrap">📈 Demat Accounts</button>
-                <button onclick="filterCards('tasks', this)" class="chip-btn px-4 py-2 rounded-xl text-xs font-bold bg-gray-800 text-gray-300 border border-gray-700 whitespace-nowrap">🎮 Micro Tasks</button>
-                <button onclick="filterCards('shopping', this)" class="chip-btn px-4 py-2 rounded-xl text-xs font-bold bg-gray-800 text-gray-300 border border-gray-700 whitespace-nowrap">🛍️ Shopping Deals</button>
-            </div>
-
-            <!-- CARDS LIST CONTAINER -->
-            <div id="cards-container" class="space-y-3">
-
-                <!-- 1. IndusInd Credit Card -->
-                <div class="card-item credit-card task-card bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col justify-between gap-3">
-                    <div class="flex items-start justify-between gap-2">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-lg">💳</span>
-                                <h3 class="font-bold text-sm text-white">IndusInd Credit Card</h3>
-                            </div>
-                            <p class="text-xs text-gray-400 mt-1">Lifetime free credit card apply karein aur instant reward cash paayein.</p>
-                        </div>
-                        <span class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-lg whitespace-nowrap">₹500 Cash</span>
-                    </div>
-                    <a href="https://www.indusind.com" target="_blank" rel="noopener noreferrer" class="w-full bg-emerald-500 hover:bg-emerald-400 text-gray-950 text-center font-bold text-xs py-2.5 rounded-xl transition shadow-md">
-                        Card Banayein & Paise Paayein
-                    </a>
-                </div>
-
-                <!-- 2. AngelOne Free Demat Account -->
-                <div class="card-item demat task-card bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col justify-between gap-3">
-                    <div class="flex items-start justify-between gap-2">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-lg">📈</span>
-                                <h3 class="font-bold text-sm text-white">AngelOne Free Demat Account</h3>
-                            </div>
-                            <p class="text-xs text-gray-400 mt-1">5 Minute mein free demat account kholein aur cash bonus earn karein.</p>
-                        </div>
-                        <span class="bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold px-2.5 py-1 rounded-lg whitespace-nowrap">₹200 Cash</span>
-                    </div>
-                    <a href="https://www.angelone.in" target="_blank" rel="noopener noreferrer" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-center font-bold text-xs py-2.5 rounded-xl transition shadow-md">
-                        Account Kholein & Earnings Paayein
-                    </a>
-                </div>
-
-                <!-- 3. Watch Videos & Play Games (TimeBucks) -->
-                <div class="card-item tasks task-card bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col justify-between gap-3">
-                    <div class="flex items-start justify-between gap-2">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-lg">▶️</span>
-                                <h3 class="font-bold text-sm text-white">Watch Videos & Play Games</h3>
-                            </div>
-                            <p class="text-xs text-gray-400 mt-1">Short videos dekhein, daily quiz aur games khel kar earning karein.</p>
-                        </div>
-                        <span class="bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold px-2.5 py-1 rounded-lg whitespace-nowrap">Up to ₹100</span>
-                    </div>
-                    <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener noreferrer" class="w-full bg-amber-500 hover:bg-amber-400 text-gray-950 text-center font-bold text-xs py-2.5 rounded-xl transition shadow-md">
-                        Start Task & Earn Now
-                    </a>
-                </div>
-
-                <!-- 4. Quick App Installs & Quizzes (CPALead) -->
-                <div class="card-item tasks task-card bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col justify-between gap-3">
-                    <div class="flex items-start justify-between gap-2">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-lg">📲</span>
-                                <h3 class="font-bold text-sm text-white">Quick App Installs & Quizzes</h3>
-                            </div>
-                            <p class="text-xs text-gray-400 mt-1">Instant apps download karein aur 1 minute mein cash reward unlocked karein.</p>
-                        </div>
-                        <span class="bg-purple-500/10 border border-purple-500/30 text-purple-400 text-xs font-bold px-2.5 py-1 rounded-lg whitespace-nowrap">₹10 - ₹30</span>
-                    </div>
-                    <a href="https://www.cpalead.com" target="_blank" rel="noopener noreferrer" class="w-full bg-purple-600 hover:bg-purple-500 text-white text-center font-bold text-xs py-2.5 rounded-xl transition shadow-md">
-                        Download & Get Cash
-                    </a>
-                </div>
-
-                <!-- 5. Exclusive Shopping Offers -->
-                <div class="card-item shopping task-card bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col justify-between gap-3">
-                    <div class="flex items-start justify-between gap-2">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-lg">🛍️</span>
-                                <h3 class="font-bold text-sm text-white">Exclusive Shopping Offers</h3>
-                            </div>
-                            <p class="text-xs text-gray-400 mt-1">Shopping deals aur cashback links ke zariye extra profit kamaayein.</p>
-                        </div>
-                        <span class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-lg whitespace-nowrap">Extra Cashback</span>
-                    </div>
-                    <a href="https://www.amazon.in" target="_blank" rel="noopener noreferrer" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-center font-bold text-xs py-2.5 rounded-xl transition shadow-md">
-                        Open Offer Link
-                    </a>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- TAB 2: CREDIT CARDS & DEMAT -->
-        <section id="tab-cards" class="tab-content hidden">
-            <div class="gradient-card-gold rounded-2xl p-4 text-white shadow-lg mb-4">
-                <h2 class="text-lg font-bold">💳 Credit Cards & Demat Accounts</h2>
-                <p class="text-xs opacity-90 mt-1">Card ya account par click karke direct banayein aur high rewards paayein.</p>
-            </div>
-
-            <div class="space-y-3">
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col gap-3">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="font-bold text-sm text-white">IndusInd Credit Card</h3>
-                            <p class="text-xs text-gray-400 mt-1">Instant online card approval portal.</p>
-                        </div>
-                        <span class="text-xs font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-lg border border-amber-400/20">₹500 Payout</span>
-                    </div>
-                    <a href="https://www.indusind.com" target="_blank" rel="noopener noreferrer" class="bg-amber-500 text-gray-950 font-bold text-center text-xs py-2.5 rounded-xl">Card Apply Link</a>
-                </div>
-
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col gap-3">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="font-bold text-sm text-white">AngelOne Free Demat</h3>
-                            <p class="text-xs text-gray-400 mt-1">Zero brokerage account opening link.</p>
-                        </div>
-                        <span class="text-xs font-bold text-blue-400 bg-blue-400/10 px-2.5 py-1 rounded-lg border border-blue-400/20">₹200 Payout</span>
-                    </div>
-                    <a href="https://www.angelone.in" target="_blank" rel="noopener noreferrer" class="bg-blue-600 text-white font-bold text-center text-xs py-2.5 rounded-xl">Account Opening Link</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 3: MICRO TASKS -->
-        <section id="tab-tasks" class="tab-content hidden">
-            <div class="gradient-card-blue rounded-2xl p-4 text-white shadow-lg mb-4">
-                <h2 class="text-lg font-bold">🎮 Daily Micro Tasks</h2>
-                <p class="text-xs opacity-90 mt-1">Videos, Games aur App downloads complete karke daily cash earn karein.</p>
-            </div>
-
-            <div class="space-y-3">
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col gap-3">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="font-bold text-sm text-white">TimeBucks Watch & Earn</h3>
-                            <p class="text-xs text-gray-400 mt-1">Daily tasks, surveys aur video rewards.</p>
-                        </div>
-                        <span class="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-2.5 py-1 rounded-lg border border-emerald-400/20">₹100/Day</span>
-                    </div>
-                    <a href="https://timebucks.com/?refID=230373233" target="_blank" rel="noopener noreferrer" class="bg-emerald-500 text-gray-950 font-bold text-center text-xs py-2.5 rounded-xl">Open TimeBucks Link</a>
-                </div>
-
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col gap-3">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="font-bold text-sm text-white">CPALead Quick Tasks</h3>
-                            <p class="text-xs text-gray-400 mt-1">App installs & instant quizzes.</p>
-                        </div>
-                        <span class="text-xs font-bold text-purple-400 bg-purple-400/10 px-2.5 py-1 rounded-lg border border-purple-400/20">₹10-₹30</span>
-                    </div>
-                    <a href="https://www.cpalead.com" target="_blank" rel="noopener noreferrer" class="bg-purple-600 text-white font-bold text-center text-xs py-2.5 rounded-xl">Open CPALead Link</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 4: SHOPPING DEALS -->
-        <section id="tab-shopping" class="tab-content hidden">
-            <div class="gradient-card-purple rounded-2xl p-4 text-white shadow-lg mb-4">
-                <h2 class="text-lg font-bold">🛍️ Best Shopping Deals</h2>
-                <p class="text-xs opacity-90 mt-1">Shopping links par click karein aur har khareedari par extra cashback paayein.</p>
-            </div>
-
-            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col gap-3">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-bold text-sm text-white">Featured Offer Link</h3>
-                        <p class="text-xs text-gray-400 mt-1">Direct shopping deal link.</p>
-                    </div>
-                    <span class="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-2.5 py-1 rounded-lg border border-emerald-400/20">Guaranteed Cashback</span>
-                </div>
-                <a href="https://www.amazon.in" target="_blank" rel="noopener noreferrer" class="bg-purple-600 text-white font-bold text-center text-xs py-2.5 rounded-xl">Open Shopping Link</a>
-            </div>
-        </section>
-
-        <!-- TAB 5: WALLET -->
-        <section id="tab-wallet" class="tab-content hidden">
-            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 text-center space-y-4">
-                <div class="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto text-3xl">
-                    🪙
-                </div>
-                <div>
-                    <h3 class="text-2xl font-black text-white" id="wallet-coins-display">0 Coins</h3>
-                    <p class="text-xs text-gray-400 mt-1">100 Coins = ₹10 INR</p>
-                </div>
-
-                <div class="bg-gray-950 p-3 rounded-xl border border-gray-800 text-xs text-gray-400 text-left space-y-1">
-                    <p class="flex justify-between"><span>Minimum Payout:</span> <span class="text-white font-bold">100 Coins</span></p>
-                    <p class="flex justify-between"><span>Payment Mode:</span> <span class="text-emerald-400 font-bold">UPI / Paytm</span></p>
-                </div>
-
-                <button onclick="triggerWithdrawal()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-extrabold text-sm py-3 rounded-xl transition shadow-lg">
-                    Redeem Cash via UPI
-                </button>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- CUSTOM NOTIFICATION MODAL -->
-    <div id="custom-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4 hidden">
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 max-w-xs w-full text-center space-y-3">
-            <div class="text-3xl">ℹ️</div>
-            <h4 class="font-bold text-white text-base" id="modal-title">Notice</h4>
-            <p class="text-xs text-gray-400" id="modal-message">Message text</p>
-            <button onclick="closeModal()" class="w-full bg-emerald-500 text-gray-950 font-bold text-xs py-2.5 rounded-xl">OK</button>
+    <!-- Top App Bar -->
+    <div class="app-header">
+        <div class="app-title">📱 KISMAT QUEST</div>
+        <div class="wallet-badge" onclick="switchTab('wallet', document.querySelectorAll('.nav-item')[4])">
+            <span>🪙 0 Coins</span>
         </div>
     </div>
 
-    <!-- BOTTOM NAVIGATION BAR -->
-    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-gray-900/95 backdrop-blur-md border-t border-gray-800 flex justify-around items-center py-2 z-50">
-        <button id="nav-home" onclick="switchTab('home', this)" class="nav-btn flex flex-col items-center gap-1 text-emerald-400 text-xs font-bold w-1/5">
-            <span class="text-lg">🏠</span>
-            <span>Home</span>
-        </button>
-        <button id="nav-cards" onclick="switchTab('cards', this)" class="nav-btn flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 text-xs font-semibold w-1/5">
-            <span class="text-lg">💳</span>
-            <span>Cards</span>
-        </button>
-        <button id="nav-tasks" onclick="switchTab('tasks', this)" class="nav-btn flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 text-xs font-semibold w-1/5">
-            <span class="text-lg">🎮</span>
-            <span>Tasks</span>
-        </button>
-        <button id="nav-shopping" onclick="switchTab('shopping', this)" class="nav-btn flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 text-xs font-semibold w-1/5">
-            <span class="text-lg">🛍️</span>
-            <span>Deals</span>
-        </button>
-        <button id="nav-wallet" onclick="switchTab('wallet', this)" class="nav-btn flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 
+    <div class="container">
+
+        <!-- TAB 1: HOME (ALL OFFERS) -->
+        <div id="tab-home" class="tab-content active">
+            
+            <div class="banner-card">
+                <h2>🎮 KISMAT QUEST APP</h2>
+                <p>सभी 53 स्पेशल ऑफर्स चालू हैं! अपनी पसंद का टास्क पूरा करें और तुरंत कैश पाएँ!</p>
+            </div>
+
+            <!-- Category Filter Chips -->
+            <div class="category-scroll">
+                <div class="chip active" onclick="filterCards('all', this)">🔥 All Offers (53)</div>
+                <div class="chip" onclick="filterCards('cards', this)">💳 Credit Cards</div>
+                <div class="chip" onclick="filterCards('finance', this)">📈 Demat & Banking</div>
+                <div class="chip" onclick="filterCards('tasks', this)">🎓 Micro Tasks</div>
+            </div>
+
+            <!-- ALL 53 CARDS CONTAINER -->
+            <div id="cards-container">
+
+                <!-- Highest Payouts First -->
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Premium Credit Offer 1</h3>
+                            <p>लिंक से रजिस्टर करें और टास्क पूरा करके ₹1110 का कैशबैक हासिल करें।</p>
+                        </div>
+                        <div class="reward-tag">₹1110 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/m4kL17" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Premium Credit Offer 2</h3>
+                            <p>ऑफर पूरा करने पर पायें ₹1099 का इंस्टेंट बोनस।</p>
+                        </div>
+                        <div class="reward-tag">₹1099 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/Vf5taQb" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Premium Credit Offer 3</h3>
+                            <p>फॉर्म भरें और ₹1050 कैशबैक रिवॉर्ड पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹1050 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/1wXQPXP" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 High Value Offer 4</h3>
+                            <p>कार्ड अप्रूवल पर ₹1040 का सीधा लाभ।</p>
+                        </div>
+                        <div class="reward-tag">₹1040 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/Vpr9bqw" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Exclusive Card Offer 5</h3>
+                            <p>टास्क पूरा करके ₹1000 का फ्लैट रिवॉर्ड हासिल करें।</p>
+                        </div>
+                        <div class="reward-tag">₹1000 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/k5f0wII" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Special Financial Offer 6</h3>
+                            <p>रजिस्टर करें और ₹799 का कैशबैक प्राप्त करें।</p>
+                        </div>
+                        <div class="reward-tag">₹799 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/pz08u85" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Special Financial Offer 7</h3>
+                            <p>₹799 का इंस्टेंट कैशबैक रिवॉर्ड।</p>
+                        </div>
+                        <div class="reward-tag">₹799 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/w6D95RO" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 HDFC Bank Credit Card</h3>
+                            <p>HDFC बैंक क्रेडिट कार्ड अप्लाई करें और ₹700 का रिवॉर्ड पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹700 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lI8" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 High Value Offer 8</h3>
+                            <p>फ्लैट ₹750 का कैशबैक रिवॉर्ड।</p>
+                        </div>
+                        <div class="reward-tag">₹750 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/oQvxSh6" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 High Value Offer 9</h3>
+                            <p>₹740 का कैशबैक पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹740 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/kteLofa" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Special Card Offer 10</h3>
+                            <p>₹699 का कैशबैक बोनस।</p>
+                        </div>
+                        <div class="reward-tag">₹699 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/Gsh0AtC" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Special Card Offer 11</h3>
+                            <p>₹699 का फ्लैट कैशबैक।</p>
+                        </div>
+                        <div class="reward-tag">₹699 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/v8aQstG" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Sprint LG Cards</h3>
+                            <p>Sprint LG कार्ड अप्लाई करके ₹590 का बोनस पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹590 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lI9" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Card Offer 12</h3>
+                            <p>₹599 का रिवॉर्ड कैश।</p>
+                        </div>
+                        <div class="reward-tag">₹599 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/8U1okpG" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Federal Credit Card</h3>
+                            <p>Federal Card अप्लाई करके ₹549 का रिवॉर्ड पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹549 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lIZ" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Federal / Partner Offer</h3>
+                            <p>₹549 कैशबैक रिवॉर्ड प्राप्त करें।</p>
+                        </div>
+                        <div class="reward-tag">₹549 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/aQoJYOr" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Card Offer 13</h3>
+                            <p>₹549 का रिवॉर्ड बोनस।</p>
+                        </div>
+                        <div class="reward-tag">₹549 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/TY3Qrxi" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Card Offer 14</h3>
+                            <p>₹540 का कैशबैक बोनस।</p>
+                        </div>
+                        <div class="reward-tag">₹540 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/FpowMY1" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Scapia Credit Card</h3>
+                            <p>Scapia Card अप्लाई करें और ₹499 कैशबैक पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹499 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lI0" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Scapia Partner Card</h3>
+                            <p>₹499 का फ्लैट कैशबैक।</p>
+                        </div>
+                        <div class="reward-tag">₹499 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/SxZaU5a" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 AU Small Finance Bank Credit Card</h3>
+                            <p>AU Bank Credit Card के लिए अप्लाई करें और ₹450 पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹450 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lIV" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 BOBCARD ETIHAD GUEST Card</h3>
+                            <p>BOBCARD Etihad Guest Card अप्लाई करके ₹450 पाएँ।</p>
+                        </div>
+                        <div class="reward-tag">₹450 Cash</div>
+                    </div>
+                    <a href="https://ltsrn.in/lIX" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Card Offer 15</h3>
+                            <p>₹560 का स्पेशल बोनस।</p>
+                        </div>
+                        <div class="reward-tag">₹560 Cash</div>
+                    </div>
+                    <a href="https://bitli.in/tzaSQpU" target="_blank" rel="noopener" class="btn-action btn-orange">Apply Now</a>
+                </div>
+
+                <div class="task-card card-item cards">
+                    <div class="task-top">
+                        <div class="task-info">
+                            <h3>💳 Card Offer 16</h3>
+                            <p>₹550 का 
