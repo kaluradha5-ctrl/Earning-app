@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KISMAT VIP - Ultimate Social & Earning Network</title>
+    <title>KISMAT VIP - Ultimate Entertainment Network</title>
     
+    <!-- Google Fonts & FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -16,11 +17,8 @@
             --primary: #8b5cf6;
             --primary-glow: rgba(139, 92, 246, 0.6);
             --accent: #10b981;
-            --accent-glow: rgba(16, 185, 129, 0.6);
             --pink: #ec4899;
-            --pink-glow: rgba(236, 72, 153, 0.6);
             --gold: #f59e0b;
-            --gold-glow: rgba(245, 158, 11, 0.6);
             --text: #f9fafb;
             --text-muted: #9ca3af;
         }
@@ -45,7 +43,6 @@
 
         .container { padding: 16px; max-width: 480px; margin: 0 auto; }
 
-        /* VIP Profile Dashboard Card */
         .profile-card {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(139, 92, 246, 0.2));
             border: 1px solid rgba(245, 158, 11, 0.5); border-radius: 22px; padding: 18px;
@@ -80,10 +77,10 @@
         }
         .btn-prime:active { transform: scale(0.97); }
 
-        .btn-accent { background: linear-gradient(135deg, var(--accent), #047857); box-shadow: 0 4px 20px var(--accent-glow); }
-        .btn-pink { background: linear-gradient(135deg, var(--pink), #be185d); box-shadow: 0 4px 20px var(--pink-glow); }
-        .btn-gold { background: linear-gradient(135deg, var(--gold), #d97706); box-shadow: 0 4px 20px var(--gold-glow); }
-        .btn-whatsapp { background: linear-gradient(135deg, #25d366, #128c7e); box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
+        .btn-accent { background: linear-gradient(135deg, var(--accent), #047857); }
+        .btn-pink { background: linear-gradient(135deg, var(--pink), #be185d); }
+        .btn-gold { background: linear-gradient(135deg, var(--gold), #d97706); }
+        .btn-whatsapp { background: linear-gradient(135deg, #25d366, #128c7e); }
 
         .input-dark {
             width: 100%; padding: 14px; background: rgba(3, 7, 18, 0.9);
@@ -91,26 +88,39 @@
             font-size: 14px; outline: none; margin: 6px 0 12px 0;
         }
 
-        /* Sub Navigation Pills */
-        .sub-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 14px; scrollbar-width: none; }
-        .sub-nav::-webkit-scrollbar { display: none; }
-        .sub-pill {
+        /* Category Filter Pills */
+        .cat-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 14px; scrollbar-width: none; }
+        .cat-nav::-webkit-scrollbar { display: none; }
+        .cat-pill {
             background: rgba(17, 24, 39, 0.8); border: 1px solid var(--surface-border);
             padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700;
             white-space: nowrap; cursor: pointer; color: var(--text-muted);
         }
-        .sub-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+        .cat-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
 
-        .sub-content { display: none; }
-        .sub-content.active { display: block; }
+        /* Video Container */
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 16px; border: 1px solid var(--surface-border); margin-bottom: 12px;
+        }
+        .video-container.vertical { padding-bottom: 120%; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         /* Chat box */
         .chat-box {
-            height: 190px; overflow-y: auto; background: rgba(3, 7, 18, 0.9);
+            height: 180px; overflow-y: auto; background: rgba(3, 7, 18, 0.9);
             border: 1px solid var(--surface-border); border-radius: 14px; padding: 12px;
             margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px;
         }
         .chat-msg { font-size: 12px; padding: 8px 12px; border-radius: 10px; background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3); }
+
+        /* Game Board */
+        .game-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
+        .cell {
+            background: rgba(3, 7, 18, 0.8); border: 1px solid var(--surface-border);
+            height: 70px; border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; font-size: 28px; font-weight: 900; cursor: pointer; color: #c4b5fd;
+        }
 
         /* Bottom Nav */
         .app-nav {
@@ -119,7 +129,7 @@
             height: 75px; display: flex; justify-content: space-around; align-items: center;
             border-top: 1px solid var(--surface-border); z-index: 1000;
         }
-        .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 10px; font-weight: 700; cursor: pointer; width: 20%; }
+        .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 10px; font-weight: 700; cursor: pointer; width: 25%; }
         .nav-tab.active { color: #c4b5fd; }
         .nav-tab i { font-size: 18px; }
 
@@ -127,22 +137,9 @@
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .video-container {
-            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
-            border-radius: 16px; border: 1px solid var(--surface-border); margin-bottom: 12px;
-        }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-
-        .game-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
-        .cell {
-            background: rgba(3, 7, 18, 0.8); border: 1px solid var(--surface-border);
-            height: 70px; border-radius: 12px; display: flex; align-items: center;
-            justify-content: center; font-size: 28px; font-weight: 900; cursor: pointer; color: #c4b5fd;
-        }
     </style>
 </head>
-<body>
+<body onclick="triggerAds()">
 
     <div class="glow-fx"></div>
 
@@ -150,159 +147,122 @@
     <div class="app-header">
         <div class="logo-text"><i class="fa-solid fa-crown" style="color:var(--gold);"></i> KISMAT VIP</div>
         <div style="font-size:11px; background:rgba(245, 158, 11, 0.2); color:var(--gold); padding:6px 14px; border-radius:20px; border:1px solid rgba(245, 158, 11, 0.4); font-weight:800;">
-            💎 VIP TIER-1 ACTIVE
+            🔥 NON-STOP STREAMING
         </div>
     </div>
 
     <div class="container">
 
-        <!-- VIP PROFILE DASHBOARD CARD -->
+        <!-- USER PROFILE CARD -->
         <div class="profile-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <div>
                     <div style="font-size:10px; color:var(--gold); font-weight:800; text-transform:uppercase;" id="user-id-display">ID: VIP-89421</div>
-                    <div style="font-size:15px; font-weight:900; margin-top:2px;">Anil Kumar (VIP Member)</div>
+                    <div style="font-size:15px; font-weight:900; margin-top:2px;">VIP User Account</div>
                 </div>
                 <div style="text-align:right;">
-                    <div style="font-size:11px; color:var(--text-muted);">Wallet Balance</div>
-                    <div style="font-size:16px; font-weight:900; color:#34d399;" id="coin-balance">🪙 3,850</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Coins Balance</div>
+                    <div style="font-size:16px; font-weight:900; color:#34d399;" id="coin-balance">🪙 4,200</div>
                 </div>
             </div>
             <div style="background:rgba(3,7,18,0.6); padding:8px 12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; font-size:11px;">
-                <span>🔥 Daily Streak: <b>7 Days</b></span>
-                <span style="color:#c4b5fd;">⭐ Status: Unlocked</span>
+                <span>🔥 Streak: <b>7 Days Active</b></span>
+                <span style="color:#c4b5fd;">⭐ Status: Diamond Member</span>
             </div>
         </div>
 
         <!-- TICKER -->
         <div class="ticker-box">
             <i class="fa-solid fa-circle-check"></i>
-            <span id="ticker-text">अमित (जयपुर) ने HDFC Card से ₹1,500 Amazon वाउचर क्लेम किया!</span>
+            <span id="ticker-text">अमित (जयपुर) ने Spin Wheel से 🪙500 Coins जीते!</span>
         </div>
 
-        <!-- TAB 1: SOCIAL APPS STUDIO (Insta, FB, YT, TikTok, Snapchat) -->
-        <div id="tab-social" class="tab-content active">
+        <!-- TAB 1: VIDEO & REELS MULTI-CATEGORY HUB -->
+        <div id="tab-videos" class="tab-content active">
             <div class="hero-card">
-                <h2>📱 SOCIAL MEDIA STUDIO</h2>
-                <p>Explore Insta Reels, TikTok Trends, FB Stories & Snapchat Filters!</p>
+                <h2>🎬 REELS & SHOWS STUDIO</h2>
+                <p>CID, Cartoons, Love Stories, Dance & Full Shows in Hindi!</p>
             </div>
 
-            <div class="sub-nav">
-                <div class="sub-pill active" onclick="switchSub('insta', this)">📸 Instagram</div>
-                <div class="sub-pill" onclick="switchSub('tiktok', this)">🎵 TikTok / Shorts</div>
-                <div class="sub-pill" onclick="switchSub('snap', this)">👻 Snapchat</div>
-                <div class="sub-pill" onclick="switchSub('fb', this)">👥 Facebook</div>
+            <!-- CATEGORY FILTER PILLS -->
+            <div class="cat-nav">
+                <div class="cat-pill active" onclick="filterVideo('all', this)">🔥 All Trending</div>
+                <div class="cat-pill" onclick="filterVideo('cid', this)">🕵️ CID Thriller</div>
+                <div class="cat-pill" onclick="filterVideo('cartoon', this)">🎨 Cartoons (Shin-chan)</div>
+                <div class="cat-pill" onclick="filterVideo('love', this)">💖 Love & Romantic</div>
+                <div class="cat-pill" onclick="filterVideo('sad', this)">💔 Sad Stories</div>
+                <div class="cat-pill" onclick="filterVideo('comedy', this)">😂 Jethalal Comedy</div>
+                <div class="cat-pill" onclick="filterVideo('dance', this)">🎵 Song & Dance</div>
             </div>
 
-            <!-- Insta Sub -->
-            <div id="sub-insta" class="sub-content active">
-                <div class="glass-card">
-                    <h3 style="font-size:15px; color:#ec4899; margin-bottom:6px;"><i class="fa-brands fa-instagram"></i> Insta Viral Reels & Captions</h3>
-                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Copy high-engagement attitude captions for your reels!</p>
-                    <div id="caption-box" style="background:rgba(3,7,18,0.8); padding:12px; border-radius:10px; font-size:13px; font-style:italic; margin-bottom:10px;">
-                        "किस्मत और समय कभी भी बदल सकते हैं, बस खुद पर भरोसा रखो! ⚡ #KismatVIP"
-                    </div>
-                    <button onclick="newCaption()" class="btn-prime btn-pink"><i class="fa-solid fa-copy"></i> Generate New Caption</button>
+            <!-- MAIN DYNAMIC VIDEO PLAYER CARD -->
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span style="font-size:11px; background:rgba(139,92,246,0.2); color:#c4b5fd; padding:4px 10px; border-radius:10px; font-weight:700;" id="vid-cat-tag">🔥 Trending Clip</span>
+                    <span style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-eye"></i> 32.5k Views</span>
+                </div>
+                
+                <div class="video-container" id="vid-box">
+                    <iframe id="main-player" src="https://www.youtube.com/embed/videoseries?list=PL38332A0284411132" title="Video Stream" allowfullscreen></iframe>
+                </div>
+
+                <div style="display:flex; gap:8px; margin-top:10px;">
+                    <button onclick="nextVideo()" class="btn-prime"><i class="fa-solid fa-forward"></i> Next Clip / Video</button>
+                    <button onclick="toggleMode()" class="btn-prime btn-pink" style="width:45%;"><i class="fa-solid fa-mobile-screen"></i> Reels/Full</button>
                 </div>
             </div>
 
-            <!-- TikTok Sub -->
-            <div id="sub-tiktok" class="sub-content">
-                <div class="glass-card">
-                    <h3 style="font-size:15px; color:#c4b5fd; margin-bottom:6px;"><i class="fa-brands fa-tiktok"></i> Trending Comedy & Shorts</h3>
-                    <div class="video-container">
-                        <iframe id="video-player" src="https://www.youtube.com/embed/videoseries?list=PL38332A0284411132" title="Shorts" allowfullscreen></iframe>
-                    </div>
-                    <button onclick="nextVideoClip()" class="btn-prime"><i class="fa-solid fa-forward"></i> Next Viral Video</button>
-                </div>
-            </div>
-
-            <!-- Snapchat Sub -->
-            <div id="sub-snap" class="sub-content">
-                <div class="glass-card">
-                    <h3 style="font-size:15px; color:#f59e0b; margin-bottom:6px;"><i class="fa-brands fa-snapchat"></i> Snapchat Streak & Filters</h3>
-                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Unlock exclusive neon and cyberpunk lenses instantly!</p>
-                    <button onclick="triggerAds()" class="btn-prime btn-gold"><i class="fa-solid fa-wand-magic-sparkles"></i> Unlock VIP Filters</button>
-                </div>
-            </div>
-
-            <!-- Facebook Sub -->
-            <div id="sub-fb" class="sub-content">
-                <div class="glass-card">
-                    <h3 style="font-size:15px; color:#3b5998; margin-bottom:6px;"><i class="fa-brands fa-facebook"></i> Facebook Viral Watch Party</h3>
-                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Watch trending emotional stories and comedy clips together.</p>
-                    <button onclick="triggerAds()" class="btn-prime"><i class="fa-solid fa-play"></i> Join Watch Party</button>
-                </div>
-            </div>
-
-            <!-- Community Chat -->
-            <div class="glass-card" style="margin-top:16px;">
+            <!-- LIVE COMMUNITY CHAT SIMULATOR -->
+            <div class="glass-card">
                 <h3 style="margin-bottom:10px; font-size:15px; color:#c4b5fd;"><i class="fa-solid fa-comments"></i> Live Community Chat</h3>
                 <div class="chat-box" id="chat-messages">
-                    <div class="chat-msg"><b>Rahul (Delhi):</b> Hey guys! Spin wheel par mujhe ₹500 ka voucher mila! 🔥</div>
-                    <div class="chat-msg"><b>Priya (Mumbai):</b> Love Calculator is amazing! Check it out ❤️</div>
+                    <div class="chat-msg"><b>Rahul (Delhi):</b> CID ka ye wala episode bahut suspense tha! 🔥</div>
+                    <div class="chat-msg"><b>Priya (Mumbai):</b> Shin-chan cartoon videos are awesome ❤️</div>
                 </div>
                 <input type="text" id="chat-input" class="input-dark" placeholder="Type a message...">
                 <button onclick="sendMsg()" class="btn-prime"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
             </div>
         </div>
 
-        <!-- TAB 2: STORIES & SHAYARI -->
-        <div id="tab-stories" class="tab-content">
-            <div class="hero-card">
-                <h2>📖 HEART & LOVE STORIES</h2>
-                <p>Emotional Breakup, True Love & Attitude Real-Life Stories!</p>
+        <!-- TAB 2: AI FUN & VIRAL TOOLS -->
+        <div id="tab-tools" class="tab-content">
+            <div class="hero-card" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(245, 158, 11, 0.25));">
+                <h2>🔮 AI SECRET MATCH & QUIZ</h2>
+                <p>Secret Crush Predictor & Love Match Calculator!</p>
             </div>
 
-            <div class="glass-card" style="border:1px solid rgba(37,211,102,0.4); background:rgba(37,211,102,0.08);">
-                <h3 style="font-size:15px; color:#25d366; margin-bottom:6px;"><i class="fa-brands fa-whatsapp"></i> Share & Earn Rewards</h3>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Share with 5 friends on WhatsApp & unlock ₹500 instant bonus!</p>
-                <button onclick="shareWhatsApp()" class="btn-prime btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Share on WhatsApp</button>
-            </div>
-
+            <!-- Secret Crush Predictor -->
             <div class="glass-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <span style="font-size:11px; background:rgba(236,72,153,0.2); color:var(--pink); padding:4px 10px; border-radius:10px; font-weight:700;" id="story-tag">💔 Heartbreak Story</span>
-                    <span style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-eye"></i> 24.1k Reads</span>
-                </div>
-                <h3 id="story-title" style="font-size:16px; margin-bottom:8px; color:#c4b5fd;">"वो अधूरी मोहब्बत का आखिरी मैसेज..."</h3>
-                <p id="story-body" style="font-size:13px; color:var(--text-muted); line-height:1.6; margin-bottom:14px;">
-                    रात के 2 बजे थे, फोन की स्क्रीन जली और उसका मैसेज आया - "सुनो, शायद हम कभी एक नहीं हो सकते, लेकिन तुम हमेशा मेरी दुआओं में रहोगे..."
-                </p>
-                <button onclick="nextStory()" class="btn-prime btn-pink"><i class="fa-solid fa-book-open"></i> Read Next Story</button>
-            </div>
-
-            <div class="glass-card">
-                <h3 style="margin-bottom:8px; font-size:15px; color:var(--pink);"><i class="fa-solid fa-quote-left"></i> Daily Attitude & Sad Shayari</h3>
-                <div id="shayari-box" style="background:rgba(3,7,18,0.8); padding:14px; border-radius:12px; font-size:13px; font-style:italic; margin-bottom:12px;">
-                    "हमारी ख़ामोशी को हमारी हार मत समझना, कुछ कहानियाँ अक्सर अधूरी ही खूबसूरत होती हैं...💔"
-                </div>
-                <button onclick="newShayari()" class="btn-prime"><i class="fa-solid fa-arrows-rotate"></i> Next Shayari</button>
-            </div>
-        </div>
-
-        <!-- TAB 3: AI TOOLS & GAMES (Spin Wheel + TicTacToe) -->
-        <div id="tab-games" class="tab-content">
-            <div class="hero-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(6, 182, 212, 0.25));">
-                <h2>🎮 ARCADE & SPIN WHEEL</h2>
-                <p>Play Games, Spin Wheel & Test Love Compatibility!</p>
-            </div>
-
-            <!-- Spin Wheel Game -->
-            <div class="glass-card" style="text-align:center;">
-                <h3 style="margin-bottom:6px; color:var(--gold);"><i class="fa-solid fa-dharmachakra"></i> Lucky Spin & Win</h3>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Spin daily to win free coins and gift vouchers!</p>
-                <div id="spin-result" style="font-size:16px; font-weight:900; color:#34d399; margin-bottom:10px; min-height:24px;"></div>
-                <button onclick="spinWheel()" class="btn-prime btn-gold"><i class="fa-solid fa-rotate"></i> Spin Wheel Now</button>
+                <h3 style="margin-bottom:8px; font-size:15px; color:#c4b5fd;"><i class="fa-solid fa-eye-low-vision"></i> Secret Crush Predictor</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">जानिए कौन आपको गुप्त रूप से पसंद करता है!</p>
+                <input type="text" id="crush-name" class="input-dark" placeholder="अपना नाम दर्ज करें">
+                <button onclick="predictCrush()" class="btn-prime"><i class="fa-solid fa-magnifying-glass-heart"></i> Reveal Secret Crush</button>
+                <div id="crush-output" style="display:none; margin-top:14px; text-align:center; font-size:14px; font-weight:700; color:#34d399;"></div>
             </div>
 
             <!-- Love Calculator -->
             <div class="glass-card">
                 <h3 style="margin-bottom:8px; font-size:15px; color:var(--pink);"><i class="fa-solid fa-heart"></i> AI Love Match Calculator</h3>
-                <input type="text" id="name1" class="input-dark" placeholder="Aapka Naam">
-                <input type="text" id="name2" class="input-dark" placeholder="Partner ka Naam">
-                <button onclick="checkLove()" class="btn-prime btn-pink"><i class="fa-solid fa-wand-magic-sparkles"></i> Calculate Compatibility</button>
+                <input type="text" id="name1" class="input-dark" placeholder="आपका नाम">
+                <input type="text" id="name2" class="input-dark" placeholder="पार्टनर का नाम">
+                <button onclick="checkLove()" class="btn-prime btn-pink"><i class="fa-solid fa-wand-magic-sparkles"></i> Test Compatibility</button>
                 <div id="love-output" style="display:none; margin-top:14px; text-align:center; font-size:15px; font-weight:800; color:var(--pink);"></div>
+            </div>
+        </div>
+
+        <!-- TAB 3: ARCADE & SPIN WHEEL -->
+        <div id="tab-games" class="tab-content">
+            <div class="hero-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(6, 182, 212, 0.25));">
+                <h2>🎮 FREE ARCADE & SPIN WHEEL</h2>
+                <p>Spin Wheel & Play Games Inside App!</p>
+            </div>
+
+            <!-- Spin Wheel -->
+            <div class="glass-card" style="text-align:center;">
+                <h3 style="margin-bottom:6px; color:var(--gold);"><i class="fa-solid fa-dharmachakra"></i> Lucky Spin Wheel</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">रोज़ स्पिन करें और फ्री कॉइन्स जीतें!</p>
+                <div id="spin-res" style="font-size:15px; font-weight:800; color:#34d399; margin-bottom:10px; min-height:20px;"></div>
+                <button onclick="spinWheel()" class="btn-prime btn-gold"><i class="fa-solid fa-arrows-rotate"></i> Spin Wheel Now</button>
             </div>
 
             <!-- Tic Tac Toe -->
@@ -332,4 +292,52 @@
 
             <div class="glass-card">
                 <h3>AU Small Finance Card</h3>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Lifetime Free + Fr
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Lifetime Free + Free ₹500 Amazon Voucher</p>
+                <a href="https://ltsrn.in/lIV" target="_blank" onclick="triggerAds()" class="btn-prime btn-accent"><i class="fa-solid fa-credit-card"></i> Apply AU Bank Card</a>
+            </div>
+
+            <div class="glass-card">
+                <h3>Axis Bank Credit Card</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Unlimited 5% Cashback on Flipkart & Swiggy</p>
+                <a href="https://ltsrn.in/lIW" target="_blank" onclick="triggerAds()" class="btn-prime"><i class="fa-solid fa-credit-card"></i> Apply Axis Card</a>
+            </div>
+
+            <div class="glass-card">
+                <h3>HDFC Bank Credit Card</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">India's Premium Cashback & Rewards Card</p>
+                <a href="https://ltsrn.in/lI8" target="_blank" onclick="triggerAds()" class="btn-prime"><i class="fa-solid fa-credit-card"></i> Apply HDFC Card</a>
+            </div>
+
+            <div class="glass-card">
+                <h3>Federal Bank Credit Card</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Digital Paperless Approval in 2 Minutes</p>
+                <a href="https://ltsrn.in/lIZ" target="_blank" onclick="triggerAds()" class="btn-prime"><i class="fa-solid fa-credit-card"></i> Apply Federal Card</a>
+            </div>
+
+            <div class="glass-card">
+                <h3>Bitli Special Deal</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Exclusive Card Offers & Lounge Access</p>
+                <a href="https://bitli.in/m4kL17" target="_blank" onclick="triggerAds()" class="btn-prime btn-accent"><i class="fa-solid fa-star"></i> Claim Special Offer</a>
+            </div>
+
+            <div class="glass-card">
+                <h3>TimeBucks Rewards Portal</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Complete Micro-tasks & Earn Dollars</p>
+                <a href="https://timebucks.com/?refID=230373233" target="_blank" onclick="triggerAds()" class="btn-prime btn-pink"><i class="fa-solid fa-coins"></i> Open TimeBucks</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="app-nav">
+        <div class="nav-tab active" onclick="switchTab('videos', this)"><i class="fa-solid fa-play"></i><span>Videos</span></div>
+        <div class="nav-tab" onclick="switchTab('tools', this)"><i class="fa-solid fa-wand-magic-sparkles"></i><span>AI Quiz</span></div>
+        <div class="nav-tab" onclick="switchTab('games', this)"><i class="fa-solid fa-gamepad"></i><span>Arcade</span></div>
+        <div class="nav-tab" onclick="switchTab('cards', this)"><i class="fa-solid fa-credit-card"></i><span>Deals</span></div>
+    </div>
+
+    <script>
+        // DUAL AD ENGINE (Adsterra 31791042 + Monetag)
+        const adsterraSmartLink = "https://www.highrevenuegate.com/31791042";
+        const monetagSmartLink = "https://uplcm.com/4/12045886
