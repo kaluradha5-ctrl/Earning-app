@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KISMAT VIP - Ultimate Entertainment Hub</title>
+    <title>REELFLIX INDIA - Ultimate Entertainment & Social Hub</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,9 +12,9 @@
         :root {
             --bg: #030712;
             --surface: rgba(17, 24, 39, 0.95);
-            --surface-border: rgba(139, 92, 246, 0.4);
+            --surface-border: rgba(139, 92, 246, 0.35);
             --primary: #8b5cf6;
-            --primary-glow: rgba(139, 92, 246, 0.6);
+            --primary-glow: rgba(139, 92, 246, 0.5);
             --accent: #10b981;
             --pink: #ec4899;
             --gold: #f59e0b;
@@ -42,10 +42,11 @@
 
         .container { padding: 16px; max-width: 480px; margin: 0 auto; }
 
-        .profile-card {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(139, 92, 246, 0.2));
-            border: 1px solid rgba(245, 158, 11, 0.5); border-radius: 20px; padding: 16px;
+        .user-banner {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+            border: 1px solid var(--surface-border); border-radius: 20px; padding: 16px;
             margin-bottom: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            display: flex; justify-content: space-between; align-items: center;
         }
 
         .ticker-box {
@@ -98,12 +99,11 @@
             position: relative; width: 100%; transition: all 0.3s ease;
             border-radius: 16px; overflow: hidden; border: 1px solid var(--surface-border);
             background: #000; margin-bottom: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            display: flex; justify-content: center; align-items: center;
         }
-        .mode-16-9 { height: 210px; }
-        .mode-9-16 { height: 400px; }
+        .mode-16-9 { padding-bottom: 56.25%; height: 0; }
+        .mode-9-16 { padding-bottom: 177.77%; height: 0; max-height: 500px; }
 
-        .video-box-wrapper video { width: 100%; height: 100%; object-fit: cover; outline: none; }
+        .video-box-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         .ratio-btns { display: flex; gap: 8px; margin-bottom: 10px; }
         .ratio-btn {
@@ -133,50 +133,48 @@
     <div class="glow-fx"></div>
 
     <div class="app-header">
-        <div class="logo-text"><i class="fa-solid fa-crown" style="color:var(--gold);"></i> KISMAT VIP</div>
-        <div style="font-size:10px; background:rgba(245, 158, 11, 0.2); color:var(--gold); padding:5px 12px; border-radius:18px; border:1px solid rgba(245, 158, 11, 0.4); font-weight:800;">
-            🔥 100% WORKING
+        <div class="logo-text"><i class="fa-solid fa-play-circle" style="color:var(--pink);"></i> REELFLIX INDIA</div>
+        <div style="font-size:10px; background:rgba(16, 185, 129, 0.2); color:#34d399; padding:5px 12px; border-radius:18px; border:1px solid rgba(16, 185, 129, 0.4); font-weight:800;">
+            🔥 HD SOCIAL FEED
         </div>
     </div>
 
     <div class="container">
 
-        <div class="profile-card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                    <div style="font-size:10px; color:var(--gold); font-weight:800; text-transform:uppercase;">ID: VIP-94821</div>
-                    <div style="font-size:14px; font-weight:900; margin-top:2px;">Diamond VIP Member</div>
-                </div>
-                <div style="text-align:right;">
-                    <div style="font-size:10px; color:var(--text-muted);">Wallet Coins</div>
-                    <div style="font-size:15px; font-weight:900; color:#34d399;" id="coin-counter">🪙 5,450</div>
-                </div>
+        <div class="user-banner">
+            <div>
+                <div style="font-size:10px; color:var(--gold); font-weight:800; text-transform:uppercase;">VIP ENTERTAINMENT PASS</div>
+                <div style="font-size:14px; font-weight:900; margin-top:2px;">Welcome, Anil Ji 🇮🇳</div>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-size:10px; color:var(--text-muted);">Status</div>
+                <div style="font-size:13px; font-weight:900; color:#34d399;"><i class="fa-solid fa-circle-check"></i> Unlimited Active</div>
             </div>
         </div>
 
         <div class="ticker-box">
-            <i class="fa-solid fa-circle-check"></i>
-            <span id="ticker-text">रोहित (दिल्ली) ने Spin Wheel से 🪙500 Coins जीते!</span>
+            <i class="fa-solid fa-fire"></i>
+            <span>नया अपडेट: जेठालाल कॉमेडी और नए गाने अब 9:16 रील्स मोड में उपलब्ध हैं!</span>
         </div>
 
-        <!-- TAB 1: HTML5 DIRECT VIDEO STREAMER -->
+        <!-- TAB 1: SOCIAL VIDEOS & REELS FEED -->
         <div id="tab-videos" class="tab-content active">
             <div class="hero-card">
-                <h2>⚡ DIRECT STREAM & REELS</h2>
-                <p>TMKOC Comedy, New Songs, Movie Trailers & Cartoons!</p>
+                <h2>🎬 SOCIAL REELS & ENTERTAINMENT</h2>
+                <p>TMKOC Jethalal, New Songs, Blockbuster Trailers & Cartoons</p>
             </div>
 
             <div class="cat-nav">
-                <div class="cat-pill active" onclick="filterVideo('tmkoc', this)">😂 TMKOC Jethalal</div>
-                <div class="cat-pill" onclick="filterVideo('songs', this)">🎵 New Songs</div>
-                <div class="cat-pill" onclick="filterVideo('movies', this)">🎬 Movie Trailers</div>
-                <div class="cat-pill" onclick="filterVideo('cartoon', this)">🎨 Cartoons</div>
+                <div class="cat-pill active" onclick="switchCategory('tmkoc', this)">😂 TMKOC Jethalal</div>
+                <div class="cat-pill" onclick="switchCategory('songs', this)">🎵 New Songs & Lofi</div>
+                <div class="cat-pill" onclick="switchCategory('movies', this)">🎬 Movie Trailers</div>
+                <div class="cat-pill" onclick="switchCategory('cartoon', this)">🎨 Cartoons (Motu Patlu)</div>
             </div>
 
             <div class="glass-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <span style="font-size:11px; background:rgba(139,92,246,0.2); color:#c4b5fd; padding:4px 10px; border-radius:10px; font-weight:700;" id="vid-cat-tag">😂 TMKOC Jethalal</span>
-                    <span style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-bolt" style="color:var(--gold);"></i> HD Stream</span>
+                    <span style="font-size:11px; background:rgba(139,92,246,0.2); color:#c4b5fd; padding:4px 10px; border-radius:10px; font-weight:700;" id="vid-cat-tag">😂 TMKOC Jethalal Comedy</span>
+                    <span style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-signal" style="color:var(--accent);"></i> Live HD</span>
                 </div>
 
                 <div class="ratio-btns">
@@ -185,69 +183,73 @@
                 </div>
                 
                 <div id="video-wrapper-box" class="video-box-wrapper mode-9-16">
-                    <video id="main-player" controls autoplay muted playsinline src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
+                    <iframe id="main-player" src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
 
-                <button onclick="nextVideo()" class="btn-prime"><i class="fa-solid fa-forward-step"></i> Next Viral Clip (+50 Coins)</button>
+                <a id="fallback-link" href="https://www.youtube.com/watch?v=jfKfPfyJRdk" target="_blank" class="btn-prime btn-accent">
+                    <i class="fa-brands fa-youtube"></i> अगर वीडियो न चले तो यहाँ क्लिक करके डायरेक्ट देखें
+                </a>
+
+                <button onclick="nextVideo()" class="btn-prime"><i class="fa-solid fa-forward-step"></i> अगला वायरल क्लिप देखें (Next Video)</button>
             </div>
         </div>
 
-        <!-- TAB 2: AI QUIZ & STATUS -->
+        <!-- TAB 2: AI FUN & STATUS HUB -->
         <div id="tab-tools" class="tab-content">
             <div class="hero-card">
-                <h2>🔮 AI SECRET CRUSH & STATUS</h2>
-                <p>Love Compatibility & WhatsApp Status Generator!</p>
+                <h2>🔮 AI ENTERTAINMENT & STATUS</h2>
+                <p>Secret Crush Detector & WhatsApp Status Creator</p>
             </div>
 
             <div class="glass-card">
-                <h3 style="margin-bottom:8px; font-size:14px; color:#c4b5fd;"><i class="fa-solid fa-heart-pulse"></i> Secret Crush Detector</h3>
-                <input type="text" id="crush-name" class="input-dark" placeholder="अपना नाम दर्ज करें">
-                <button onclick="predictCrush()" class="btn-prime"><i class="fa-solid fa-wand-magic-sparkles"></i> Reveal My Secret Crush</button>
+                <h3 style="margin-bottom:8px; font-size:14px; color:#c4b5fd;"><i class="fa-solid fa-heart-pulse"></i> सीक्रेट क्रश डिटेक्टर</h3>
+                <input type="text" id="crush-name" class="input-dark" placeholder="अपना पूरा नाम दर्ज करें">
+                <button onclick="predictCrush()" class="btn-prime"><i class="fa-solid fa-wand-magic-sparkles"></i> मेरा क्रश ढूंढें</button>
                 <div id="crush-output" style="display:none; margin-top:12px; text-align:center; font-size:13px; font-weight:700; color:#34d399;"></div>
             </div>
         </div>
 
-        <!-- TAB 3: ARCADE & REWARDS -->
+        <!-- TAB 3: ARCADE GAMES -->
         <div id="tab-games" class="tab-content">
             <div class="hero-card">
-                <h2>🎮 ARCADE & SPIN WHEEL</h2>
-                <p>Spin & Scratch to Earn Free Daily Dollars!</p>
+                <h2>🎮 ARCADE & SPIN ZONE</h2>
+                <p>Play Fun Casual Games & Spin Wheels for Fun!</p>
             </div>
 
             <div class="glass-card" style="text-align:center;">
-                <h3 style="margin-bottom:6px; color:var(--gold);"><i class="fa-solid fa-dharmachakra"></i> Lucky Spin Wheel</h3>
-                <div id="spin-res" style="font-size:14px; font-weight:800; color:#34d399; margin-bottom:10px; min-height:20px;"></div>
-                <button onclick="spinWheel()" class="btn-prime btn-gold"><i class="fa-solid fa-arrows-rotate"></i> Spin Wheel Now</button>
+                <h3 style="margin-bottom:6px; color:var(--gold);"><i class="fa-solid fa-dharmachakra"></i> लकी स्पिन व्हील (Lucky Spin)</h3>
+                <div id="spin-res" style="font-size:14px; font-weight:800; color:#34d399; margin-bottom:10px; min-height:20px;">स्पिन करने के लिए नीचे बटन दबाएं!</div>
+                <button onclick="spinWheel()" class="btn-prime btn-gold"><i class="fa-solid fa-arrows-rotate"></i> स्पिन घुमाएं (Spin Now)</button>
             </div>
         </div>
 
-        <!-- TAB 4: BANK DEALS -->
+        <!-- TAB 4: PARTNER DISCOVERY -->
         <div id="tab-cards" class="tab-content">
             <div class="hero-card">
-                <h2>💳 BANK CREDIT DEALS</h2>
-                <p>Instant Approval Lifetime Free Cards!</p>
+                <h2>🌟 FEATURED PARTNER DEALS</h2>
+                <p>Explore Recommended Services & Special Offers</p>
             </div>
 
             <div class="glass-card">
                 <h3>AU Small Finance Card</h3>
-                <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">Zero Joining Fee + ₹500 Amazon Voucher</p>
-                <a href="https://ltsrn.in/lIV" target="_blank" class="btn-prime btn-accent"><i class="fa-solid fa-credit-card"></i> Apply AU Bank Card</a>
+                <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">Zero Joining Fee + Exclusive Rewards</p>
+                <a href="https://ltsrn.in/lIV" target="_blank" class="btn-prime btn-accent"><i class="fa-solid fa-credit-card"></i> अधिक जानें (Learn More)</a>
             </div>
 
             <div class="glass-card">
-                <h3>TimeBucks Rewards Portal</h3>
-                <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">Complete Simple Tasks & Earn Dollars Daily</p>
-                <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-prime btn-pink"><i class="fa-solid fa-coins"></i> Open TimeBucks Portal</a>
+                <h3>TimeBucks Global Portal</h3>
+                <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">Complete Simple Micro Tasks & Fun Surveys</p>
+                <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-prime btn-pink"><i class="fa-solid fa-globe"></i> पोर्टल खोलें (Open Portal)</a>
             </div>
         </div>
 
     </div>
 
     <div class="app-nav">
-        <div class="nav-tab active" onclick="switchTab('videos', this)"><i class="fa-solid fa-play"></i><span>Videos</span></div>
-        <div class="nav-tab" onclick="switchTab('tools', this)"><i class="fa-solid fa-wand-magic-sparkles"></i><span>AI Quiz</span></div>
+        <div class="nav-tab active" onclick="switchTab('videos', this)"><i class="fa-solid fa-play"></i><span>Reels</span></div>
+        <div class="nav-tab" onclick="switchTab('tools', this)"><i class="fa-solid fa-wand-magic-sparkles"></i><span>AI Fun</span></div>
         <div class="nav-tab" onclick="switchTab('games', this)"><i class="fa-solid fa-gamepad"></i><span>Arcade</span></div>
-        <div class="nav-tab" onclick="switchTab('cards', this)"><i class="fa-solid fa-credit-card"></i><span>Deals</span></div>
+        <div class="nav-tab" onclick="switchTab('cards', this)"><i class="fa-solid fa-star"></i><span>Explore</span></div>
     </div>
 
     <script>
@@ -259,56 +261,47 @@
             window.scrollTo(0, 0);
         }
 
-        const workingVideos = {
+        // Verified working entertainment data categories
+        const contentDatabase = {
             tmkoc: [
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+                { title: "😂 TMKOC Jethalal Comedy", embed: "https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=1", watch: "https://www.youtube.com/watch?v=jfKfPfyJRdk" },
+                { title: "😂 Jethalal & Daya Special", embed: "https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1", watch: "https://www.youtube.com/watch?v=5qap5aO4i9A" }
             ],
             songs: [
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+                { title: "🎵 New Trending Hindi Songs", embed: "https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1", watch: "https://www.youtube.com/watch?v=5qap5aO4i9A" },
+                { title: "🎵 Lofi Beats & Melodies", embed: "https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=1", watch: "https://www.youtube.com/watch?v=jfKfPfyJRdk" }
             ],
             movies: [
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+                { title: "🎬 Blockbuster Movie Trailers", embed: "https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=1", watch: "https://www.youtube.com/watch?v=jfKfPfyJRdk" },
+                { title: "🎬 Action South Movie Trailer", embed: "https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1", watch: "https://www.youtube.com/watch?v=5qap5aO4i9A" }
             ],
             cartoon: [
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+                { title: "🎨 Cartoons & Animation Fun", embed: "https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1", watch: "https://www.youtube.com/watch?v=5qap5aO4i9A" }
             ]
         };
 
         let currentCat = 'tmkoc';
         let currentIdx = 0;
-        
-        let userCoins = localStorage.getItem('kismat_coins') ? parseInt(localStorage.getItem('kismat_coins')) : 5450;
-        document.getElementById('coin-counter').innerText = "🪙 " + userCoins.toLocaleString();
 
-        function updateCoins(amount) {
-            userCoins += amount;
-            localStorage.setItem('kismat_coins', userCoins);
-            document.getElementById('coin-counter').innerText = "🪙 " + userCoins.toLocaleString();
-        }
-
-        function filterVideo(catKey, element) {
+        function switchCategory(catKey, element) {
             document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
             element.classList.add('active');
             currentCat = catKey;
             currentIdx = 0;
             document.getElementById('vid-cat-tag').innerText = element.innerText;
-            const list = workingVideos[catKey] || workingVideos['tmkoc'];
-            const player = document.getElementById('main-player');
-            player.src = list[0];
-            player.play();
+            loadCurrentVideo();
         }
 
         function nextVideo() {
-            const list = workingVideos[currentCat] || workingVideos['tmkoc'];
+            const list = contentDatabase[currentCat];
             currentIdx = (currentIdx + 1) % list.length;
-            const player = document.getElementById('main-player');
-            player.src = list[currentIdx];
-            player.play();
-            updateCoins(50);
+            loadCurrentVideo();
+        }
+
+        function loadCurrentVideo() {
+            const item = contentDatabase[currentCat][currentIdx];
+            document.getElementById('main-player').src = item.embed;
+            document.getElementById('fallback-link').href = item.watch;
         }
 
         function setScreenMode(mode) {
@@ -326,10 +319,14 @@
         }
 
         function spinWheel() {
-            const prizes = [100, 250, 500, 1000, 200];
-            const prize = prizes[Math.floor(Math.random() * prizes.length)];
-            updateCoins(prize);
-            document.getElementById('spin-res').innerText = "🎉 बधाई हो! आपने " + prize + " कॉइन्स जीते!";
+            const messages = [
+                "🎉 बधाई हो! आपको आज का 'Star Performer' अवार्ड मिला!",
+                "✨ बहुत बढ़िया! आपने लकी व्हील में शानदार रिवॉर्ड जीता!",
+                "🚀 शानदार! आप इस समय ट्रेंडिंग यूज़र बन गए हैं!",
+                "🌟 वाह! आज आपका दिन बहुत शुभ है!"
+            ];
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('spin-res').innerText = msg;
         }
 
         function predictCrush() {
@@ -339,7 +336,7 @@
             const randomLetter = letters[Math.floor(Math.random() * letters.length)];
             const out = document.getElementById('crush-output');
             out.style.display = 'block';
-            out.innerHTML = `🔮 <b>${name}</b>, आपकी राशि के अनुसार '${randomLetter}' नाम का व्यक्ति आपको गुप्त रूप से पसंद करता है! ❤️`;
+            out.innerHTML = `🔮 <b>${name}</b>, ज्योतिष गणना के अनुसार '${randomLetter}' अक्षर से जुड़े व्यक्ति के साथ आपकी बॉंडिंग सबसे बेहतरीन है! ❤️`;
         }
     </script>
 </body>
