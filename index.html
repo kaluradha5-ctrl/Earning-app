@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KISMAT QUEST - Perfect Fraud-Proof Earning Portal</title>
+    <title>KISMAT QUEST - Fraud-Proof Earning Portal</title>
     
-    <!-- Firebase JS SDK -->
+    <!-- Firebase SDK (Compat Version for Simple JS) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
     <style>
         :root {
             --primary: #6366f1;
-            --primary-dark: #4f46e5;
             --accent: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
             --bg-color: #0f172a;
             --card-bg: #1e293b;
             --text-main: #f8fafc;
@@ -23,10 +20,9 @@
             --border: #334155;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 80px; }
 
-        /* App Header */
         .app-header {
             position: sticky; top: 0; z-index: 100;
             background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px);
@@ -36,70 +32,40 @@
 
         .wallet-badge {
             background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold;
-            color: var(--accent); cursor: pointer;
+            padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; color: var(--accent);
         }
 
         .container { padding: 16px; max-width: 500px; margin: 0 auto; }
-
-        .banner-card {
-            background: linear-gradient(135deg, #4f46e5, #06b6d4);
-            color: white; padding: 20px; border-radius: 20px; margin-bottom: 20px;
-        }
-
-        /* Streak Box */
-        .streak-box {
-            background: var(--card-bg); border: 1px solid var(--border);
-            padding: 16px; border-radius: 16px; margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        /* Task Cards */
-        .task-card {
-            background: var(--card-bg); border-radius: 16px; padding: 16px;
-            margin-bottom: 14px; border: 1px solid var(--border);
-            display: flex; flex-direction: column; gap: 12px;
-        }
-
-        .btn-action {
-            display: inline-block; width: 100%; text-align: center; background: var(--primary);
-            color: white; text-decoration: none; padding: 12px;
-            border-radius: 10px; font-weight: 700; font-size: 13px; border: none; cursor: pointer;
-        }
-
-        /* Security Banner */
-        .security-banner {
-            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #6ee7b7; padding: 10px 14px; border-radius: 12px; font-size: 12px; margin-bottom: 15px;
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        /* High Price Game Grid */
+        .banner-card { background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 20px; border-radius: 20px; margin-bottom: 20px; }
         .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        
         .game-card {
             background: var(--card-bg); border: 1px solid var(--border);
             border-radius: 16px; padding: 12px; text-align: center;
             display: flex; flex-direction: column; justify-content: space-between;
         }
-        .game-title { font-size: 14px; font-weight: bold; margin: 8px 0 4px 0; }
-        .game-price { font-size: 15px; font-weight: 900; color: var(--accent); margin-bottom: 8px; }
 
-        /* Login Screen Overlay */
+        .btn-action {
+            display: inline-block; width: 100%; text-align: center; background: var(--primary);
+            color: white; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; border: none; cursor: pointer;
+        }
+
         #login-screen {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
             z-index: 999999; display: flex; justify-content: center; align-items: center; padding: 20px;
         }
+
         .login-card {
             background: rgba(30, 41, 59, 0.95); border: 1px solid var(--border);
             padding: 35px 25px; border-radius: 24px; width: 100%; max-width: 420px; text-align: center;
         }
+
         .login-input {
             width: 100%; padding: 14px; margin: 8px 0; background: #0f172a;
             border: 1px solid var(--border); border-radius: 12px; color: white; outline: none;
         }
 
-        /* Bottom Nav */
         .app-nav {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: rgba(15, 23, 42, 0.95); height: 65px;
@@ -118,11 +84,10 @@
     <div id="login-screen">
         <div class="login-card">
             <h2 style="color:white; margin-bottom:6px;">⚡ KISMAT QUEST</h2>
-            <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">Phone & Password Login System</p>
+            <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">Enter Phone Number to Continue</p>
             <input type="tel" id="login-phone" class="login-input" placeholder="Mobile Number (10 Digits)">
             <input type="password" id="login-password" class="login-input" placeholder="Password (Min 4 chars)">
             <button type="button" id="login-submit-btn" class="btn-action" style="padding:14px; margin-top:10px;">Login / Register</button>
-            <p style="font-size:11px; color:var(--text-muted); margin-top:12px;">🔒 Anti-Fraud Security: 1 Device = 1 Account</p>
         </div>
     </div>
 
@@ -135,175 +100,65 @@
     </div>
 
     <div class="container">
-
-        <!-- TAB 1: AUTOMATIC GAMES & OFFERS -->
+        <!-- TAB 1: GAMES -->
         <div id="tab-games" class="tab-content active">
-            <div class="banner-card" style="background: linear-gradient(135deg, #10b981, #059669);">
-                <h2>🎮 Automatic High-Payout Games</h2>
-                <p>Play games & get automatic coins credited directly to your wallet!</p>
+            <div class="banner-card">
+                <h2>🎮 High-Payout Games</h2>
+                <p>Play games & get automatic coins in your wallet!</p>
             </div>
 
-            <div class="security-banner">
-                <span>⚡</span>
-                <span>S2S Automatic Credit Engine Active: Tasks poore hote hi coins apne aap add honge.</span>
-            </div>
-
-            <!-- Daily Retention Bonus -->
-            <div class="streak-box">
-                <div>
-                    <h4 style="font-size:14px;">🔥 Daily Retention Streak</h4>
-                    <p style="font-size:12px; color:var(--text-muted);">Claim 🪙10 free bonus coins every day</p>
-                </div>
-                <button onclick="claimStreak()" class="btn-action" style="max-width:110px; background:var(--accent);">Claim 🪙10</button>
-            </div>
-
-            <!-- High Payout Games Grid (User Receives 80% / Admin 20%) -->
             <div class="game-grid">
                 <div class="game-card">
                     <div>
-                        <span style="font-size:10px; background:rgba(16,185,129,0.2); color:#34d399; padding:3px 8px; border-radius:6px;">AUTOMATIC</span>
-                        <div class="game-title">Crazy Aim</div>
-                        <div class="game-price">$57.04 (🪙3,840)</div>
+                        <div style="font-size:14px; font-weight:bold;">Crazy Aim</div>
+                        <div style="color:var(--accent); font-weight:bold; margin:6px 0;">$57.04 (🪙 3,840)</div>
                     </div>
-                    <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action" onclick="trackTaskClick('Crazy_Aim')">Play Game</a>
+                    <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action">Play Game</a>
                 </div>
-
                 <div class="game-card">
                     <div>
-                        <span style="font-size:10px; background:rgba(245,158,11,0.2); color:#fbbf24; padding:3px 8px; border-radius:6px;">AUTOMATIC</span>
-                        <div class="game-title">Rocket Hit</div>
-                        <div class="game-price">$51.37 (🪙3,440)</div>
+                        <div style="font-size:14px; font-weight:bold;">Rocket Hit</div>
+                        <div style="color:var(--accent); font-weight:bold; margin:6px 0;">$51.37 (🪙 3,440)</div>
                     </div>
-                    <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action" onclick="trackTaskClick('Rocket_Hit')">Play Game</a>
-                </div>
-
-                <div class="game-card">
-                    <div>
-                        <span style="font-size:10px; background:rgba(99,102,241,0.2); color:#818cf8; padding:3px 8px; border-radius:6px;">AUTOMATIC</span>
-                        <div class="game-title">Free My Cat</div>
-                        <div class="game-price">$48.75 (🪙3,280)</div>
-                    </div>
-                    <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action" onclick="trackTaskClick('Free_My_Cat')">Play Game</a>
-                </div>
-
-                <div class="game-card">
-                    <div>
-                        <span style="font-size:10px; background:rgba(99,102,241,0.2); color:#818cf8; padding:3px 8px; border-radius:6px;">AUTOMATIC</span>
-                        <div class="game-title">Mochi Fall</div>
-                        <div class="game-price">$21.93 (🪙1,480)</div>
-                    </div>
-                    <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action" onclick="trackTaskClick('Mochi_Fall')">Play Game</a>
-                </div>
-            </div>
-
-            <!-- AUTOMATIC OFFERWALL IFRAME ZONE -->
-            <div class="task-card">
-                <h3 style="color:var(--accent); text-align:center;">🌐 Offerwall Auto-Credit Zone</h3>
-                <p style="font-size:12px; color:var(--text-muted); text-align:center;">
-                    Offerwall games poore karein. Postback signal aate hi coins automatic credit honge!
-                </p>
-                <div style="width:100%; height:420px; border-radius:12px; overflow:hidden; border:1px solid var(--border); margin-top:8px;">
-                    <iframe id="offerwall-frame" src="https://www.cpalead.com/dashboard/offers.php" 
-                            style="width:100%; height:100%; border:none; background:#ffffff;" 
-                            title="Auto Offerwall">
-                    </iframe>
+                    <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action">Play Game</a>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 2: BANK CARDS -->
+        <!-- TAB 2: CARDS -->
         <div id="tab-cards" class="tab-content">
-            <div class="banner-card">
-                <h2>💳 Premium Credit Card Deals</h2>
-                <p>High payout banking registrations!</p>
+            <div class="banner-card" style="background: linear-gradient(135deg, #4f46e5, #06b6d4);">
+                <h2>💳 Bank Credit Cards</h2>
+                <p>Fixed high payout offers.</p>
             </div>
-
-            <div class="task-card">
-                <div style="display:flex; justify-content:space-between;">
-                    <div>
-                        <h3 style="font-size:15px;">💳 AU Bank Credit Card</h3>
-                        <p style="font-size:12px; color:var(--text-muted);">Apply online digital card.</p>
-                    </div>
-                    <span style="color:var(--accent); font-weight:bold;">🪙 450 Coins</span>
-                </div>
-                <a href="https://ltsrn.in/lIV" target="_blank" class="btn-action">Apply Card</a>
+            <div style="background:var(--card-bg); padding:15px; border-radius:12px; margin-bottom:10px;">
+                <h4>AU Bank Credit Card</h4>
+                <a href="https://ltsrn.in/lIV" target="_blank" class="btn-action" style="margin-top:8px;">Apply Card (🪙 450)</a>
             </div>
-
-            <div class="task-card">
-                <div style="display:flex; justify-content:space-between;">
-                    <div>
-                        <h3 style="font-size:15px;">💳 Axis Bank Credit Card</h3>
-                        <p style="font-size:12px; color:var(--text-muted);">Instant approval offer.</p>
-                    </div>
-                    <span style="color:var(--accent); font-weight:bold;">🪙 400 Coins</span>
-                </div>
-                <a href="https://ltsrn.in/lIW" target="_blank" class="btn-action">Apply Card</a>
-            </div>
-
-            <div class="task-card">
-                <div style="display:flex; justify-content:space-between;">
-                    <div>
-                        <h3 style="font-size:15px;">💳 HDFC Bank Credit Card</h3>
-                        <p style="font-size:12px; color:var(--text-muted);">Top Indian Banking card.</p>
-                    </div>
-                    <span style="color:var(--accent); font-weight:bold;">🪙 700 Coins</span>
-                </div>
-                <a href="https://ltsrn.in/lI8" target="_blank" class="btn-action">Apply Card</a>
-            </div>
-
-            <div class="task-card">
-                <div style="display:flex; justify-content:space-between;">
-                    <div>
-                        <h3 style="font-size:15px;">💳 Federal Bank Credit Card</h3>
-                        <p style="font-size:12px; color:var(--text-muted);">Instant Digital Card.</p>
-                    </div>
-                    <span style="color:var(--accent); font-weight:bold;">🪙 549 Coins</span>
-                </div>
-                <a href="https://ltsrn.in/lIZ" target="_blank" class="btn-action">Apply Card</a>
-            </div>
-
-            <div class="task-card">
-                <div style="display:flex; justify-content:space-between;">
-                    <div>
-                        <h3 style="font-size:15px;">💳 Premium Special Credit Deal</h3>
-                        <p style="font-size:12px; color:var(--text-muted);">High approval payout offer.</p>
-                    </div>
-                    <span style="color:var(--accent); font-weight:bold;">🪙 1110 Coins</span>
-                </div>
-                <a href="https://bitli.in/m4kL17" target="_blank" class="btn-action">Apply Card</a>
+            <div style="background:var(--card-bg); padding:15px; border-radius:12px; margin-bottom:10px;">
+                <h4>Axis Bank Credit Card</h4>
+                <a href="https://ltsrn.in/lIW" target="_blank" class="btn-action" style="margin-top:8px;">Apply Card (🪙 400)</a>
             </div>
         </div>
 
         <!-- TAB 3: REFER -->
         <div id="tab-refer" class="tab-content">
             <div class="banner-card" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-                <h2>🤝 Refer & Grow Network</h2>
-                <p>Share your link & get 🪙50 bonus coins on every friend's signup!</p>
-            </div>
-            <div class="streak-box" style="flex-direction:column; gap:12px; text-align:center;">
-                <p style="font-size:13px;">Your Referral Link:</p>
-                <input type="text" id="ref-link" class="login-input" readonly value="https://kismatquest.app?ref=user">
-                <button onclick="copyRefLink()" class="btn-action">Copy Referral Link</button>
+                <h2>🤝 Refer & Earn</h2>
+                <p>Share with friends to earn bonus coins!</p>
             </div>
         </div>
 
         <!-- TAB 4: WALLET -->
         <div id="tab-wallet" class="tab-content">
-            <div class="banner-card" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
-                <h2>👛 Safe Wallet & Withdrawals</h2>
-                <p>Request instant UPI / Paytm payouts.</p>
-            </div>
-            <div style="background:var(--card-bg); padding:20px; border-radius:16px; border:1px solid var(--border); text-align:center;">
-                <p style="font-size:12px; color:var(--text-muted);">CURRENT BALANCE</p>
+            <div style="background:var(--card-bg); padding:20px; border-radius:16px; text-align:center;">
+                <p style="font-size:12px; color:var(--text-muted);">BALANCE</p>
                 <div id="wallet-coins-display" style="font-size:32px; font-weight:900; color:var(--accent); margin:10px 0;">🪙 0 Coins</div>
-                <input type="text" id="upi-id" class="login-input" placeholder="Enter UPI ID (e.g. 9216903846@paytm)">
-                <button onclick="requestWithdrawal()" class="btn-action" style="background:var(--accent); padding:12px;">Withdraw Funds</button>
             </div>
         </div>
-
     </div>
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- BOTTOM NAV -->
     <div class="app-nav">
         <div class="nav-item active" onclick="switchTab('games', this)"><span>🎮</span><span>Games</span></div>
         <div class="nav-item" onclick="switchTab('cards', this)"><span>💳</span><span>Cards</span></div>
@@ -312,63 +167,58 @@
     </div>
 
     <script>
-        // FIREBASE INITIALIZATION
+        // FIREBASE INITIALIZATION WITH YOUR DEFAULT RTDB CREDENTIALS
         const firebaseConfig = {
-            apiKey: "AIzaSyDummyKey_KismatQuest_2026",
-            authDomain: "kismat-quest.firebaseapp.com",
+            apiKey: "AIzaSyDummyKey_ReplaceWithYourActualAPIKey",
+            authDomain: "kismat-quest-default-rtdb.firebaseapp.com",
             databaseURL: "https://kismat-quest-default-rtdb.firebaseio.com",
-            projectId: "kismat-quest",
-            appId: "1:123456789:web:abcdef123456"
+            projectId: "kismat-quest-default-rtdb",
+            appId: "1:102938475610:web:abcdef1234567890"
         };
+        
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
         let currentUserPhone = localStorage.getItem('kismat_phone') || null;
-        let deviceId = localStorage.getItem('kismat_device_id') || ('DEV_' + Math.random().toString(36).substr(2, 9));
-        localStorage.setItem('kismat_device_id', deviceId);
 
         document.addEventListener("DOMContentLoaded", function() {
+            // Check LocalStorage Session
             if (localStorage.getItem('kismat_logged_in') === 'true' && currentUserPhone) {
                 document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('ref-link').value = "https://kismatquest.app?ref=" + currentUserPhone;
                 listenUserCoins(currentUserPhone);
             }
 
+            // LOGIN / REGISTER BUTTON CLICK
             document.getElementById('login-submit-btn').addEventListener('click', function() {
                 const phone = document.getElementById('login-phone').value.trim();
                 const pass = document.getElementById('login-password').value.trim();
 
                 if (phone.length < 10 || pass.length < 4) {
-                    alert('⚠️ Kripya valid 10-digit mobile number aur password dalein!');
+                    alert('⚠️ Sahi 10-digit mobile number aur password dalein!');
                     return;
                 }
 
-                // 1-Device = 1-Account Enforcement Check
-                database.ref('devices/' + deviceId).once('value', (snapshot) => {
-                    if (snapshot.exists() && snapshot.val() !== phone) {
-                        alert('🛑 SECURITY LOCK: Ek device se 2 accounts nahi ban sakte!');
-                        return;
+                // Direct Local & Database Session Registration
+                currentUserPhone = phone;
+                localStorage.setItem('kismat_logged_in', 'true');
+                localStorage.setItem('kismat_phone', phone);
+                document.getElementById('login-screen').style.display = 'none';
+
+                // Realtime Database Record Check
+                database.ref('users/' + phone).once('value', (snapshot) => {
+                    if (!snapshot.exists()) {
+                        database.ref('users/' + phone).set({
+                            phone: phone,
+                            coins: 0,
+                            createdAt: Date.now()
+                        });
                     }
-
-                    database.ref('devices/' + deviceId).set(phone);
-                    currentUserPhone = phone;
-                    localStorage.setItem('kismat_logged_in', 'true');
-                    localStorage.setItem('kismat_phone', phone);
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('ref-link').value = "https://kismatquest.app?ref=" + phone;
-
-                    // Initialize User Wallet Node if New
-                    database.ref('users/' + phone).once('value', (userSnap) => {
-                        if (!userSnap.exists()) {
-                            database.ref('users/' + phone).set({ coins: 0, createdAt: Date.now() });
-                        }
-                        listenUserCoins(phone);
-                    });
+                    listenUserCoins(phone);
                 });
             });
         });
 
-        // AUTOMATIC REALTIME LISTEN FOR S2S POSTBACK CREDITS
+        // LISTEN TO COINS REALTIME
         function listenUserCoins(phone) {
             database.ref('users/' + phone + '/coins').on('value', (snapshot) => {
                 const coins = snapshot.val() || 0;
@@ -377,18 +227,12 @@
             });
         }
 
-        // TRACK TASK CLICK FOR SUB-ID MATCHING
-        function trackTaskClick(taskId) {
-            if (currentUserPhone) {
-                database.ref('clicks/' + currentUserPhone + '/' + taskId).set(Date.now());
-            }
+        function switchTab(tabName, element) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+            element.classList.add('active');
         }
-
-        function claimStreak() {
-            const today = new Date().toDateString();
-            if (localStorage.getItem('kismat_streak_date') === today) {
-                alert('Aaj ka Daily Bonus claimed hai! Kal wapas aayein.');
-            } else {
-                if (currentUserPhone) {
-                    database.ref('users/' + currentUserPhone + '/coins').transaction((currentCoins) => {
-                        return (currentCoins || 0) 
+    </script>
+</body>
+</html>
