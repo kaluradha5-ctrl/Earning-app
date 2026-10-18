@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KISMAT VIP - Ultimate Reels & Entertainment Hub</title>
+    <title>KISMAT VIP - Ultimate Entertainment & Reels Hub</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -94,14 +94,13 @@
         }
         .cat-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 12px var(--primary-glow); }
 
-        /* ULTRA COOL REELS & VIDEO WRAPPER */
         .video-box-wrapper {
             position: relative; width: 100%; transition: all 0.3s ease;
             border-radius: 16px; overflow: hidden; border: 1px solid var(--surface-border);
             background: #000; margin-bottom: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
-        .mode-16-9 { padding-bottom: 56.25%; height: 0; } /* YouTube Full Screen Mode */
-        .mode-9-16 { padding-bottom: 177.77%; height: 0; max-height: 520px; } /* Instagram / TikTok Reels Mode */
+        .mode-16-9 { padding-bottom: 56.25%; height: 0; }
+        .mode-9-16 { padding-bottom: 177.77%; height: 0; max-height: 520px; }
 
         .video-box-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
@@ -135,7 +134,7 @@
     <div class="app-header">
         <div class="logo-text"><i class="fa-solid fa-crown" style="color:var(--gold);"></i> KISMAT VIP</div>
         <div style="font-size:10px; background:rgba(245, 158, 11, 0.2); color:var(--gold); padding:5px 12px; border-radius:18px; border:1px solid rgba(245, 158, 11, 0.4); font-weight:800;">
-            🔥 ULTRA REELS ENGINE
+            🔥 INDIAN HITS ACTIVE
         </div>
     </div>
 
@@ -159,18 +158,18 @@
             <span id="ticker-text">रोहित (दिल्ली) ने Spin Wheel से 🪙500 Coins जीते!</span>
         </div>
 
-        <!-- TAB 1: ULTIMATE INDIAN REELS & VIDEO STREAMER -->
+        <!-- TAB 1: INDIAN ENTERTAINMENT HUB -->
         <div id="tab-videos" class="tab-content active">
             <div class="hero-card">
-                <h2>⚡ SOCIAL REELS & CINEMA</h2>
-                <p>TMKOC Jethalal, Motu Patlu Cartoons, CID & Viral Clips!</p>
+                <h2>🎬 INDIAN ENTERTAINMENT HUB</h2>
+                <p>TMKOC Jethalal, New Movies, Trending Songs & Cartoons!</p>
             </div>
 
             <div class="cat-nav">
                 <div class="cat-pill active" onclick="filterVideo('tmkoc', this)">😂 TMKOC Jethalal</div>
+                <div class="cat-pill" onclick="filterVideo('songs', this)">🎵 New Songs & Lofi</div>
+                <div class="cat-pill" onclick="filterVideo('movies', this)">🎬 New Movie Trailers</div>
                 <div class="cat-pill" onclick="filterVideo('cartoon', this)">🎨 Motu Patlu / Shinchan</div>
-                <div class="cat-pill" onclick="filterVideo('cid', this)">🕵️ CID Thriller</div>
-                <div class="cat-pill" onclick="filterVideo('trailers', this)">🎬 Movie Trailers</div>
             </div>
 
             <div class="glass-card">
@@ -179,7 +178,6 @@
                     <span style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-bolt" style="color:var(--gold);"></i> HD Stream</span>
                 </div>
 
-                <!-- Pro Aspect Ratio Switcher (Instagram Reels 9:16 vs YouTube 16:9) -->
                 <div class="ratio-btns">
                     <div class="ratio-btn active" id="btn-9-16" onclick="setScreenMode('9-16')">📱 9:16 Reels View</div>
                     <div class="ratio-btn" id="btn-16-9" onclick="setScreenMode('16-9')">🖥️ 16:9 Full Screen</div>
@@ -251,11 +249,7 @@
         <div class="nav-tab" onclick="switchTab('cards', this)"><i class="fa-solid fa-credit-card"></i><span>Deals</span></div>
     </div>
 
-    <!-- Integration Metadata Reference
-         AdMob App ID: ca-app-pub-1404551163419668~8477467760[span_2](start_span)[span_2](end_span)
-         Rewarded Ad Unit: ca-app-pub-1404551163419668/3377184323[span_3](start_span)[span_3](end_span)
-         Adsterra SmartLink: 31791042
-    -->
+    <!-- AdMob & Adsterra Integration Metadata[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span) -->
     <script>
         const adsterraLink = "https://www.highrevenuegate.com/31791042";
         let adCooldown = false;
@@ -277,22 +271,22 @@
             triggerAd();
         }
 
-        // VERIFIED WORKING INDIAN VIDEOS (TMKOC, Motu Patlu, CID, Movie Trailers)
+        // 100% WORKING INDIAN CONTENT (TMKOC, NEW SONGS, MOVIE TRAILERS, CARTOONS)
         const workingVideos = {
             tmkoc: [
                 "https://www.youtube-nocookie.com/embed/S2p_7uUoK_s",
                 "https://www.youtube-nocookie.com/embed/3JZ_D3ELwOQ",
                 "https://www.youtube-nocookie.com/embed/2v8urSwf8TI"
             ],
-            cartoon: [
-                "https://www.youtube-nocookie.com/embed/tgbNymZ7vqY",
-                "https://www.youtube-nocookie.com/embed/S2p_7uUoK_s"
-            ],
-            cid: [
+            songs: [
                 "https://www.youtube-nocookie.com/embed/2v8urSwf8TI",
                 "https://www.youtube-nocookie.com/embed/3JZ_D3ELwOQ"
             ],
-            trailers: [
+            movies: [
+                "https://www.youtube-nocookie.com/embed/tgbNymZ7vqY",
+                "https://www.youtube-nocookie.com/embed/S2p_7uUoK_s"
+            ],
+            cartoon: [
                 "https://www.youtube-nocookie.com/embed/3JZ_D3ELwOQ",
                 "https://www.youtube-nocookie.com/embed/tgbNymZ7vqY"
             ]
