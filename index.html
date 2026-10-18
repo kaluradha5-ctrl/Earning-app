@@ -1,319 +1,335 @@
-```html
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KISMAT ULTRA VIP - Ultimate All-In-One Social & Rewards Hub</title>
+    <title>KISMAT VIP - Ultimate Social & Earning Network</title>
     
-    <!-- Google Fonts & FontAwesome Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
             --bg: #030712;
-            --surface: rgba(15, 23, 42, 0.85);
-            --surface-card: rgba(30, 41, 59, 0.7);
-            --border: rgba(139, 92, 246, 0.35);
+            --surface: rgba(17, 24, 39, 0.9);
+            --surface-border: rgba(139, 92, 246, 0.35);
             --primary: #8b5cf6;
-            --primary-glow: rgba(139, 92, 246, 0.5);
-            --pink: #ec4899;
-            --pink-glow: rgba(236, 72, 153, 0.5);
-            --cyan: #06b6d4;
+            --primary-glow: rgba(139, 92, 246, 0.6);
             --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.6);
+            --pink: #ec4899;
+            --pink-glow: rgba(236, 72, 153, 0.6);
             --gold: #f59e0b;
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
+            --gold-glow: rgba(245, 158, 11, 0.6);
+            --text: #f9fafb;
+            --text-muted: #9ca3af;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; min-height: 100vh; }
+        body { background-color: var(--bg); color: var(--text); padding-bottom: 95px; overflow-x: hidden; }
 
-        /* Dynamic Background FX */
-        .glow-bg {
-            position: fixed; top: -150px; left: 50%; transform: translateX(-50%);
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, var(--primary-glow) 0%, var(--pink-glow) 40%, transparent 70%);
-            z-index: -1; pointer-events: none; filter: blur(80px); opacity: 0.8;
+        .glow-fx {
+            position: fixed; top: -120px; left: 50%; transform: translateX(-50%);
+            width: 450px; height: 450px; background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1; pointer-events: none; filter: blur(80px);
         }
 
-        /* Top Bar Header */
         .app-header {
-            position: sticky; top: 0; z-index: 1000;
-            background: rgba(3, 7, 18, 0.92); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); padding: 12px 18px;
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--surface-border); padding: 14px 20px;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .logo-text { font-family: 'Orbitron', sans-serif; font-size: 17px; font-weight: 900; background: linear-gradient(135deg, #c4b5fd, #ec4899, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .vip-badge { font-size: 10px; background: rgba(245, 158, 11, 0.15); color: var(--gold); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(245, 158, 11, 0.4); font-weight: 800; font-family: 'Orbitron', sans-serif; }
+
+        .logo-text { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; background: linear-gradient(135deg, #c4b5fd, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .container { padding: 16px; max-width: 480px; margin: 0 auto; }
 
-        /* User Profile Dashboard */
-        .user-card {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
-            border: 1px solid var(--border); border-radius: 20px; padding: 16px;
-            margin-bottom: 14px; backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        /* VIP Profile Dashboard Card */
+        .profile-card {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(139, 92, 246, 0.2));
+            border: 1px solid rgba(245, 158, 11, 0.5); border-radius: 22px; padding: 18px;
+            margin-bottom: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
-        .profile-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .stat-box { background: rgba(3, 7, 18, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 8px; text-align: center; }
-        .stat-val { font-size: 13px; font-weight: 800; color: #34d399; margin-top: 2px; }
-        .stat-lbl { font-size: 10px; color: var(--text-muted); }
 
-        /* Ticker */
         .ticker-box {
-            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #34d399; padding: 8px 14px; border-radius: 30px; font-size: 11px; font-weight: 700;
+            background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #34d399; padding: 10px 14px; border-radius: 30px; font-size: 12px; font-weight: 700;
             margin-bottom: 16px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
 
-        /* Card System */
         .hero-card {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(6, 182, 212, 0.3));
-            border: 1px solid var(--border); border-radius: 22px; padding: 20px;
-            text-align: center; margin-bottom: 18px; backdrop-filter: blur(12px);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(236, 72, 153, 0.25));
+            border: 1px solid var(--surface-border); border-radius: 24px; padding: 22px;
+            text-align: center; margin-bottom: 16px; backdrop-filter: blur(12px);
         }
-        .hero-card h2 { font-size: 18px; font-weight: 800; margin-bottom: 4px; font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px; }
-        .hero-card p { font-size: 11px; color: var(--text-muted); }
+        .hero-card h2 { font-size: 19px; font-weight: 800; margin-bottom: 6px; font-family: 'Orbitron', sans-serif; }
+        .hero-card p { font-size: 12px; color: var(--text-muted); }
 
         .glass-card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 20px; padding: 16px; margin-bottom: 14px;
+            background: var(--surface); border: 1px solid var(--surface-border);
+            border-radius: 20px; padding: 18px; margin-bottom: 14px;
             backdrop-filter: blur(16px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        /* Buttons */
         .btn-prime {
-            width: 100%; padding: 13px; background: linear-gradient(135deg, var(--primary), #6d28d9);
-            color: white; border: none; border-radius: 14px; font-weight: 800; font-size: 12px;
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary), #6d28d9);
+            color: white; border: none; border-radius: 14px; font-weight: 800; font-size: 13px;
             cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;
             text-decoration: none; box-shadow: 0 4px 20px var(--primary-glow); transition: 0.2s;
         }
         .btn-prime:active { transform: scale(0.97); }
-        .btn-accent { background: linear-gradient(135deg, var(--accent), #047857); box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4); }
+
+        .btn-accent { background: linear-gradient(135deg, var(--accent), #047857); box-shadow: 0 4px 20px var(--accent-glow); }
         .btn-pink { background: linear-gradient(135deg, var(--pink), #be185d); box-shadow: 0 4px 20px var(--pink-glow); }
-        .btn-cyan { background: linear-gradient(135deg, var(--cyan), #0891b2); box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4); }
+        .btn-gold { background: linear-gradient(135deg, var(--gold), #d97706); box-shadow: 0 4px 20px var(--gold-glow); }
         .btn-whatsapp { background: linear-gradient(135deg, #25d366, #128c7e); box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
 
         .input-dark {
-            width: 100%; padding: 12px; background: rgba(3, 7, 18, 0.9);
-            border: 1px solid var(--border); border-radius: 12px; color: white;
-            font-size: 13px; outline: none; margin: 6px 0 10px 0;
+            width: 100%; padding: 14px; background: rgba(3, 7, 18, 0.9);
+            border: 1px solid var(--surface-border); border-radius: 12px; color: white;
+            font-size: 14px; outline: none; margin: 6px 0 12px 0;
         }
 
-        /* Social Studio Tabs */
-        .sub-tab-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; scrollbar-width: none; }
-        .sub-tab-bar::-webkit-scrollbar { display: none; }
-        .sub-tab { flex: 0 0 auto; padding: 6px 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 20px; font-size: 11px; font-weight: 700; color: var(--text-muted); cursor: pointer; }
-        .sub-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+        /* Sub Navigation Pills */
+        .sub-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 14px; scrollbar-width: none; }
+        .sub-nav::-webkit-scrollbar { display: none; }
+        .sub-pill {
+            background: rgba(17, 24, 39, 0.8); border: 1px solid var(--surface-border);
+            padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700;
+            white-space: nowrap; cursor: pointer; color: var(--text-muted);
+        }
+        .sub-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
 
-        /* Video Container */
+        .sub-content { display: none; }
+        .sub-content.active { display: block; }
+
+        /* Chat box */
+        .chat-box {
+            height: 190px; overflow-y: auto; background: rgba(3, 7, 18, 0.9);
+            border: 1px solid var(--surface-border); border-radius: 14px; padding: 12px;
+            margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px;
+        }
+        .chat-msg { font-size: 12px; padding: 8px 12px; border-radius: 10px; background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3); }
+
+        /* Bottom Nav */
+        .app-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(3, 7, 18, 0.96); backdrop-filter: blur(25px);
+            height: 75px; display: flex; justify-content: space-around; align-items: center;
+            border-top: 1px solid var(--surface-border); z-index: 1000;
+        }
+        .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 10px; font-weight: 700; cursor: pointer; width: 20%; }
+        .nav-tab.active { color: #c4b5fd; }
+        .nav-tab i { font-size: 18px; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         .video-container {
             position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
-            border-radius: 16px; border: 1px solid var(--border); margin-bottom: 12px; background: #000;
+            border-radius: 16px; border: 1px solid var(--surface-border); margin-bottom: 12px;
         }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* Arcade Games */
-        .game-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+        .game-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
         .cell {
-            background: rgba(3, 7, 18, 0.8); border: 1px solid var(--border);
-            height: 65px; border-radius: 12px; display: flex; align-items: center;
-            justify-content: center; font-size: 26px; font-weight: 900; cursor: pointer; color: #c4b5fd;
+            background: rgba(3, 7, 18, 0.8); border: 1px solid var(--surface-border);
+            height: 70px; border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; font-size: 28px; font-weight: 900; cursor: pointer; color: #c4b5fd;
         }
-
-        .wheel-box {
-            width: 180px; height: 180px; border-radius: 50%; border: 4px solid var(--gold);
-            margin: 10px auto; position: relative; display: flex; align-items: center; justify-content: center;
-            background: conic-gradient(#8b5cf6 0deg 90deg, #ec4899 90deg 180deg, #10b981 180deg 270deg, #06b6d4 270deg 360deg);
-            transition: transform 3s cubic-bezier(0.1, 2.7, 0.1, 1);
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
-        }
-        .wheel-center { width: 50px; height: 50px; background: var(--bg); border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; color: var(--gold); }
-
-        /* Chat */
-        .chat-box {
-            height: 180px; overflow-y: auto; background: rgba(3, 7, 18, 0.9);
-            border: 1px solid var(--border); border-radius: 14px; padding: 10px;
-            margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px;
-        }
-        .chat-msg { font-size: 11px; padding: 8px 12px; border-radius: 10px; background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.25); }
-
-        /* Bottom Nav Bar */
-        .app-nav {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(25px);
-            height: 70px; display: flex; justify-content: space-around; align-items: center;
-            border-top: 1px solid var(--border); z-index: 1000;
-        }
-        .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 9px; font-weight: 700; cursor: pointer; width: 16.6%; text-align: center; }
-        .nav-tab.active { color: #c4b5fd; }
-        .nav-tab i { font-size: 16px; }
-
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.25s ease-in-out; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="glow-bg"></div>
+    <div class="glow-fx"></div>
 
-    <!-- APP HEADER -->
+    <!-- HEADER -->
     <div class="app-header">
-        <div class="logo-text"><i class="fa-solid fa-crown" style="color:var(--gold);"></i> KISMAT ULTRA VIP</div>
-        <div class="vip-badge"><i class="fa-solid fa-bolt"></i> VIP MASTER L5</div>
+        <div class="logo-text"><i class="fa-solid fa-crown" style="color:var(--gold);"></i> KISMAT VIP</div>
+        <div style="font-size:11px; background:rgba(245, 158, 11, 0.2); color:var(--gold); padding:6px 14px; border-radius:20px; border:1px solid rgba(245, 158, 11, 0.4); font-weight:800;">
+            💎 VIP TIER-1 ACTIVE
+        </div>
     </div>
 
     <div class="container">
 
-        <!-- USER DASHBOARD PROFILE CARD -->
-        <div class="user-card">
-            <div class="profile-row">
+        <!-- VIP PROFILE DASHBOARD CARD -->
+        <div class="profile-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <div>
-                    <div style="font-size:11px; color:var(--gold); font-weight:800;" id="user-id-display">ID: VIP-88492</div>
-                    <div style="font-size:15px; font-weight:800; margin-top:2px;">Coins: <span style="color:#34d399;" id="coin-counter">🪙 5,000</span></div>
+                    <div style="font-size:10px; color:var(--gold); font-weight:800; text-transform:uppercase;" id="user-id-display">ID: VIP-89421</div>
+                    <div style="font-size:15px; font-weight:900; margin-top:2px;">Anil Kumar (VIP Member)</div>
                 </div>
                 <div style="text-align:right;">
-                    <span style="font-size:10px; background:rgba(236,72,153,0.2); color:var(--pink); padding:4px 10px; border-radius:12px; font-weight:700;"><i class="fa-solid fa-fire"></i> 7 Day Streak</span>
+                    <div style="font-size:11px; color:var(--text-muted);">Wallet Balance</div>
+                    <div style="font-size:16px; font-weight:900; color:#34d399;" id="coin-balance">🪙 3,850</div>
                 </div>
             </div>
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <div class="stat-lbl">Community Rank</div>
-                    <div class="stat-val">#4 VIP</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-lbl">Referral Bonus</div>
-                    <div class="stat-val">🪙 1,200</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-lbl">Cards Status</div>
-                    <div class="stat-val">Unlocked</div>
-                </div>
+            <div style="background:rgba(3,7,18,0.6); padding:8px 12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; font-size:11px;">
+                <span>🔥 Daily Streak: <b>7 Days</b></span>
+                <span style="color:#c4b5fd;">⭐ Status: Unlocked</span>
             </div>
         </div>
 
-        <!-- TICKER NOTIFICATION -->
+        <!-- TICKER -->
         <div class="ticker-box">
             <i class="fa-solid fa-circle-check"></i>
-            <span id="ticker-text">अमित (जयपुर) ने HDFC Card से ₹1,500 Amazon वाउचर पाया!</span>
+            <span id="ticker-text">अमित (जयपुर) ने HDFC Card से ₹1,500 Amazon वाउचर क्लेम किया!</span>
         </div>
 
-        <!-- TAB 1: ALL-IN-ONE SOCIAL MEDIA STUDIO -->
+        <!-- TAB 1: SOCIAL APPS STUDIO (Insta, FB, YT, TikTok, Snapchat) -->
         <div id="tab-social" class="tab-content active">
-            <div class="hero-card" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(139, 92, 246, 0.3));">
-                <h2>🌐 SOCIAL MEDIA STUDIO</h2>
-                <p>Reels, Status, Captions & Viral Booster for All Apps!</p>
-            </div>
-
-            <!-- Sub Navigation Bar for Social Platforms -->
-            <div class="sub-tab-bar">
-                <div class="sub-tab active" onclick="switchSubSocial('insta', this)"><i class="fa-brands fa-instagram"></i> Instagram</div>
-                <div class="sub-tab" onclick="switchSubSocial('fb', this)"><i class="fa-brands fa-facebook"></i> Facebook</div>
-                <div class="sub-tab" onclick="switchSubSocial('snap', this)"><i class="fa-brands fa-snapchat"></i> Snapchat</div>
-                <div class="sub-tab" onclick="switchSubSocial('yt', this)"><i class="fa-brands fa-youtube"></i> YouTube</div>
-                <div class="sub-tab" onclick="switchSubSocial('tt', this)"><i class="fa-brands fa-tiktok"></i> TikTok/Shorts</div>
-            </div>
-
-            <!-- Instagram Studio Section -->
-            <div id="sub-insta" class="glass-card social-sub-sec">
-                <h3 style="font-size:14px; color:var(--pink); margin-bottom:8px;"><i class="fa-brands fa-instagram"></i> Instagram Reel & Caption Studio</h3>
-                <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Select preset style to generate viral Insta Reels captions!</p>
-                <select id="insta-preset" class="input-dark">
-                    <option value="cyber">✨ Cyber Glow Aesthetic Reel</option>
-                    <option value="lofi">🎧 Retro Lo-Fi Vibe Story</option>
-                    <option value="attitude">🔥 High Attitude Viral Post</option>
-                </select>
-                <textarea id="insta-caption" class="input-dark" rows="3" readonly style="resize:none;">✨ Living in 3024 with KISMAT VIP Hub! ⚡ #CyberVibes #ReelViral #Attitude #VIPHub</textarea>
-                <button onclick="copySocialCaption('insta-caption')" class="btn-prime btn-pink"><i class="fa-solid fa-copy"></i> Copy Reel Caption & Tags</button>
-            </div>
-
-            <!-- Facebook Studio Section -->
-            <div id="sub-fb" class="glass-card social-sub-sec" style="display:none;">
-                <h3 style="font-size:14px; color:#3b82f6; margin-bottom:8px;"><i class="fa-brands fa-facebook"></i> Facebook Viral Status Builder</h3>
-                <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Instant engagement booster posts for FB timeline & pages!</p>
-                <textarea id="fb-caption" class="input-dark" rows="3" readonly style="resize:none;">"सफलता केवल सोचने से नहीं, सही जगह सही समय पर एक्शन लेने से मिलती है! 🔥 VIP status checking live..."</textarea>
-                <button onclick="copySocialCaption('fb-caption')" class="btn-prime"><i class="fa-solid fa-share-nodes"></i> Copy FB Post Content</button>
-            </div>
-
-            <!-- Snapchat Studio Section -->
-            <div id="sub-snap" class="glass-card social-sub-sec" style="display:none;">
-                <h3 style="font-size:14px; color:var(--gold); margin-bottom:8px;"><i class="fa-brands fa-snapchat"></i> Snapchat Lens & Streak Booster</h3>
-                <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Maintain daily streaks & unlock AR lens triggers!</p>
-                <div style="background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); border-radius:12px; padding:10px; margin-bottom:10px; text-align:center;">
-                    🔥 Current Streak Bonus: <b>42 Days active</b>
-                </div>
-                <button onclick="boostStreak()" class="btn-prime btn-accent"><i class="fa-solid fa-bolt"></i> Boost Daily Snap Streak (+🪙50)</button>
-            </div>
-
-            <!-- YouTube Studio Section -->
-            <div id="sub-yt" class="glass-card social-sub-sec" style="display:none;">
-                <h3 style="font-size:14px; color:#ef4444; margin-bottom:8px;"><i class="fa-brands fa-youtube"></i> YouTube Trailer & Shorts Launcher</h3>
-                <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Watch latest movie trailers & trending shorts!</p>
-                <div class="video-container">
-                    <iframe id="yt-player" src="https://www.youtube.com/embed/tgbNymZ7vqY" title="YouTube Trailer" allowfullscreen></iframe>
-                </div>
-                <button onclick="nextYtTrailer()" class="btn-prime btn-pink"><i class="fa-solid fa-forward"></i> Next Movie Trailer / Short</button>
-            </div>
-
-            <!-- TikTok / Short Video Section -->
-            <div id="sub-tt" class="glass-card social-sub-sec" style="display:none;">
-                <h3 style="font-size:14px; color:var(--cyan); margin-bottom:8px;"><i class="fa-brands fa-tiktok"></i> Viral Shorts & Comedy Streamer</h3>
-                <div class="video-container">
-                    <iframe id="tt-player" src="https://www.youtube.com/embed/videoseries?list=PL38332A0284411132" title="Cartoon Shorts Stream" allowfullscreen></iframe>
-                </div>
-                <button onclick="nextTtShort()" class="btn-prime btn-cyan"><i class="fa-solid fa-shuffle"></i> Stream Next Short Video</button>
-            </div>
-
-            <!-- VIP FRIENDS & REFERRAL COMMUNITY -->
-            <div class="glass-card" style="border:1px solid rgba(245, 158, 11, 0.4);">
-                <h3 style="font-size:14px; color:var(--gold); margin-bottom:6px;"><i class="fa-solid fa-user-plus"></i> Viral Friend Referral Link</h3>
-                <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Earn 🪙100 Coins per friend invitation!</p>
-                <input type="text" id="ref-link-input" class="input-dark" readonly value="https://earning-app-rose.vercel.app?ref=VIP88492">
-                <button onclick="copyRefLink()" class="btn-prime btn-accent"><i class="fa-solid fa-copy"></i> Copy Referral Link</button>
-            </div>
-
-            <!-- LIVE CHAT ROOM -->
-            <div class="glass-card">
-                <h3 style="margin-bottom:8px; font-size:14px; color:#c4b5fd;"><i class="fa-solid fa-comments"></i> Live VIP Community Chat</h3>
-                <div class="chat-box" id="chat-messages">
-                    <div class="chat-msg"><b>Rahul (Delhi):</b> Hey guys! Just won 500 coins from Spin Wheel! 🎰</div>
-                    <div class="chat-msg"><b>Priya (Mumbai):</b> Love Match Calculator is 96% accurate ❤️</div>
-                    <div class="chat-msg"><b>Anil (Admin):</b> Welcome all users to KISMAT ULTRA VIP! 🔥</div>
-                </div>
-                <input type="text" id="chat-input" class="input-dark" placeholder="Write message to community...">
-                <button onclick="sendChatMessage()" class="btn-prime"><i class="fa-solid fa-paper-plane"></i> Send Live Chat</button>
-            </div>
-        </div>
-
-        <!-- TAB 2: REELS & SHORTS STREAMER -->
-        <div id="tab-reels" class="tab-content">
             <div class="hero-card">
-                <h2>🎬 VIP REELS & CARTOON STREAM</h2>
-                <p>Non-Stop Motu Patlu, Oggy, Shinchan & Comedy Clips!</p>
+                <h2>📱 SOCIAL MEDIA STUDIO</h2>
+                <p>Explore Insta Reels, TikTok Trends, FB Stories & Snapchat Filters!</p>
             </div>
 
-            <div class="glass-card">
-                <div class="video-container">
-                    <iframe id="reels-main-player" src="https://www.youtube.com/embed/videoseries?list=PL38332A0284411132" title="Reels Stream" allowfullscreen></iframe>
+            <div class="sub-nav">
+                <div class="sub-pill active" onclick="switchSub('insta', this)">📸 Instagram</div>
+                <div class="sub-pill" onclick="switchSub('tiktok', this)">🎵 TikTok / Shorts</div>
+                <div class="sub-pill" onclick="switchSub('snap', this)">👻 Snapchat</div>
+                <div class="sub-pill" onclick="switchSub('fb', this)">👥 Facebook</div>
+            </div>
+
+            <!-- Insta Sub -->
+            <div id="sub-insta" class="sub-content active">
+                <div class="glass-card">
+                    <h3 style="font-size:15px; color:#ec4899; margin-bottom:6px;"><i class="fa-brands fa-instagram"></i> Insta Viral Reels & Captions</h3>
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Copy high-engagement attitude captions for your reels!</p>
+                    <div id="caption-box" style="background:rgba(3,7,18,0.8); padding:12px; border-radius:10px; font-size:13px; font-style:italic; margin-bottom:10px;">
+                        "किस्मत और समय कभी भी बदल सकते हैं, बस खुद पर भरोसा रखो! ⚡ #KismatVIP"
+                    </div>
+                    <button onclick="newCaption()" class="btn-prime btn-pink"><i class="fa-solid fa-copy"></i> Generate New Caption</button>
                 </div>
-                <button onclick="nextReelsClip()" class="btn-prime btn-pink"><i class="fa-solid fa-play"></i> Next Reel Clip / Cartoon Reel</button>
+            </div>
+
+            <!-- TikTok Sub -->
+            <div id="sub-tiktok" class="sub-content">
+                <div class="glass-card">
+                    <h3 style="font-size:15px; color:#c4b5fd; margin-bottom:6px;"><i class="fa-brands fa-tiktok"></i> Trending Comedy & Shorts</h3>
+                    <div class="video-container">
+                        <iframe id="video-player" src="https://www.youtube.com/embed/videoseries?list=PL38332A0284411132" title="Shorts" allowfullscreen></iframe>
+                    </div>
+                    <button onclick="nextVideoClip()" class="btn-prime"><i class="fa-solid fa-forward"></i> Next Viral Video</button>
+                </div>
+            </div>
+
+            <!-- Snapchat Sub -->
+            <div id="sub-snap" class="sub-content">
+                <div class="glass-card">
+                    <h3 style="font-size:15px; color:#f59e0b; margin-bottom:6px;"><i class="fa-brands fa-snapchat"></i> Snapchat Streak & Filters</h3>
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Unlock exclusive neon and cyberpunk lenses instantly!</p>
+                    <button onclick="triggerAds()" class="btn-prime btn-gold"><i class="fa-solid fa-wand-magic-sparkles"></i> Unlock VIP Filters</button>
+                </div>
+            </div>
+
+            <!-- Facebook Sub -->
+            <div id="sub-fb" class="sub-content">
+                <div class="glass-card">
+                    <h3 style="font-size:15px; color:#3b5998; margin-bottom:6px;"><i class="fa-brands fa-facebook"></i> Facebook Viral Watch Party</h3>
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Watch trending emotional stories and comedy clips together.</p>
+                    <button onclick="triggerAds()" class="btn-prime"><i class="fa-solid fa-play"></i> Join Watch Party</button>
+                </div>
+            </div>
+
+            <!-- Community Chat -->
+            <div class="glass-card" style="margin-top:16px;">
+                <h3 style="margin-bottom:10px; font-size:15px; color:#c4b5fd;"><i class="fa-solid fa-comments"></i> Live Community Chat</h3>
+                <div class="chat-box" id="chat-messages">
+                    <div class="chat-msg"><b>Rahul (Delhi):</b> Hey guys! Spin wheel par mujhe ₹500 ka voucher mila! 🔥</div>
+                    <div class="chat-msg"><b>Priya (Mumbai):</b> Love Calculator is amazing! Check it out ❤️</div>
+                </div>
+                <input type="text" id="chat-input" class="input-dark" placeholder="Type a message...">
+                <button onclick="sendMsg()" class="btn-prime"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
             </div>
         </div>
 
-        <!-- TAB 3: VIRAL AI TOOLS -->
-        <div id="tab-tools" class="tab-content">
-            <div class="hero-card" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(245, 158, 11, 0.3));">
-                <h2>🔮 AI SECRET & LOVE MATCH ENGINE</h2>
-                <p>Love Percentage, Secret Crush & Zodiac Matcher!</p>
+        <!-- TAB 2: STORIES & SHAYARI -->
+        <div id="tab-stories" class="tab-content">
+            <div class="hero-card">
+                <h2>📖 HEART & LOVE STORIES</h2>
+                <p>Emotional Breakup, True Love & Attitude Real-Life Stories!</p>
+            </div>
+
+            <div class="glass-card" style="border:1px solid rgba(37,211,102,0.4); background:rgba(37,211,102,0.08);">
+                <h3 style="font-size:15px; color:#25d366; margin-bottom:6px;"><i class="fa-brands fa-whatsapp"></i> Share & Earn Rewards</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Share with 5 friends on WhatsApp & unlock ₹500 instant bonus!</p>
+                <button onclick="shareWhatsApp()" class="btn-prime btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Share on WhatsApp</button>
             </div>
 
             <div class="glass-card">
-                <h3 style="margin-bottom:6px; font-size:14px; color:var(--pink);"><i class="fa-solid fa-heart"></i> AI Love Match Calculator</h3>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span style="font-size:11px; background:rgba(236,72,153,0.2); color:var(--pink); padding:4px 10px; border-radius:10px; font-weight:700;" id="story-tag">💔 Heartbreak Story</span>
+                    <span style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-eye"></i> 24.1k Reads</span>
+                </div>
+                <h3 id="story-title" style="font-size:16px; margin-bottom:8px; color:#c4b5fd;">"वो अधूरी मोहब्बत का आखिरी मैसेज..."</h3>
+                <p id="story-body" style="font-size:13px; color:var(--text-muted); line-height:1.6; margin-bottom:14px;">
+                    रात के 2 बजे थे, फोन की स्क्रीन जली और उसका मैसेज आया - "सुनो, शायद हम कभी एक नहीं हो सकते, लेकिन तुम हमेशा मेरी दुआओं में रहोगे..."
+                </p>
+                <button onclick="nextStory()" class="btn-prime btn-pink"><i class="fa-solid fa-book-open"></i> Read Next Story</button>
+            </div>
+
+            <div class="glass-card">
+                <h3 style="margin-bottom:8px; font-size:15px; color:var(--pink);"><i class="fa-solid fa-quote-left"></i> Daily Attitude & Sad Shayari</h3>
+                <div id="shayari-box" style="background:rgba(3,7,18,0.8); padding:14px; border-radius:12px; font-size:13px; font-style:italic; margin-bottom:12px;">
+                    "हमारी ख़ामोशी को हमारी हार मत समझना, कुछ कहानियाँ अक्सर अधूरी ही खूबसूरत होती हैं...💔"
+                </div>
+                <button onclick="newShayari()" class="btn-prime"><i class="fa-solid fa-arrows-rotate"></i> Next Shayari</button>
+            </div>
+        </div>
+
+        <!-- TAB 3: AI TOOLS & GAMES (Spin Wheel + TicTacToe) -->
+        <div id="tab-games" class="tab-content">
+            <div class="hero-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(6, 182, 212, 0.25));">
+                <h2>🎮 ARCADE & SPIN WHEEL</h2>
+                <p>Play Games, Spin Wheel & Test Love Compatibility!</p>
+            </div>
+
+            <!-- Spin Wheel Game -->
+            <div class="glass-card" style="text-align:center;">
+                <h3 style="margin-bottom:6px; color:var(--gold);"><i class="fa-solid fa-dharmachakra"></i> Lucky Spin & Win</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Spin daily to win free coins and gift vouchers!</p>
+                <div id="spin-result" style="font-size:16px; font-weight:900; color:#34d399; margin-bottom:10px; min-height:24px;"></div>
+                <button onclick="spinWheel()" class="btn-prime btn-gold"><i class="fa-solid fa-rotate"></i> Spin Wheel Now</button>
+            </div>
+
+            <!-- Love Calculator -->
+            <div class="glass-card">
+                <h3 style="margin-bottom:8px; font-size:15px; color:var(--pink);"><i class="fa-solid fa-heart"></i> AI Love Match Calculator</h3>
                 <input type="text" id="name1" class="input-dark" placeholder="Aapka Naam">
                 <input type="text" id="name2" class="input-dark" placeholder="Partner ka Naam">
-                <button onclick="checkLove()" class="btn-prime btn-pink"><i class="f
+                <button onclick="checkLove()" class="btn-prime btn-pink"><i class="fa-solid fa-wand-magic-sparkles"></i> Calculate Compatibility</button>
+                <div id="love-output" style="display:none; margin-top:14px; text-align:center; font-size:15px; font-weight:800; color:var(--pink);"></div>
+            </div>
+
+            <!-- Tic Tac Toe -->
+            <div class="glass-card" style="text-align:center;">
+                <h3>❌ Tic-Tac-Toe Arcade ⭕</h3>
+                <div class="game-board">
+                    <div class="cell" onclick="makeMove(this, 0)"></div>
+                    <div class="cell" onclick="makeMove(this, 1)"></div>
+                    <div class="cell" onclick="makeMove(this, 2)"></div>
+                    <div class="cell" onclick="makeMove(this, 3)"></div>
+                    <div class="cell" onclick="makeMove(this, 4)"></div>
+                    <div class="cell" onclick="makeMove(this, 5)"></div>
+                    <div class="cell" onclick="makeMove(this, 6)"></div>
+                    <div class="cell" onclick="makeMove(this, 7)"></div>
+                    <div class="cell" onclick="makeMove(this, 8)"></div>
+                </div>
+                <button onclick="resetGame()" class="btn-prime btn-accent"><i class="fa-solid fa-rotate-right"></i> Restart Game</button>
+            </div>
+        </div>
+
+        <!-- TAB 4: BANK DEALS & REWARDS -->
+        <div id="tab-cards" class="tab-content">
+            <div class="hero-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(139, 92, 246, 0.25));">
+                <h2>💳 BANK CREDIT DEALS</h2>
+                <p>100% Free Lifetime Cards with Instant Approval!</p>
+            </div>
+
+            <div class="glass-card">
+                <h3>AU Small Finance Card</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Lifetime Free + Fr
