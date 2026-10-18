@@ -3,388 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KISMAT QUEST - Complete Earning Hub</title>
+    <title>KISMAT QUEST - Premium Entertainment & Deals</title>
     
-    <!-- Firebase JS SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
+            --bg: #0a0f1d;
+            --surface: rgba(30, 41, 59, 0.7);
+            --surface-border: rgba(255, 255, 255, 0.1);
             --primary: #6366f1;
-            --primary-dark: #4f46e5;
+            --primary-glow: rgba(99, 102, 241, 0.4);
             --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.4);
+            --pink: #ec4899;
             --warning: #f59e0b;
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
+            --text: #f8fafc;
             --text-muted: #94a3b8;
-            --border: #334155;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 80px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; }
 
+        /* Background Glow FX */
+        .glow-bg {
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            width: 350px; height: 350px; background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1; pointer-events: none; filter: blur(50px);
+        }
+
+        /* App Header */
         .app-header {
             position: sticky; top: 0; z-index: 100;
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border); padding: 14px 20px;
+            background: rgba(10, 15, 29, 0.85); backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--surface-border); padding: 16px 20px;
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        .wallet-badge {
-            background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold;
-            color: var(--accent); cursor: pointer;
+        .logo-text { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #a5b4fc, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .container { padding: 16px; max-width: 480px; margin: 0 auto; }
+
+        /* Ticker */
+        .ticker-box {
+            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25);
+            color: #34d399; padding: 10px 14px; border-radius: 30px; font-size: 12px; font-weight: 600;
+            margin-bottom: 18px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
         }
 
-        .container { padding: 16px; max-width: 500px; margin: 0 auto; }
-
-        .banner-card {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white; padding: 20px; border-radius: 20px; margin-bottom: 20px;
+        /* Banner Card */
+        .hero-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+            border: 1px solid var(--surface-border); border-radius: 24px; padding: 22px;
+            text-align: center; margin-bottom: 22px; backdrop-filter: blur(10px);
+            position: relative; overflow: hidden;
         }
+        .hero-card h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+        .hero-card p { font-size: 13px; color: var(--text-muted); }
 
-        .streak-box {
-            background: var(--card-bg); border: 1px solid var(--border);
-            padding: 16px; border-radius: 16px; margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .task-card {
-            background: var(--card-bg); border-radius: 16px; padding: 16px;
-            margin-bottom: 14px; border: 1px solid var(--border);
-            display: flex; flex-direction: column; gap: 10px;
-        }
-
-        .btn-action {
-            display: inline-block; width: 100%; text-align: center; background: var(--primary);
-            color: white; text-decoration: none; padding: 12px;
-            border-radius: 10px; font-weight: 700; font-size: 13px; border: none; cursor: pointer;
+        /* Glass Cards */
+        .glass-card {
+            background: var(--surface); border: 1px solid var(--surface-border);
+            border-radius: 20px; padding: 18px; margin-bottom: 14px;
+            backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
         }
 
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .game-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 16px; padding: 12px; text-align: center;
-            display: flex; flex-direction: column; justify-content: space-between;
-        }
-        .game-title { font-size: 14px; font-weight: bold; margin: 8px 0 4px 0; }
-        .game-price { font-size: 15px; font-weight: 900; color: var(--accent); margin-bottom: 8px; }
+        .section-title { font-size: 15px; font-weight: 700; margin: 22px 0 12px 0; color: #a5b4fc; display: flex; align-items: center; gap: 8px; }
 
-        #login-screen {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
-            z-index: 999999; display: flex; justify-content: center; align-items: center; padding: 20px;
+        /* Buttons */
+        .btn-prime {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary), #4f46e5);
+            color: white; border: none; border-radius: 14px; font-weight: 700; font-size: 14px;
+            cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;
+            text-decoration: none; box-shadow: 0 4px 15px var(--primary-glow); transition: 0.2s;
         }
-        .login-card {
-            background: rgba(30, 41, 59, 0.95); border: 1px solid var(--border);
-            padding: 35px 25px; border-radius: 24px; width: 100%; max-width: 420px; text-align: center;
-        }
-        .login-input {
-            width: 100%; padding: 14px; margin: 8px 0; background: #0f172a;
-            border: 1px solid var(--border); border-radius: 12px; color: white; outline: none;
+        .btn-prime:active { transform: scale(0.98); }
+
+        .btn-accent { background: linear-gradient(135deg, var(--accent), #059669); box-shadow: 0 4px 15px var(--accent-glow); }
+        .btn-pink { background: linear-gradient(135deg, var(--pink), #db2777); box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); }
+
+        .input-dark {
+            width: 100%; padding: 14px; background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--surface-border); border-radius: 12px; color: white;
+            font-size: 14px; outline: none; margin: 6px 0 12px 0;
         }
 
+        /* Bottom Nav */
         .app-nav {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: rgba(15, 23, 42, 0.95); height: 65px;
-            display: flex; justify-content: space-around; align-items: center;
-            border-top: 1px solid var(--border); z-index: 1000;
+            background: rgba(10, 15, 29, 0.92); backdrop-filter: blur(20px);
+            height: 70px; display: flex; justify-content: space-around; align-items: center;
+            border-top: 1px solid var(--surface-border); z-index: 1000;
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 11px; cursor: pointer; width: 25%; }
-        .nav-item.active { color: var(--accent); }
+        .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); font-size: 11px; font-weight: 600; cursor: pointer; width: 25%; }
+        .nav-tab.active { color: var(--primary); }
+        .nav-tab i { font-size: 18px; }
+
         .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Video Frame */
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 16px; border: 1px solid var(--surface-border); margin-bottom: 12px;
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
     </style>
 </head>
-<body>
+<body onclick="triggerMonetagAd()">
 
-    <!-- LOGIN SCREEN -->
-    <div id="login-screen">
-        <div class="login-card">
-            <h2 style="color:white; margin-bottom:6px;">⚡ KISMAT QUEST</h2>
-            <p style="color:var(--text-muted); font-size:13px; margin-bottom:15px;">Phone & Password Login</p>
-            <input type="tel" id="login-phone" class="login-input" placeholder="Mobile Number (10 Digits)">
-            <input type="password" id="login-password" class="login-input" placeholder="Password (Min 4 chars)">
-            <button type="button" id="login-submit-btn" class="btn-action" style="padding:14px; margin-top:10px;">Login / Register</button>
-            <p style="font-size:11px; color:var(--text-muted); margin-top:12px;">🔒 Anti-Fraud: 1 Device = 1 Account</p>
-        </div>
-    </div>
+    <div class="glow-bg"></div>
 
     <!-- HEADER -->
     <div class="app-header">
-        <div style="font-size:18px; font-weight:800; color:white;">⚡ KISMAT QUEST</div>
-        <div class="wallet-badge" onclick="switchTab('wallet', document.querySelectorAll('.nav-item')[3])">
-            <span id="header-coins">🪙 0 Coins</span>
+        <div class="logo-text"><i class="fa-solid fa-bolt"></i> KISMAT QUEST</div>
+        <div style="font-size:11px; background:rgba(99, 102, 241, 0.15); color:#a5b4fc; padding:6px 14px; border-radius:20px; border:1px solid rgba(99, 102, 241, 0.3); font-weight:700;">
+            🔥 VIP Pass Active
         </div>
     </div>
 
     <div class="container">
 
-        <!-- TAB 1: AUTOMATIC HIGH PAYOUT GAMES -->
-        <div id="tab-games" class="tab-content active">
-            <div class="banner-card">
-                <h2>🎮 Automatic High-Payout Games</h2>
-                <p>Play games & get automatic coins credited directly!</p>
+        <!-- LIVE TICKER -->
+        <div class="ticker-box">
+            <i class="fa-solid fa-circle-check"></i>
+            <span id="ticker-text">अमित (जयपुर) ने HDFC Card से ₹1,500 Amazon वाउचर पाया!</span>
+        </div>
+
+        <!-- TAB 1: REELS & FUN ZONE -->
+        <div id="tab-reels" class="tab-content active">
+            <div class="hero-card">
+                <h2>🎬 Cartoons & Trending Reels</h2>
+                <p>Motu Patlu, Shin-chan & Comedy Shorts Non-Stop!</p>
             </div>
 
-            <!-- Daily Retention Bonus -->
-            <div class="streak-box">
-                <div>
-                    <h4 style="font-size:14px;">🔥 Daily Retention Streak</h4>
-                    <p style="font-size:12px; color:var(--text-muted);">Claim 🪙10 free bonus coins every day</p>
+            <!-- Cartoon Video Streamer -->
+            <div class="glass-card">
+                <div class="video-container">
+                    <iframe id="video-player" src="https://www.youtube.com/embed/videoseries?list=PL38332A0284411132" title="Cartoon Player" allowfullscreen></iframe>
                 </div>
-                <button onclick="claimStreak()" class="btn-action" style="max-width:110px; background:var(--accent);">Claim 🪙10</button>
+                <button onclick="nextVideo()" class="btn-prime"><i class="fa-solid fa-forward"></i> Next Cartoon / Reel Clip</button>
             </div>
 
-            <div class="game-grid">
-                <!-- Crazy Aim -->
-                <div class="game-card">
-                    <div>
-                        <span style="font-size:10px; background:rgba(16,185,129,0.2); color:#34d399; padding:3px 8px; border-radius:6px;">AUTOMATIC</span>
-                        <div class="game-title">Crazy Aim</div>
-                        <div class="game-price">$57.04 (🪙3,840)</div>
-                    </div>
-                    <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action" onclick="trackClick('Crazy_Aim')">Play Game</a>
-                </div>
-
-                <!-- Rocket Hit -->
-                <div class="game-card">
-                    <div>
-                        <span style="font-size:10px; background:rgba(245,158,11,0.2); color:#fbbf24; padding:3px 8px; border-radius:6px;">AUTOMATIC</span>
-                        <div class="game-title">Rocket Hit</div>
-                        <div class="game-price">$51.37 (🪙3,440)</div>
-                    </div>
-                    <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action" onclick="trackClick('Rocket_Hit')">Play Game</a>
-                </div>
-
-                <!-- Free My Cat -->
-                <div class="game-card">
-                    <div>
-                        <span style="font-size:10px; background:rgba(99,102,241,0.2); color:#818cf8; padding:3px 8px; border-radius:6px;">AUTOMATIC</span>
-                        <div class="game-title">Free My Cat</div>
-                        <div class="game-price">$48.75 (🪙3,280)</div>
-                    </div>
-                    <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action" onclick="trackClick('Free_My_Cat')">Play Game</a>
-                </div>
-
-                <!-- Mochi Fall -->
-                <div class="game-card">
-                    <div>
-                        <span style="font-size:10px; background:rgba(99,102,241,0.2); color:#818cf8; padding:3px 8px; border-radius:6px;">AUTOMATIC</span>
-                        <div class="game-title">Mochi Fall</div>
-                        <div class="game-price">$21.93 (🪙1,480)</div>
-                    </div>
-                    <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-action" onclick="trackClick('Mochi_Fall')">Play Game</a>
-                </div>
-            </div>
-
-            <!-- OFFERWALL INTEGRATION -->
-            <div class="task-card">
-                <h3 style="color:var(--accent); text-align:center;">🌐 Offerwall Auto-Credit Zone</h3>
-                <p style="font-size:12px; color:var(--text-muted); text-align:center;">
-                    Offerwall games poore karein. Signal aate hi coins automatic add honge!
-                </p>
-                <div style="width:100%; height:420px; border-radius:12px; overflow:hidden; border:1px solid var(--border); margin-top:8px;">
-                    <iframe src="https://www.cpalead.com/dashboard/offers.php" 
-                            style="width:100%; height:100%; border:none; background:#ffffff;" 
-                            title="Auto Offerwall">
-                    </iframe>
-                </div>
+            <!-- AI Love & Compatibility Calculator -->
+            <div class="section-title"><i class="fa-solid fa-heart" style="color:var(--pink);"></i> AI Love Match Calculator</div>
+            <div class="glass-card">
+                <input type="text" id="your-name" class="input-dark" placeholder="Aapka Naam">
+                <input type="text" id="partner-name" class="input-dark" placeholder="Partner ka Naam">
+                <button onclick="calculateLove()" class="btn-prime btn-pink"><i class="fa-solid fa-wand-magic-sparkles"></i> Calculate Compatibility</button>
+                <div id="love-result" style="display:none; margin-top:15px; text-align:center; font-size:16px; font-weight:800; color:var(--pink);"></div>
             </div>
         </div>
 
-        <!-- TAB 2: BANK CREDIT CARDS (ALL LINKS INCLUDED) -->
+        <!-- TAB 2: CREDIT CARDS & COMMISSIONS -->
         <div id="tab-cards" class="tab-content">
-            <div class="banner-card" style="background: linear-gradient(135deg, #4f46e5, #06b6d4);">
+            <div class="hero-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));">
                 <h2>💳 Premium Credit Card Deals</h2>
-                <p>High payout bank registrations!</p>
+                <p>100% Free Paperless Instant Bank Approval</p>
             </div>
 
-            <!-- 1. AU Bank Card -->
-            <div class="task-card">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <h3 style="font-size:15px;">💳 AU Bank Credit Card</h3>
-                        <p style="font-size:12px; color:var(--text-muted);">Apply online digital card.</p>
-                    </div>
-                    <span style="color:var(--accent); font-weight:bold;">🪙 450 Coins</span>
+            <div class="section-title"><i class="fa-solid fa-shield-halved"></i> Top Bank Approvals</div>
+
+            <!-- 1. AU Bank -->
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <h3 style="font-size:15px;">AU Small Finance Card</h3>
+                    <span style="font-size:11px; background:rgba(16,185,129,0.2); color:#34d399; padding:4px 8px; border-radius:8px;">Instant</span>
                 </div>
-                <a href="https://ltsrn.in/lIV" target="_blank" class="btn-action" onclick="trackClick('AU_Card')">Apply Card</a>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Lifetime Free + Free ₹500 Amazon Voucher</p>
+                <a href="https://ltsrn.in/lIV" target="_blank" class="btn-prime btn-accent"><i class="fa-solid fa-credit-card"></i> Apply AU Bank Card</a>
             </div>
 
-            <!-- 2. Axis Bank Card -->
-            <div class="task-card">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <h3 style="font-size:15px;">💳 Axis Bank Credit Card</h3>
-                        <p style="font-size:12px; color:var(--text-muted);">Instant approval card offer.</p>
-                    </div>
-                    <span style="color:var(--accent); font-weight:bold;">🪙 400 Coins</span>
+            <!-- 2. Axis Bank -->
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <h3 style="font-size:15px;">Axis Bank Credit Card</h3>
+                    <span style="font-size:11px; background:rgba(99,102,241,0.2); color:#a5b4fc; padding:4px 8px; border-radius:8px;">Top Choice</span>
                 </div>
-                <a href="https://ltsrn.in/lIW" target="_blank" class="btn-action" onclick="trackClick('Axis_Card')">Apply Card</a>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Unlimited 5% Cashback on Flipkart & Swiggy</p>
+                <a href="https://ltsrn.in/lIW" target="_blank" class="btn-prime"><i class="fa-solid fa-credit-card"></i> Apply Axis Bank Card</a>
             </div>
 
-            <!-- 3. HDFC Bank Card -->
-            <div class="task-card">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <h3 style="font-size:15px;">💳 HDFC Bank Credit Card</h3>
-                        <p style="font-size:12px; color:var(--text-muted);">Top Indian banking card.</p>
-                    </div>
-                    <span style="color:var(--accent); font-weight:bold;">🪙 700 Coins</span>
+            <!-- 3. HDFC Bank -->
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <h3 style="font-size:15px;">HDFC Bank Credit Card</h3>
+                    <span style="font-size:11px; background:rgba(245,158,11,0.2); color:#fbbf24; padding:4px 8px; border-radius:8px;">High Approval</span>
                 </div>
-                <a href="https://ltsrn.in/lI8" target="_blank" class="btn-action" onclick="trackClick('HDFC_Card')">Apply Card</a>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">India's Premium Cashback & Rewards Card</p>
+                <a href="https://ltsrn.in/lI8" target="_blank" class="btn-prime"><i class="fa-solid fa-credit-card"></i> Apply HDFC Bank Card</a>
             </div>
 
-            <!-- 4. Federal Bank Card -->
-            <div class="task-card">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <h3 style="font-size:15px;">💳 Federal Bank Credit Card</h3>
-                        <p style="font-size:12px; color:var(--text-muted);">Instant digital banking card.</p>
-                    </div>
-                    <span style="color:var(--accent); font-weight:bold;">🪙 549 Coins</span>
-                </div>
-                <a href="https://ltsrn.in/lIZ" target="_blank" class="btn-action" onclick="trackClick('Federal_Card')">Apply Card</a>
+            <!-- 4. Federal Bank -->
+            <div class="glass-card">
+                <h3 style="font-size:15px; margin-bottom:4px;">Federal Bank Credit Card</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Instant Digital Approval in 2 Minutes</p>
+                <a href="https://ltsrn.in/lIZ" target="_blank" class="btn-prime"><i class="fa-solid fa-credit-card"></i> Apply Federal Card</a>
             </div>
 
-            <!-- 5. Bitli Special Card Deal -->
-            <div class="task-card">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <h3 style="font-size:15px;">💳 Premium Special Credit Deal</h3>
-                        <p style="font-size:12px; color:var(--text-muted);">High approval payout deal.</p>
-                    </div>
-                    <span style="color:var(--accent); font-weight:bold;">🪙 1,110 Coins</span>
-                </div>
-                <a href="https://bitli.in/m4kL17" target="_blank" class="btn-action" onclick="trackClick('Bitli_Deal')">Apply Card</a>
+            <!-- 5. Bitli Special Deal -->
+            <div class="glass-card">
+                <h3 style="font-size:15px; margin-bottom:4px;">Premium Special Credit Deal</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Exclusive Card Offers & Airport Lounge Access</p>
+                <a href="https://bitli.in/m4kL17" target="_blank" class="btn-prime btn-accent"><i class="fa-solid fa-star"></i> Claim Special Offer</a>
             </div>
         </div>
 
-        <!-- TAB 3: REFER & EARN -->
-        <div id="tab-refer" class="tab-content">
-            <div class="banner-card" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-                <h2>🤝 Refer & Grow Network</h2>
-                <p>Share your link & get 🪙50 bonus coins on every friend's registration!</p>
+        <!-- TAB 3: GAMES & TIMEBUCKS -->
+        <div id="tab-games" class="tab-content">
+            <div class="hero-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2));">
+                <h2>🎮 High Payout Games</h2>
+                <p>Play Games & Earn Rewards on TimeBucks Platform</p>
             </div>
-            <div class="streak-box" style="flex-direction:column; gap:12px; text-align:center;">
-                <p style="font-size:13px;">Your Referral Link:</p>
-                <input type="text" id="ref-link" class="login-input" readonly value="https://kismatquest.app?ref=user">
-                <button onclick="copyRefLink()" class="btn-action">Copy Referral Link</button>
-            </div>
-        </div>
 
-        <!-- TAB 4: WALLET & WITHDRAWAL -->
-        <div id="tab-wallet" class="tab-content">
-            <div class="banner-card" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
-                <h2>👛 Safe Wallet & Withdrawals</h2>
-                <p>Request instant UPI / Paytm payouts.</p>
+            <div class="glass-card" style="text-align:center;">
+                <h3 style="margin-bottom:6px;">🎯 TimeBucks Task Portal</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Free Tasks aur Micro-jobs karke rewards paayein.</p>
+                <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-prime" style="background:linear-gradient(135deg, var(--warning), #d97706);"><i class="fa-solid fa-gamepad"></i> Open TimeBucks Portal</a>
             </div>
-            <div style="background:var(--card-bg); padding:20px; border-radius:16px; border:1px solid var(--border); text-align:center;">
-                <p style="font-size:12px; color:var(--text-muted);">CURRENT BALANCE</p>
-                <div id="wallet-coins-display" style="font-size:32px; font-weight:900; color:var(--accent); margin:10px 0;">🪙 0 Coins</div>
-                <input type="text" id="upi-id" class="login-input" placeholder="Enter UPI ID (e.g. name@paytm)">
-                <button onclick="requestWithdrawal()" class="btn-action" style="background:var(--accent); padding:12px;">Withdraw Funds</button>
+
+            <div class="glass-card" style="text-align:center;">
+                <h3 style="margin-bottom:6px;">🎡 Spin & Win Secret Deals</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Wheel ghumayein aur ₹1,000 ka Card Voucher jeetein!</p>
+                <button onclick="spinWheel()" class="btn-prime btn-accent"><i class="fa-solid fa-dharmachakra"></i> Spin Wheel Now</button>
             </div>
         </div>
 
     </div>
 
-    <!-- BOTTOM NAV -->
+    <!-- BOTTOM NAVIGATION -->
     <div class="app-nav">
-        <div class="nav-item active" onclick="switchTab('games', this)"><span>🎮</span><span>Games</span></div>
-        <div class="nav-item" onclick="switchTab('cards', this)"><span>💳</span><span>Cards</span></div>
-        <div class="nav-item" onclick="switchTab('refer', this)"><span>🤝</span><span>Refer</span></div>
-        <div class="nav-item" onclick="switchTab('wallet', this)"><span>👛</span><span>Wallet</span></div>
+        <div class="nav-tab active" onclick="switchTab('reels', this)"><i class="fa-solid fa-film"></i><span>Reels</span></div>
+        <div class="nav-tab" onclick="switchTab('cards', this)"><i class="fa-solid fa-credit-card"></i><span>Cards</span></div>
+        <div class="nav-tab" onclick="switchTab('games', this)"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
     </div>
 
     <script>
-        // FIREBASE INITIALIZATION
-        const firebaseConfig = {
-            apiKey: "AIzaSyDummyKey_KismatQuest_2026",
-            authDomain: "kismat-quest-default-rtdb.firebaseapp.com",
-            databaseURL: "https://kismat-quest-default-rtdb.firebaseio.com",
-            projectId: "kismat-quest-default-rtdb",
-            appId: "1:102938475610:web:abcdef1234567890"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        // MONETAG SMARTLINK AUTOMATIC TRIGGER
+        const monetagUrl = "https://uplcm.com/4/12045886";
+        let adCoolDown = false;
 
-        let currentUserPhone = localStorage.getItem('kismat_phone') || null;
-        let deviceId = localStorage.getItem('kismat_device_id') || ('DEV_' + Math.random().toString(36).substr(2, 9));
-        localStorage.setItem('kismat_device_id', deviceId);
-
-        document.addEventListener("DOMContentLoaded", function() {
-            if (localStorage.getItem('kismat_logged_in') === 'true' && currentUserPhone) {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('ref-link').value = "https://kismatquest.app?ref=" + currentUserPhone;
-                listenUserCoins(currentUserPhone);
-            }
-
-            document.getElementById('login-submit-btn').addEventListener('click', function() {
-                const phone = document.getElementById('login-phone').value.trim();
-                const pass = document.getElementById('login-password').value.trim();
-
-                if (phone.length < 10 || pass.length < 4) {
-                    alert('⚠️ Sahi 10-digit mobile number aur password dalein!');
-                    return;
-                }
-
-                // Device Locking Security
-                database.ref('devices/' + deviceId).once('value', (snapshot) => {
-                    if (snapshot.exists() && snapshot.val() !== phone) {
-                        alert('🛑 SECURITY LOCK: Ek device se 2 accounts nahi ban sakte!');
-                        return;
-                    }
-
-                    database.ref('devices/' + deviceId).set(phone);
-                    currentUserPhone = phone;
-                    localStorage.setItem('kismat_logged_in', 'true');
-                    localStorage.setItem('kismat_phone', phone);
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('ref-link').value = "https://kismatquest.app?ref=" + phone;
-
-                    database.ref('users/' + phone).once('value', (userSnap) => {
-                        if (!userSnap.exists()) {
-                            database.ref('users/' + phone).set({ phone: phone, coins: 0, createdAt: Date.now() });
-                        }
-                        listenUserCoins(phone);
-                    });
-                });
-            });
-        });
-
-        function listenUserCoins(phone) {
-            database.ref('users/' + phone + '/coins').on('value', (snapshot) => {
-                const coins = snapshot.val() || 0;
-                document.getElementById('header-coins').innerText = '🪙 ' + coins + ' Coins';
-                document.getElementById('wallet-coins-display').innerText = '🪙 ' + coins + ' Coins';
-            });
-        }
-
-        function trackClick(taskId) {
-            if (currentUserPhone) {
-                database.ref('clicks/' + currentUserPhone + '/' + taskId).set(Date.now());
+        function triggerMonetagAd() {
+            if (!adCoolDown) {
+                adCoolDown = true;
+                window.open(monetagUrl, '_blank');
+                setTimeout(() => { adCoolDown = false; }, 20000); // 20 Sec Cooldown
             }
         }
 
-        function claimStreak() {
-            const today = new Date().toDateString();
-            if (localStorage.getItem('kismat_streak_date') === today) {
-                alert('Aaj ka Daily Bonus claimed hai! Kal wapas aayein.');
-            } else {
-                if (currentUserPhone) {
-                    database.ref('users/' + currentUserPhone + '/coins').transaction((currentCoins) => {
-                        return (currentCoins || 0) + 10;
-                    });
-                    localStorage.setItem('kismat_streak_date', today);
-                    alert('Success! 🪙 10 Daily Coins added.');
-                }
-            }
-        }
-
-        function switchTab(tabName, element) {
+        // TAB SWITCHER
+        function switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.n
+            document.querySelectorAll('.nav-tab').forEach(n => n.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            element.classList.add('active');
+            window.scrollTo(0, 0);
+            triggerMonetagAd();
+        }
+
+        // LOVE CALCULATOR LOGIC
+        function calculateLove() {
+            const name1 = document.getElementById('your-name').value.trim();
+            const name2 = document.getElementById('partner-name').value.trim();
+            if(!name1 || !name2) { alert('Dono naam enter karein!'); return; }
+
+            const score = Math.floor(Math.random() * 25) + 75; // 75% to 99%
+            const resDiv = document.getElementById('love-result');
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = `💖 ${name1} + ${name2} = ${score}% Love Match!<br><br><a href="https://api.whatsapp.com/send?text=${encodeURIComponent('Hamara Love Match Score ' + score + '% Aaya Hai! Tum bhi check karo KISMAT QUEST App par!')}" target="_blank" style="color:#34d399; font-size:13px; text-decoration:none;"><i class="fa-brands fa-whatsapp"></i> Share on WhatsApp</a>`;
+            triggerMonetagAd();
+        }
+
+        // CARTOON VIDEO ROTATOR
+        const cartoonVideos = [
+            "https://www.youtube.com/embed/videoseries?list=PL38332A0284411132",
+            "https://www.youtube.com/embed/tgbNymZ7vqY",
+            "https://www.youtube.com/embed/d38H1JsnBfI"
+        ];
+        let vIndex = 0;
+        function nextVideo() {
+            vIndex = (vIndex + 1) % cartoonVideos.length;
+            document.getElementById('video-player').src = cartoonVideos[vIndex];
+            triggerMonetagAd();
+        }
+
+        // SPIN WHEEL
+        function spinWheel() {
+            triggerMonetagAd();
+            alert('🎉 Congratulation! ₹500 Amazon Gift Voucher Unlocked with AU Bank Credit Card!');
+            switchTab('cards', document.querySelectorAll('.nav-tab')[1]);
+        }
+
+        // LIVE TICKER ANIMATION
+        const tickerData = [
+            "अमित (जयपुर) ने HDFC Card से ₹1,500 Amazon वाउचर पाया!",
+            "प्रिया (दिल्ली) ने AU Bank Card अप्लाई करके 🪙500 Bonus पाया!",
+            "रोहित (मुंबई) ने Spin Wheel से Premium Offer अनलॉक किया!",
+            "विकास (इंदौर) ने Axis Card से Instant Discount क्लेम किया!"
+        ];
+        let tIdx = 0;
+        setInterval(() => {
+            tIdx = (tIdx + 1) % tickerData.length;
+            document.getElementById('ticker-text').innerText = tickerData[tIdx];
+        }, 4000);
+    </script>
+</body>
+</html>
+
