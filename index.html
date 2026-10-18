@@ -3,104 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KISMAT QUEST - Premium Entertainment & Deals</title>
+    <title>KISMAT VIP - Ultimate Viral & Rewards Hub</title>
     
     <!-- Google Fonts & FontAwesome Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --bg: #0a0f1d;
-            --surface: rgba(30, 41, 59, 0.7);
-            --surface-border: rgba(255, 255, 255, 0.1);
-            --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.4);
+            --bg: #030712;
+            --surface: rgba(17, 24, 39, 0.85);
+            --surface-border: rgba(139, 92, 246, 0.35);
+            --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.5);
             --accent: #10b981;
-            --accent-glow: rgba(16, 185, 129, 0.4);
+            --accent-glow: rgba(16, 185, 129, 0.5);
             --pink: #ec4899;
-            --warning: #f59e0b;
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
+            --pink-glow: rgba(236, 72, 153, 0.5);
+            --gold: #f59e0b;
+            --gold-glow: rgba(245, 158, 11, 0.5);
+            --text: #f9fafb;
+            --text-muted: #9ca3af;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; }
 
-        /* Background Glow FX */
-        .glow-bg {
-            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
-            width: 350px; height: 350px; background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-            z-index: -1; pointer-events: none; filter: blur(50px);
+        .glow-fx {
+            position: fixed; top: -120px; left: 50%; transform: translateX(-50%);
+            width: 420px; height: 420px; background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1; pointer-events: none; filter: blur(70px);
         }
 
-        /* App Header */
+        /* VIP Header */
         .app-header {
             position: sticky; top: 0; z-index: 100;
-            background: rgba(10, 15, 29, 0.85); backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--surface-border); padding: 16px 20px;
+            background: rgba(3, 7, 18, 0.92); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--surface-border); padding: 14px 20px;
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        .logo-text { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #a5b4fc, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-text { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; background: linear-gradient(135deg, #c4b5fd, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .container { padding: 16px; max-width: 480px; margin: 0 auto; }
 
-        /* Ticker */
+        /* User Profile VIP Card */
+        .user-card {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 20px; padding: 16px;
+            margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between;
+        }
+
         .ticker-box {
-            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25);
-            color: #34d399; padding: 10px 14px; border-radius: 30px; font-size: 12px; font-weight: 600;
+            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399; padding: 10px 14px; border-radius: 30px; font-size: 12px; font-weight: 700;
             margin-bottom: 18px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
         }
 
-        /* Banner Card */
         .hero-card {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(236, 72, 153, 0.25));
             border: 1px solid var(--surface-border); border-radius: 24px; padding: 22px;
-            text-align: center; margin-bottom: 22px; backdrop-filter: blur(10px);
-            position: relative; overflow: hidden;
+            text-align: center; margin-bottom: 20px; backdrop-filter: blur(12px);
         }
-        .hero-card h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
-        .hero-card p { font-size: 13px; color: var(--text-muted); }
+        .hero-card h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; font-family: 'Orbitron', sans-serif; }
+        .hero-card p { font-size: 12px; color: var(--text-muted); }
 
-        /* Glass Cards */
         .glass-card {
             background: var(--surface); border: 1px solid var(--surface-border);
             border-radius: 20px; padding: 18px; margin-bottom: 14px;
-            backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
+            backdrop-filter: blur(16px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        .section-title { font-size: 15px; font-weight: 700; margin: 22px 0 12px 0; color: #a5b4fc; display: flex; align-items: center; gap: 8px; }
+        .section-title { font-size: 14px; font-weight: 800; margin: 22px 0 12px 0; color: #c4b5fd; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
 
-        /* Buttons */
         .btn-prime {
-            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary), #4f46e5);
-            color: white; border: none; border-radius: 14px; font-weight: 700; font-size: 14px;
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary), #6d28d9);
+            color: white; border: none; border-radius: 14px; font-weight: 800; font-size: 13px;
             cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;
-            text-decoration: none; box-shadow: 0 4px 15px var(--primary-glow); transition: 0.2s;
+            text-decoration: none; box-shadow: 0 4px 20px var(--primary-glow); transition: 0.2s;
         }
-        .btn-prime:active { transform: scale(0.98); }
+        .btn-prime:active { transform: scale(0.97); }
 
-        .btn-accent { background: linear-gradient(135deg, var(--accent), #059669); box-shadow: 0 4px 15px var(--accent-glow); }
-        .btn-pink { background: linear-gradient(135deg, var(--pink), #db2777); box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); }
+        .btn-accent { background: linear-gradient(135deg, var(--accent), #047857); box-shadow: 0 4px 20px var(--accent-glow); }
+        .btn-pink { background: linear-gradient(135deg, var(--pink), #be185d); box-shadow: 0 4px 20px var(--pink-glow); }
+        .btn-whatsapp { background: linear-gradient(135deg, #25d366, #128c7e); box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
 
         .input-dark {
-            width: 100%; padding: 14px; background: rgba(15, 23, 42, 0.8);
+            width: 100%; padding: 14px; background: rgba(3, 7, 18, 0.9);
             border: 1px solid var(--surface-border); border-radius: 12px; color: white;
             font-size: 14px; outline: none; margin: 6px 0 12px 0;
         }
 
-        /* Bottom Nav */
         .app-nav {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: rgba(10, 15, 29, 0.92); backdrop-filter: blur(20px);
+            background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(25px);
             height: 70px; display: flex; justify-content: space-around; align-items: center;
             border-top: 1px solid var(--surface-border); z-index: 1000;
         }
-        .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); font-size: 11px; font-weight: 600; cursor: pointer; width: 25%; }
-        .nav-tab.active { color: var(--primary); }
+        .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); font-size: 11px; font-weight: 700; cursor: pointer; width: 20%; }
+        .nav-tab.active { color: #c4b5fd; }
         .nav-tab i { font-size: 18px; }
 
         .tab-content { display: none; }
@@ -108,130 +109,192 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Video Frame */
         .video-container {
             position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
             border-radius: 16px; border: 1px solid var(--surface-border); margin-bottom: 12px;
         }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+        .game-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
+        .cell {
+            background: rgba(3, 7, 18, 0.8); border: 1px solid var(--surface-border);
+            height: 70px; border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; font-size: 28px; font-weight: 900; cursor: pointer; color: #c4b5fd;
+        }
     </style>
 </head>
-<body onclick="triggerMonetagAd()">
+<body onclick="triggerDualAds()">
 
-    <div class="glow-bg"></div>
+    <div class="glow-fx"></div>
 
     <!-- HEADER -->
     <div class="app-header">
-        <div class="logo-text"><i class="fa-solid fa-bolt"></i> KISMAT QUEST</div>
-        <div style="font-size:11px; background:rgba(99, 102, 241, 0.15); color:#a5b4fc; padding:6px 14px; border-radius:20px; border:1px solid rgba(99, 102, 241, 0.3); font-weight:700;">
-            🔥 VIP Pass Active
+        <div class="logo-text"><i class="fa-solid fa-crown" style="color:var(--gold);"></i> KISMAT VIP</div>
+        <div style="font-size:11px; background:rgba(245, 158, 11, 0.15); color:var(--gold); padding:6px 14px; border-radius:20px; border:1px solid rgba(245, 158, 11, 0.3); font-weight:800;">
+            ⚡ 100% FREE REWARDS
         </div>
     </div>
 
     <div class="container">
 
-        <!-- LIVE TICKER -->
+        <!-- USER PROFILE CARD -->
+        <div class="user-card">
+            <div>
+                <div style="font-size:11px; color:var(--gold); font-weight:800;" id="user-id-text">ID: VIP-98214</div>
+                <div style="font-size:14px; font-weight:800; margin-top:2px;">Coins Balance: <span style="color:#34d399;">🪙 2,450</span></div>
+            </div>
+            <i class="fa-solid fa-user-astronaut" style="font-size:28px; color:#c4b5fd;"></i>
+        </div>
+
+        <!-- TICKER -->
         <div class="ticker-box">
             <i class="fa-solid fa-circle-check"></i>
             <span id="ticker-text">अमित (जयपुर) ने HDFC Card से ₹1,500 Amazon वाउचर पाया!</span>
         </div>
 
-        <!-- TAB 1: REELS & FUN ZONE -->
-        <div id="tab-reels" class="tab-content active">
+        <!-- TAB 1: STORIES & EMOTIONS -->
+        <div id="tab-stories" class="tab-content active">
             <div class="hero-card">
-                <h2>🎬 Cartoons & Trending Reels</h2>
-                <p>Motu Patlu, Shin-chan & Comedy Shorts Non-Stop!</p>
+                <h2>📖 HEART & LOVE STORIES</h2>
+                <p>Heartbroken, True Love & Emotional Real-Life Stories!</p>
             </div>
 
-            <!-- Cartoon Video Streamer -->
+            <!-- VIRAL REFERRAL SYSTEM -->
+            <div class="glass-card" style="border: 1px solid rgba(37, 211, 102, 0.4); background: rgba(37, 211, 102, 0.08);">
+                <h3 style="font-size:15px; color:#25d366; margin-bottom:6px;"><i class="fa-brands fa-whatsapp"></i> Share & Unlock Secret Pass</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">5 दोस्तों को व्हाट्सएप पर भेजें और ₹500 का VIP वाउचर तुरंत पाएं!</p>
+                <button onclick="shareOnWhatsApp()" class="btn-prime btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> Share on WhatsApp (0/5)</button>
+            </div>
+
             <div class="glass-card">
-                <div class="video-container">
-                    <iframe id="video-player" src="https://www.youtube.com/embed/videoseries?list=PL38332A0284411132" title="Cartoon Player" allowfullscreen></iframe>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span style="font-size:11px; background:rgba(236,72,153,0.2); color:var(--pink); padding:4px 10px; border-radius:10px; font-weight:700;" id="story-tag">💔 Heartbreak Story</span>
+                    <span style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-eye"></i> 18.5k Reads</span>
                 </div>
-                <button onclick="nextVideo()" class="btn-prime"><i class="fa-solid fa-forward"></i> Next Cartoon / Reel Clip</button>
+                <h3 id="story-title" style="font-size:16px; margin-bottom:8px; color:#c4b5fd;">"वो अधूरी मोहब्बत का आखिरी मैसेज..."</h3>
+                <p id="story-body" style="font-size:13px; color:var(--text-muted); line-height:1.6; margin-bottom:14px;">
+                    रात के 2 बजे थे, फोन की स्क्रीन जली और उसका मैसेज आया - "सुनो, शायद हम कभी एक नहीं हो सकते, लेकिन तुम हमेशा मेरी दुआओं में रहोगे..." उस एक रात ने मेरी पूरी दुनिया बदल दी।
+                </p>
+                <button onclick="nextStory()" class="btn-prime btn-pink"><i class="fa-solid fa-book-open"></i> Read Next Story</button>
             </div>
 
-            <!-- AI Love & Compatibility Calculator -->
-            <div class="section-title"><i class="fa-solid fa-heart" style="color:var(--pink);"></i> AI Love Match Calculator</div>
+            <!-- Shayari Generator -->
             <div class="glass-card">
-                <input type="text" id="your-name" class="input-dark" placeholder="Aapka Naam">
-                <input type="text" id="partner-name" class="input-dark" placeholder="Partner ka Naam">
-                <button onclick="calculateLove()" class="btn-prime btn-pink"><i class="fa-solid fa-wand-magic-sparkles"></i> Calculate Compatibility</button>
-                <div id="love-result" style="display:none; margin-top:15px; text-align:center; font-size:16px; font-weight:800; color:var(--pink);"></div>
+                <h3 style="margin-bottom:8px; font-size:15px; color:var(--pink);"><i class="fa-solid fa-quote-left"></i> Daily Attitude & Sad Shayari</h3>
+                <div id="shayari-box" style="background:rgba(3, 7, 18, 0.8); padding:14px; border-radius:12px; border:1px solid var(--surface-border); font-size:13px; font-style:italic; margin-bottom:12px; line-height:1.5;">
+                    "हमारी ख़ामोशी को हमारी हार मत समझना, कुछ कहानियाँ अक्सर अधूरी ही खूबसूरत होती हैं...💔"
+                </div>
+                <button onclick="getNewShayari()" class="btn-prime"><i class="fa-solid fa-arrows-rotate"></i> Next Shayari</button>
             </div>
         </div>
 
-        <!-- TAB 2: CREDIT CARDS & COMMISSIONS -->
-        <div id="tab-cards" class="tab-content">
-            <div class="hero-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));">
-                <h2>💳 Premium Credit Card Deals</h2>
-                <p>100% Free Paperless Instant Bank Approval</p>
+        <!-- TAB 2: VIRAL AI TOOLS & QUIZ -->
+        <div id="tab-tools" class="tab-content">
+            <div class="hero-card" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(245, 158, 11, 0.25));">
+                <h2>🔮 AI SECRET MATCH & QUIZ</h2>
+                <p>Love Matching, Secret Crush Reader & Compatibility!</p>
             </div>
 
-            <div class="section-title"><i class="fa-solid fa-shield-halved"></i> Top Bank Approvals</div>
-
-            <!-- 1. AU Bank -->
+            <!-- Love Calculator -->
             <div class="glass-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <h3 style="font-size:15px;">AU Small Finance Card</h3>
-                    <span style="font-size:11px; background:rgba(16,185,129,0.2); color:#34d399; padding:4px 8px; border-radius:8px;">Instant</span>
+                <h3 style="margin-bottom:8px; font-size:15px; color:var(--pink);"><i class="fa-solid fa-heart"></i> AI Love Match Calculator</h3>
+                <input type="text" id="name1" class="input-dark" placeholder="Aapka Naam">
+                <input type="text" id="name2" class="input-dark" placeholder="Partner ka Naam">
+                <button onclick="checkLove()" class="btn-prime btn-pink"><i class="fa-solid fa-wand-magic-sparkles"></i> Calculate Compatibility</button>
+                <div id="love-output" style="display:none; margin-top:14px; text-align:center; font-size:15px; font-weight:800; color:var(--pink);"></div>
+            </div>
+
+            <!-- Secret Crush Predictor -->
+            <div class="glass-card">
+                <h3 style="margin-bottom:8px; font-size:15px; color:#c4b5fd;"><i class="fa-solid fa-eye-low-vision"></i> Secret Crush Predictor</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Jaaniye aapko kaun गुप्त रूप से पसंद करता है!</p>
+                <input type="text" id="crush-name" class="input-dark" placeholder="Aapka Naam Enter Karein">
+                <button onclick="predictCrush()" class="btn-prime"><i class="fa-solid fa-magnifying-glass-heart"></i> Reveal Secret Crush</button>
+                <div id="crush-output" style="display:none; margin-top:14px; text-align:center; font-size:14px; font-weight:700; color:#34d399;"></div>
+            </div>
+        </div>
+
+        <!-- TAB 3: CARTOONS & GAMES -->
+        <div id="tab-games" class="tab-content">
+            <div class="hero-card">
+                <h2>🎮 CARTOONS & ARCADE GAMES</h2>
+                <p>Motu Patlu Clips & Play Games Inside App!</p>
+            </div>
+
+            <div class="glass-card">
+                <div class="video-container">
+                    <iframe id="video-player" src="https://www.youtube.com/embed/videoseries?list=PL38332A0284411132" title="Cartoon Stream" allowfullscreen></iframe>
+                </div>
+                <button onclick="nextVideo()" class="btn-prime"><i class="fa-solid fa-forward"></i> Next Clip / Reel</button>
+            </div>
+
+            <div class="glass-card" style="text-align:center;">
+                <h3>❌ Tic-Tac-Toe Arcade ⭕</h3>
+                <div class="game-board" id="board">
+                    <div class="cell" onclick="makeMove(this, 0)"></div>
+                    <div class="cell" onclick="makeMove(this, 1)"></div>
+                    <div class="cell" onclick="makeMove(this, 2)"></div>
+                    <div class="cell" onclick="makeMove(this, 3)"></div>
+                    <div class="cell" onclick="makeMove(this, 4)"></div>
+                    <div class="cell" onclick="makeMove(this, 5)"></div>
+                    <div class="cell" onclick="makeMove(this, 6)"></div>
+                    <div class="cell" onclick="makeMove(this, 7)"></div>
+                    <div class="cell" onclick="makeMove(this, 8)"></div>
+                </div>
+                <button onclick="resetGame()" class="btn-prime btn-accent"><i class="fa-solid fa-rotate-right"></i> Restart Game</button>
+            </div>
+        </div>
+
+        <!-- TAB 4: BANK CARDS (DIRECT EARNINGS) -->
+        <div id="tab-cards" class="tab-content">
+            <div class="hero-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(139, 92, 246, 0.25));">
+                <h2>💳 BANK CREDIT DEALS</h2>
+                <p>100% Free Lifetime Cards with Instant Approval!</p>
+            </div>
+
+            <!-- AU Bank -->
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <h3>AU Small Finance Card</h3>
+                    <span style="font-size:10px; background:rgba(16,185,129,0.2); color:#34d399; padding:3px 8px; border-radius:6px;">INSTANT</span>
                 </div>
                 <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Lifetime Free + Free ₹500 Amazon Voucher</p>
                 <a href="https://ltsrn.in/lIV" target="_blank" class="btn-prime btn-accent"><i class="fa-solid fa-credit-card"></i> Apply AU Bank Card</a>
             </div>
 
-            <!-- 2. Axis Bank -->
+            <!-- Axis Bank -->
             <div class="glass-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <h3 style="font-size:15px;">Axis Bank Credit Card</h3>
-                    <span style="font-size:11px; background:rgba(99,102,241,0.2); color:#a5b4fc; padding:4px 8px; border-radius:8px;">Top Choice</span>
-                </div>
+                <h3>Axis Bank Credit Card</h3>
                 <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Unlimited 5% Cashback on Flipkart & Swiggy</p>
-                <a href="https://ltsrn.in/lIW" target="_blank" class="btn-prime"><i class="fa-solid fa-credit-card"></i> Apply Axis Bank Card</a>
+                <a href="https://ltsrn.in/lIW" target="_blank" class="btn-prime"><i class="fa-solid fa-credit-card"></i> Apply Axis Card</a>
             </div>
 
-            <!-- 3. HDFC Bank -->
+            <!-- HDFC Bank -->
             <div class="glass-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <h3 style="font-size:15px;">HDFC Bank Credit Card</h3>
-                    <span style="font-size:11px; background:rgba(245,158,11,0.2); color:#fbbf24; padding:4px 8px; border-radius:8px;">High Approval</span>
-                </div>
+                <h3>HDFC Bank Credit Card</h3>
                 <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">India's Premium Cashback & Rewards Card</p>
-                <a href="https://ltsrn.in/lI8" target="_blank" class="btn-prime"><i class="fa-solid fa-credit-card"></i> Apply HDFC Bank Card</a>
+                <a href="https://ltsrn.in/lI8" target="_blank" class="btn-prime"><i class="fa-solid fa-credit-card"></i> Apply HDFC Card</a>
             </div>
 
-            <!-- 4. Federal Bank -->
+            <!-- Federal Bank -->
             <div class="glass-card">
-                <h3 style="font-size:15px; margin-bottom:4px;">Federal Bank Credit Card</h3>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Instant Digital Approval in 2 Minutes</p>
+                <h3>Federal Bank Credit Card</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Digital Paperless Approval in 2 Minutes</p>
                 <a href="https://ltsrn.in/lIZ" target="_blank" class="btn-prime"><i class="fa-solid fa-credit-card"></i> Apply Federal Card</a>
             </div>
 
-            <!-- 5. Bitli Special Deal -->
+            <!-- Bitli Special Deal -->
             <div class="glass-card">
-                <h3 style="font-size:15px; margin-bottom:4px;">Premium Special Credit Deal</h3>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Exclusive Card Offers & Airport Lounge Access</p>
+                <h3>Premium Special Deal</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Exclusive Card Offers & Lounge Access</p>
                 <a href="https://bitli.in/m4kL17" target="_blank" class="btn-prime btn-accent"><i class="fa-solid fa-star"></i> Claim Special Offer</a>
             </div>
-        </div>
 
-        <!-- TAB 3: GAMES & TIMEBUCKS -->
-        <div id="tab-games" class="tab-content">
-            <div class="hero-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2));">
-                <h2>🎮 High Payout Games</h2>
-                <p>Play Games & Earn Rewards on TimeBucks Platform</p>
-            </div>
-
-            <div class="glass-card" style="text-align:center;">
-                <h3 style="margin-bottom:6px;">🎯 TimeBucks Task Portal</h3>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Free Tasks aur Micro-jobs karke rewards paayein.</p>
-                <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-prime" style="background:linear-gradient(135deg, var(--warning), #d97706);"><i class="fa-solid fa-gamepad"></i> Open TimeBucks Portal</a>
-            </div>
-
-            <div class="glass-card" style="text-align:center;">
-                <h3 style="margin-bottom:6px;">🎡 Spin & Win Secret Deals</h3>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Wheel ghumayein aur ₹1,000 ka Card Voucher jeetein!</p>
-                <button onclick="spinWheel()" class="btn-prime btn-accent"><i class="fa-solid fa-dharmachakra"></i> Spin Wheel Now</button>
+            <!-- TimeBucks Tasks -->
+            <div class="glass-card">
+                <h3>TimeBucks Rewards Portal</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Complete Micro-tasks & Earn Dollars</p>
+                <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-prime btn-pink"><i class="fa-solid fa-coins"></i> Open TimeBucks</a>
             </div>
         </div>
 
@@ -239,21 +302,26 @@
 
     <!-- BOTTOM NAVIGATION -->
     <div class="app-nav">
-        <div class="nav-tab active" onclick="switchTab('reels', this)"><i class="fa-solid fa-film"></i><span>Reels</span></div>
-        <div class="nav-tab" onclick="switchTab('cards', this)"><i class="fa-solid fa-credit-card"></i><span>Cards</span></div>
+        <div class="nav-tab active" onclick="switchTab('stories', this)"><i class="fa-solid fa-book"></i><span>Stories</span></div>
+        <div class="nav-tab" onclick="switchTab('tools', this)"><i class="fa-solid fa-wand-magic-sparkles"></i><span>AI Tools</span></div>
         <div class="nav-tab" onclick="switchTab('games', this)"><i class="fa-solid fa-gamepad"></i><span>Games</span></div>
+        <div class="nav-tab" onclick="switchTab('cards', this)"><i class="fa-solid fa-credit-card"></i><span>Cards</span></div>
     </div>
 
     <script>
-        // MONETAG SMARTLINK AUTOMATIC TRIGGER
-        const monetagUrl = "https://uplcm.com/4/12045886";
-        let adCoolDown = false;
+        // DUAL AD ENGINE INTEGRATION (ADSTERRA + MONETAG)
+        const adsterraSmartLink = "https://www.highrevenuegate.com/31791042";
+        const monetagSmartLink = "https://uplcm.com/4/12045886";
+        let adCooldown = false;
+        let useAdsterraNext = true;
 
-        function triggerMonetagAd() {
-            if (!adCoolDown) {
-                adCoolDown = true;
-                window.open(monetagUrl, '_blank');
-                setTimeout(() => { adCoolDown = false; }, 20000); // 20 Sec Cooldown
+        function triggerDualAds() {
+            if (!adCooldown) {
+                adCooldown = true;
+                const targetLink = useAdsterraNext ? adsterraSmartLink : monetagSmartLink;
+                useAdsterraNext = !useAdsterraNext; // Alternate between Adsterra & Monetag
+                window.open(targetLink, '_blank');
+                setTimeout(() => { adCooldown = false; }, 10000); // 10 Sec Cooldown
             }
         }
 
@@ -264,55 +332,19 @@
             document.getElementById('tab-' + tabId).classList.add('active');
             element.classList.add('active');
             window.scrollTo(0, 0);
-            triggerMonetagAd();
+            triggerDualAds();
         }
 
-        // LOVE CALCULATOR LOGIC
-        function calculateLove() {
-            const name1 = document.getElementById('your-name').value.trim();
-            const name2 = document.getElementById('partner-name').value.trim();
-            if(!name1 || !name2) { alert('Dono naam enter karein!'); return; }
-
-            const score = Math.floor(Math.random() * 25) + 75; // 75% to 99%
-            const resDiv = document.getElementById('love-result');
-            resDiv.style.display = 'block';
-            resDiv.innerHTML = `💖 ${name1} + ${name2} = ${score}% Love Match!<br><br><a href="https://api.whatsapp.com/send?text=${encodeURIComponent('Hamara Love Match Score ' + score + '% Aaya Hai! Tum bhi check karo KISMAT QUEST App par!')}" target="_blank" style="color:#34d399; font-size:13px; text-decoration:none;"><i class="fa-brands fa-whatsapp"></i> Share on WhatsApp</a>`;
-            triggerMonetagAd();
+        // WHATSAPP SHARE VIRAL LOOP
+        function shareOnWhatsApp() {
+            triggerDualAds();
+            const shareMsg = encodeURIComponent("🔥 Bhai KISMAT VIP App par dekh kya mast Love Calculator, Emotional Stories aur Free Deals mil rahe hain! Tu bhi check kar abhi: " + window.location.href);
+            window.open("https://api.whatsapp.com/send?text=" + shareMsg, '_blank');
         }
 
-        // CARTOON VIDEO ROTATOR
-        const cartoonVideos = [
-            "https://www.youtube.com/embed/videoseries?list=PL38332A0284411132",
-            "https://www.youtube.com/embed/tgbNymZ7vqY",
-            "https://www.youtube.com/embed/d38H1JsnBfI"
-        ];
-        let vIndex = 0;
-        function nextVideo() {
-            vIndex = (vIndex + 1) % cartoonVideos.length;
-            document.getElementById('video-player').src = cartoonVideos[vIndex];
-            triggerMonetagAd();
-        }
-
-        // SPIN WHEEL
-        function spinWheel() {
-            triggerMonetagAd();
-            alert('🎉 Congratulation! ₹500 Amazon Gift Voucher Unlocked with AU Bank Credit Card!');
-            switchTab('cards', document.querySelectorAll('.nav-tab')[1]);
-        }
-
-        // LIVE TICKER ANIMATION
-        const tickerData = [
-            "अमित (जयपुर) ने HDFC Card से ₹1,500 Amazon वाउचर पाया!",
-            "प्रिया (दिल्ली) ने AU Bank Card अप्लाई करके 🪙500 Bonus पाया!",
-            "रोहित (मुंबई) ने Spin Wheel से Premium Offer अनलॉक किया!",
-            "विकास (इंदौर) ने Axis Card से Instant Discount क्लेम किया!"
-        ];
-        let tIdx = 0;
-        setInterval(() => {
-            tIdx = (tIdx + 1) % tickerData.length;
-            document.getElementById('ticker-text').innerText = tickerData[tIdx];
-        }, 4000);
-    </script>
-</body>
-</html>
-
+        // STORIES ROTATOR
+        const storyData = [
+            {
+                tag: "💔 Heartbreak Story",
+                title: `"वो अधूरी मोहब्बत का आखिरी मैसेज..."`,
+                body: "रात के 2 बजे थे, फोन की स्क्रीन जली और उसका मैसेज आया - 'सुनो, शायद हम कभी एक नहीं हो सकते, ल
