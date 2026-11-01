@@ -112,6 +112,24 @@
             max-width: 400px;
             text-align: center;
         }
+        /* Display Banner Slot Styling */
+        .ad-banner-slot {
+            width: 100%;
+            min-height: 90px;
+            background: #eccc68;
+            border: 2px dashed #ffa502;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 13px;
+            font-weight: bold;
+            color: #2f3542;
+            cursor: pointer;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -127,12 +145,26 @@
     <!-- Main Container -->
     <div class="container" id="webMainContent" style="display:none;">
         
+        <!-- Top Display Banner Placement -->
+        <div class="ad-banner-slot" onclick="openDirectBannerAd(0)">
+            <span>📢 SPONSOR BANNER AD</span>
+            <small style="font-weight:normal; font-size:11px;">(Click to view special offer)</small>
+            <div id="adsterra_banner_top"></div>
+        </div>
+
         <!-- User Welcome Card -->
         <div class="card">
             <h3 id="webWelcome">Welcome, User!</h3>
             <p style="font-size: 12px; color: #2ed573;">Secure Micro-Earning | 10 Coins = ₹1</p>
             <button class="btn" onclick="triggerMultiAdTask('daily', 2, 0)">Claim Daily Bonus (+2 Coins)</button>
             <button class="btn" style="background: #ffa502;" onclick="triggerMultiAdTask('spin', 1, 1)">Spin & Earn (+1 Coin)</button>
+        </div>
+
+        <!-- Middle Native In-Feed Banner -->
+        <div class="ad-banner-slot" style="background:#70a1ff; border-color:#1e90ff; color:#fff;" onclick="openDirectBannerAd(1)">
+            <span>🔥 HIGH REWARD BANNER AD</span>
+            <small style="font-weight:normal; font-size:11px;">(Interactive Ad Zone)</small>
+            <div id="adsterra_banner_mid"></div>
         </div>
 
         <!-- Referral Hub -->
@@ -156,6 +188,12 @@
             <h4 style="text-align: center; margin-top:0;">💸 Withdrawal (Min 500 Coins = ₹50)</h4>
             <input type="text" id="webUpi" placeholder="Enter UPI ID / Paytm Number">
             <button class="btn" style="background:var(--success);" onclick="webWithdraw()">Withdraw ₹50</button>
+        </div>
+
+        <!-- Bottom Banner Placement -->
+        <div class="ad-banner-slot" style="background:#7bed9f; border-color:#2ed573; color:#2f3542;" onclick="openDirectBannerAd(2)">
+            <span>🎁 BONUS SPONSOR BANNER</span>
+            <div id="adsterra_banner_bottom"></div>
         </div>
 
         <button class="btn" style="background:#747d8c; font-size: 13px;" onclick="webLogout()">Logout Session</button>
@@ -192,7 +230,7 @@
             <input type="password" id="webAdminPass" placeholder="Admin Password (admin123)">
             <button class="btn" onclick="verifyWebAdmin()">Login Admin</button>
             <div id="webAdminData" style="display:none; margin-top:15px; font-size:13px;">
-                <p><b>Active Multi-Ad Zones:</b> 3 Placement Direct Links Active</p>
+                <p><b>Active Multi-Ad Zones:</b> 3 Smartlinks + 3 Banner Placements</p>
                 <p><b>Revenue Split:</b> Owner Margin High / Safe Rewards</p>
                 <p><b>Active Users Count:</b> <span id="webTotalUsersCount">1</span></p>
                 <p><b>Pending Payouts:</b> <span id="pendingPayoutsCount">None</span></p>
@@ -206,7 +244,7 @@
         let isWebSignup = false;
         let webUser = JSON.parse(localStorage.getItem('zing_web_user')) || null;
         
-        // All 3 High-CPM Smartlinks Configured
+        // Smartlinks Configured
         const ALL_AD_LINKS = [
             "https://auctionr.org/4/52a525bafa5d2666a7ed8afd61c3d67e", // Smartlink 1
             "https://asiafilm.org/4/f5459872596d4d52eed0f0192ac50e63", // Smartlink 2
@@ -224,7 +262,7 @@
             }
             checkWebLogin();
 
-            // Automatic Return Detection
+            // Auto Return Detection
             document.addEventListener("visibilitychange", function() {
                 if (document.visibilityState === "visible" && isTaskActive) {
                     isTaskActive = false;
@@ -342,6 +380,11 @@
             document.getElementById('taskTimer').innerText = 'Complete ad & come back...';
         }
 
+        function openDirectBannerAd(idx) {
+            let targetAdLink = ALL_AD_LINKS[idx % ALL_AD_LINKS.length];
+            window.open(targetAdLink, '_blank');
+        }
+
         function shareWebWhatsApp() {
             let link = document.getElementById('webRefLink').value;
             let text = encodeURIComponent(`🔥 Zing Pro Web Portal par join karein aur ghar baithe kamayein: ${link}`);
@@ -353,7 +396,6 @@
             if(!upi) { alert('Please enter your UPI ID or Paytm number!'); return; }
             if(webUser.coins < 500) { alert('Minimum 500 coins required for withdrawal!'); return; }
             
-            // Trigger 3rd ad link on withdrawal attempt to maximize CPM revenue
             window.open(ALL_AD_LINKS[2], '_blank');
 
             webUser.coins -= 500;
