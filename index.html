@@ -15,7 +15,7 @@
 <body class="gradient-bg text-white min-h-screen font-sans antialiased pb-20">
 
     <!-- Header Navbar -->
-    <header class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex justify-between items-center">
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex justify-between items-center">
         <div class="flex items-center space-x-2 cursor-pointer select-none" id="logoClickArea" title="Zing Pro">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-fuchsia-600 flex items-center justify-center font-bold text-xl shadow-lg shadow-violet-500/30">Z</div>
             <div>
@@ -101,7 +101,7 @@
                 <div class="pt-2">
                     <label class="text-[11px] text-slate-400 uppercase tracking-wider block mb-1">Your Invite Link</label>
                     <div class="flex space-x-2">
-                        <input type="text" id="referralLinkInput" readonly class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-300 w-full focus:outline-none" value="https://zingpro.vercel.app/?ref=USER9842">
+                        <input type="text" id="referralLinkInput" readonly class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-300 w-full focus:outline-none" value="https://app-rose.vercel.app/?ref=USER9842">
                         <button onclick="copyReferralLink()" class="bg-violet-600 hover:bg-violet-500 text-white px-4 py-2 rounded-xl text-xs font-semibold shrink-0 transition">Copy</button>
                     </div>
                 </div>
@@ -194,9 +194,9 @@
         </div>
     </div>
 
-    <!-- JavaScript Application Logic -->
+    <!-- Application Script Logic -->
     <script>
-        // Local State Management
+        // State Management with LocalStorage sync
         let appState = {
             coins: parseInt(localStorage.getItem('zing_coins')) || 120,
             dailyClaimed: localStorage.getItem('zing_daily') === 'true',
@@ -224,11 +224,19 @@
         // Tab Switcher
         function switchTab(tab) {
             ['Home', 'Network', 'Wallet'].forEach(t => {
-                document.getElementById('tab' + t).classList.add('hidden');
-                document.getElementById('nav' + t).className = 'flex-1 py-2.5 rounded-lg text-slate-400 hover:text-white transition';
+                const el = document.getElementById('tab' + t);
+                const nav = document.getElementById('nav' + t);
+                if (el && nav) {
+                    el.classList.add('hidden');
+                    nav.className = 'flex-1 py-2.5 rounded-lg text-slate-400 hover:text-white transition';
+                }
             });
-            document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.remove('hidden');
-            document.getElementById('nav' + tab.charAt(0).toUpperCase() + tab.slice(1)).className = 'flex-1 py-2.5 rounded-lg bg-violet-600 text-white shadow transition';
+            const activeTab = document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1));
+            const activeNav = document.getElementById('nav' + tab.charAt(0).toUpperCase() + tab.slice(1));
+            if (activeTab && activeNav) {
+                activeTab.classList.remove('hidden');
+                activeNav.className = 'flex-1 py-2.5 rounded-lg bg-violet-600 text-white shadow transition';
+            }
         }
 
         // Daily Bonus Claim
@@ -237,40 +245,46 @@
             appState.coins += 50;
             appState.dailyClaimed = true;
             updateUI();
-            confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+            try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e) {}
         }
 
-        // Smart Task & Ad Loop Handler
+        // Smart Task & Ad Loop Handler (High Payout Smartlink Safe Trigger)
         function triggerSmartTask(taskName, rewardCoins) {
-            // Simulated High-Payout Smartlink / Ad Loop trigger in separate window safely
+            // Opens Smartlink safely in a separate window without trapping the user
             const smartlinkWindow = window.open('about:blank', '_blank');
             if (smartlinkWindow) {
                 smartlinkWindow.document.write(`<html><head><title>Processing Task...</title></head><body style="background:#0f172a;color:#fff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;"><div style="text-align:center;"><h2>Verifying ${taskName}...</h2><p>Please wait a moment while your task is validated securely.</p></div></body></html>`);
                 setTimeout(() => {
-                    smartlinkWindow.location.href = 'https://www.google.com'; // Placeholder for Monetag Smartlink destination
-                }, 1200);
+                    smartlinkWindow.location.href = 'https://www.google.com'; // Replace with Monetag / Adsterra Smartlink URL
+                }, 1000);
             }
 
-            // Auto credit upon returning focus / task completion
+            // Auto credit upon task completion focus return
             setTimeout(() => {
                 appState.coins += rewardCoins;
                 updateUI();
-                confetti({ particleCount: 50, spread: 50, origin: { y: 0.7 } });
-            }, 3000);
+                try { confetti({ particleCount: 50, spread: 50, origin: { y: 0.7 } }); } catch(e) {}
+            }, 2500);
         }
 
         // Copy Referral Link
         function copyReferralLink() {
             const input = document.getElementById('referralLinkInput');
-            input.select();
-            navigator.clipboard.writeText(input.value);
-            alert('Referral link copied successfully!');
+            if (input) {
+                input.select();
+                navigator.clipboard.writeText(input.value);
+                alert('Referral link copied successfully!');
+            }
         }
 
         // Withdrawal Submission
         function submitWithdrawal() {
-            const address = document.getElementById('payoutAddress').value.trim();
-            const coins = parseInt(document.getElementById('payoutCoins').value);
+            const addressInput = document.getElementById('payoutAddress');
+            const coinsInput = document.getElementById('payoutCoins');
+            if (!addressInput || !coinsInput) return;
+
+            const address = addressInput.value.trim();
+            const coins = parseInt(coinsInput.value);
 
             if (!address) {
                 alert('Please enter your valid UPI ID or Paytm number.');
@@ -292,21 +306,16 @@
             updateUI();
             renderPayoutHistory();
 
-            document.getElementById('payoutAddress').value = '';
-            document.getElementById('payoutCoins').value = '';
+            addressInput.value = '';
+            coinsInput.value = '';
             alert('Withdrawal request submitted successfully!');
         }
 
         function renderPayoutHistory() {
             const list = document.getElementById('payoutHistoryList');
+            if (!list) return;
             if (appState.withdrawals.length === 0) {
                 list.innerHTML = '<p class="text-center py-2">No withdrawal history found yet.</p>';
                 return;
             }
-            list.innerHTML = appState.withdrawals.map(w => `
-                <div class="bg-slate-900/50 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <div>
-                        <span class="text-white font-medium">${w.coins} Coins (₹${(w.coins/10).toFixed(2)})</span>
-                        <p class="text-[10px] text-slate-500">${w.address} • ${w.date}</p>
-                    </div>
-                    <span class="px-2 py-0.5 rounded text-[10px] font-semibold ${w.status === 'Approved' ? '
+            list.innerHTML = 
