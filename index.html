@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -71,6 +72,10 @@
             width: 100%;
             margin-top: 10px;
         }
+        .btn:disabled {
+            background: #a4b0be;
+            cursor: not-allowed;
+        }
         input {
             width: 100%;
             padding: 12px;
@@ -104,6 +109,7 @@
             border-radius: 12px;
             width: 90%;
             max-width: 400px;
+            text-align: center;
         }
     </style>
 </head>
@@ -124,8 +130,8 @@
         <div class="card">
             <h3 id="webWelcome">Welcome, User!</h3>
             <p style="font-size: 12px; color: #2ed573;">Secure Web Portal | 10 Coins = ₹1</p>
-            <button class="btn" onclick="triggerAdTask('daily')">Claim Daily Bonus (+50 Coins)</button>
-            <button class="btn" style="background: #ffa502;" onclick="triggerAdTask('spin')">Spin & Earn (+20 Coins)</button>
+            <button class="btn" onclick="startTaskProcess('daily')">Claim Daily Bonus (+50 Coins)</button>
+            <button class="btn" style="background: #ffa502;" onclick="startTaskProcess('spin')">Spin & Earn (+20 Coins)</button>
         </div>
 
         <!-- Referral Hub -->
@@ -154,23 +160,34 @@
         <button class="btn" style="background:#747d8c; font-size: 13px;" onclick="webLogout()">Logout Session</button>
     </div>
 
+    <!-- Task Verification Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <h3>⏳ Ad Verification in Progress</h3>
+            <p id="taskInstruction" style="font-size: 13px; color: #555;">Ad opened in new tab. Please view it completely and return back here.</p>
+            <h2 id="timerDisplay" style="color: var(--primary); font-size: 28px; margin: 15px 0;">Waiting for view...</h2>
+            <button id="claimRewardBtn" class="btn" style="background: var(--success);" disabled onclick="finalizeTaskReward()">Claim Reward</button>
+            <button class="btn" style="background: #747d8c; margin-top: 10px; padding: 8px;" onclick="closeTaskModal()">Cancel</button>
+        </div>
+    </div>
+
     <!-- Web Auth Modal -->
     <div id="webAuthModal" class="modal" style="display:flex;">
         <div class="modal-content">
-            <h2 style="text-align:center; color:var(--primary);">Zing Pro Web Login</h2>
+            <h2 style="color:var(--primary); margin-top:0;">Zing Pro Web Login</h2>
             <div id="webRegFields" style="display:none;">
                 <input type="text" id="webName" placeholder="Full Name">
             </div>
             <input type="text" id="webMobile" placeholder="Mobile Number">
             <input type="password" id="webPass" placeholder="Password">
             <button class="btn" id="webAuthBtn" onclick="handleWebAuth()">Login Web Account</button>
-            <p style="text-align:center; font-size:13px; margin-top:15px; cursor:pointer; color:blue;" onclick="toggleWebAuth()" id="webToggleText">New user? Register here</p>
+            <p style="font-size:13px; margin-top:15px; cursor:pointer; color:blue;" onclick="toggleWebAuth()" id="webToggleText">New user? Register here</p>
         </div>
     </div>
 
     <!-- Admin Panel Modal -->
     <div id="webAdminModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="text-align:left;">
             <h3>🔐 Secret Admin Panel</h3>
             <input type="password" id="webAdminPass" placeholder="Admin Password (admin123)">
             <button class="btn" onclick="verifyWebAdmin()">Login Admin</button>
@@ -187,7 +204,17 @@
     <script>
         let isWebSignup = false;
         let webUser = JSON.parse(localStorage.getItem('zing_web_user')) || null;
-        const MONETAG_LINK = "https://uplcm.com/4/12045886";
+        
+        // Both Ad Links configured for Smart Rotation
+        const AD_LINKS = [
+            "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce",
+            "https://uplcm.com/4/12045886"
+        ];
+        let adToggleIndex = 0;
+
+        let activeTaskType = '';
+        let adOpenedTime = 0;
+        let taskVerifier = null;
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -277,34 +304,61 @@
             localStorage.setItem('zing_web_user', JSON.stringify(webUser));
         }
 
-        // Safe Smartlink Task Execution with Anti-Stuck & Auto-Return Focus Detection
-        function triggerAdTask(type) {
-            let startTime = Date.now();
+        // Dual Ad Rotation Task Process with Focus Verification
+        function startTaskProcess(type) {
+            activeTaskType = type;
+            adOpenedTime = Date.now();
             
-            // Open ad in a new tab securely without freezing main window
-            window.open(MONETAG_LINK, '_blank');
+            // Pick next ad link in rotation
+            let currentAdLink = AD_LINKS[adToggleIndex];
+            adToggleIndex = (adToggleIndex + 1) % AD_LINKS.length;
 
-            alert('Ad opened in new tab! Complete the view and return back to claim your reward.');
+            window.open(currentAdLink, '_blank');
 
-            let checkInterval = setInterval(() => {
-                if (document.visibilityState === 'visible') {
-                    let elapsedTime = (Date.now() - startTime) / 1000;
-                    clearInterval(checkInterval);
-                    
-                    if(elapsedTime >= 3) {
-                        if(type === 'daily') {
-                            webUser.coins += 50;
-                            alert('Success! +50 Coins Daily Bonus Added.');
-                        } else if(type === 'spin') {
-                            webUser.coins += 20;
-                            alert('Success! +20 Coins Spin Reward Added.');
-                        }
-                        updateWebUI();
+            document.getElementById('taskModal').style.display = 'flex';
+            document.getElementById('timerDisplay').innerText = 'Viewing Ad...';
+            document.getElementById('claimRewardBtn').disabled = true;
+            document.getElementById('claimRewardBtn').innerText = 'Please Wait...';
+
+            let requiredSeconds = 5;
+            let hasLeftPage = false;
+
+            window.onblur = function() {
+                hasLeftPage = true;
+            };
+
+            if(taskVerifier) clearInterval(taskVerifier);
+
+            taskVerifier = setInterval(() => {
+                if (document.visibilityState === 'visible' && hasLeftPage) {
+                    let timeSpent = (Date.now() - adOpenedTime) / 1000;
+                    if (timeSpent >= requiredSeconds) {
+                        clearInterval(taskVerifier);
+                        document.getElementById('timerDisplay').innerText = 'Task Verified!';
+                        document.getElementById('claimRewardBtn').disabled = false;
+                        document.getElementById('claimRewardBtn').innerText = 'Claim Reward Now';
                     } else {
-                        alert('Task notice: Please view the ad completely before returning.');
+                        document.getElementById('timerDisplay').innerText = 'Please spend more time on ad!';
                     }
                 }
             }, 1000);
+        }
+
+        function finalizeTaskReward() {
+            document.getElementById('taskModal').style.display = 'none';
+            if(activeTaskType === 'daily') {
+                webUser.coins += 50;
+                alert('Success! +50 Coins Daily Bonus Added.');
+            } else if(activeTaskType === 'spin') {
+                webUser.coins += 20;
+                alert('Success! +20 Coins Spin Reward Added.');
+            }
+            updateWebUI();
+        }
+
+        function closeTaskModal() {
+            if(taskVerifier) clearInterval(taskVerifier);
+            document.getElementById('taskModal').style.display = 'none';
         }
 
         function shareWebWhatsApp() {
@@ -318,12 +372,11 @@
             if(!upi) { alert('Please enter your UPI ID or Paytm number!'); return; }
             if(webUser.coins < 500) { alert('Minimum 500 coins required for withdrawal!'); return; }
             
-            webUser.coins -= 500; // Immediate deduction to prevent double spending
+            webUser.coins -= 500;
             updateWebUI();
             alert('Withdrawal request of ₹50 submitted successfully! Status: PENDING.');
         }
 
-        // Secret Admin Panel trigger via 5 fast logo clicks
         let tapCount = 0;
         document.getElementById('webSecretLogo').addEventListener('click', () => {
             tapCount++;
