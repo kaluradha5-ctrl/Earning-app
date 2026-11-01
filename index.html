@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -128,12 +127,12 @@
     <!-- Main Container -->
     <div class="container" id="webMainContent" style="display:none;">
         
-        <!-- User Welcome Card -->
+        <!-- User Welcome Card (Profitable & Balanced Rewards) -->
         <div class="card">
             <h3 id="webWelcome">Welcome, User!</h3>
-            <p style="font-size: 12px; color: #2ed573;">Secure Web Portal | 10 Coins = ₹1</p>
-            <button class="btn" onclick="triggerSmartTask('daily', 50)">Claim Daily Bonus (+50 Coins)</button>
-            <button class="btn" style="background: #ffa502;" onclick="triggerSmartTask('spin', 20)">Spin & Earn (+20 Coins)</button>
+            <p style="font-size: 12px; color: #2ed573;">Secure Micro-Earning | 10 Coins = ₹1</p>
+            <button class="btn" onclick="triggerSmartTask('daily', 2)">Claim Daily Bonus (+2 Coins)</button>
+            <button class="btn" style="background: #ffa502;" onclick="triggerSmartTask('spin', 1)">Spin & Earn (+1 Coin)</button>
         </div>
 
         <!-- Referral Hub (Live Updating) -->
@@ -193,7 +192,7 @@
             <input type="password" id="webAdminPass" placeholder="Admin Password (admin123)">
             <button class="btn" onclick="verifyWebAdmin()">Login Admin</button>
             <div id="webAdminData" style="display:none; margin-top:15px; font-size:13px;">
-                <p><b>Revenue Split:</b> 75% User | 5% Ref | 20% Owner</p>
+                <p><b>Revenue Split:</b> User Share | Owner Margin Safe</p>
                 <p><b>Active Users Count:</b> <span id="webTotalUsersCount">1</span></p>
                 <p><b>Pending Payouts:</b> <span id="pendingPayoutsCount">None</span></p>
                 <button class="btn" style="background:#ffa502;" onclick="alert('All Payouts Processed Successfully!')">Approve All Payouts</button>
@@ -265,7 +264,7 @@
                     alert('This mobile number is already registered! Please login.');
                     return;
                 }
-                webUser = { name: name, mobile: mobile, pass: pass, coins: 100, refCount: 0, refEarn: 0 };
+                webUser = { name: name, mobile: mobile, pass: pass, coins: 10, refCount: 0, refEarn: 0 };
                 localStorage.setItem(userKey, JSON.stringify(webUser));
                 
                 let invitedRef = localStorage.getItem('zing_web_ref');
@@ -274,12 +273,12 @@
                     let invData = JSON.parse(localStorage.getItem(invKey));
                     if(invData) {
                         invData.refCount = (invData.refCount || 0) + 1;
-                        invData.coins = (invData.coins || 0) + 50;
-                        invData.refEarn = (invData.refEarn || 0) + 50;
+                        invData.coins = (invData.coins || 0) + 5;
+                        invData.refEarn = (invData.refEarn || 0) + 5;
                         localStorage.setItem(invKey, JSON.stringify(invData));
                     }
                 }
-                alert('Registration Successful! +100 Coins Bonus added.');
+                alert('Registration Successful! +10 Coins Welcome Bonus added.');
             } else {
                 if(saved) {
                     let p = JSON.parse(saved);
@@ -291,7 +290,7 @@
                         return;
                     }
                 } else {
-                    webUser = { name: 'Valued User', mobile: mobile, pass: pass, coins: 100, refCount: 0, refEarn: 0 };
+                    webUser = { name: 'Valued User', mobile: mobile, pass: pass, coins: 10, refCount: 0, refEarn: 0 };
                     localStorage.setItem(userKey, JSON.stringify(webUser));
                     alert('Auto-registered and logged in successfully!');
                 }
@@ -316,7 +315,7 @@
             localStorage.setItem('zing_web_user', JSON.stringify(webUser));
         }
 
-        // Smart Rotation Ad Task Trigger with Live Wallet Update
+        // Smart Rotation Ad Task Trigger with Profitable Payouts
         function triggerSmartTask(type, rewardAmount) {
             let currentAdLink = AD_LINKS[adToggleIndex];
             adToggleIndex = (adToggleIndex + 1) % AD_LINKS.length;
@@ -337,7 +336,7 @@
                     
                     webUser.coins += rewardAmount;
                     updateWebUI();
-                    alert(`Success! +${rewardAmount} Coins added to your wallet.`);
+                    alert(`Success! +${rewardAmount} Coin added to your wallet.`);
                 }
             }, 1000);
         }
