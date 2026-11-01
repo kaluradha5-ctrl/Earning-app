@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zing Pro - Web Portal</title>
+    <title>Zing Pro - Multi-Ad Network Portal</title>
     <style>
         :root {
             --primary: #ff4757;
@@ -132,8 +131,8 @@
         <div class="card">
             <h3 id="webWelcome">Welcome, User!</h3>
             <p style="font-size: 12px; color: #2ed573;">Secure Micro-Earning | 10 Coins = ₹1</p>
-            <button class="btn" onclick="triggerAutoReturnTask('daily', 2)">Claim Daily Bonus (+2 Coins)</button>
-            <button class="btn" style="background: #ffa502;" onclick="triggerAutoReturnTask('spin', 1)">Spin & Earn (+1 Coin)</button>
+            <button class="btn" onclick="triggerMultiAdTask('daily', 2, 0)">Claim Daily Bonus (+2 Coins)</button>
+            <button class="btn" style="background: #ffa502;" onclick="triggerMultiAdTask('spin', 1, 1)">Spin & Earn (+1 Coin)</button>
         </div>
 
         <!-- Referral Hub -->
@@ -162,12 +161,12 @@
         <button class="btn" style="background:#747d8c; font-size: 13px;" onclick="webLogout()">Logout Session</button>
     </div>
 
-    <!-- Automatic Return Verification Modal -->
+    <!-- Multi-Ad Verification Modal -->
     <div id="taskModal" class="modal">
         <div class="modal-content">
-            <h3>⏳ Ad Task in Progress</h3>
-            <p style="font-size: 13px; color: #555;">Ad opened in new tab. View it and return back to auto-claim!</p>
-            <h2 id="taskTimer" style="color: var(--primary); font-size: 28px; margin: 15px 0;">Waiting for return...</h2>
+            <h3>⏳ Sponsor Ad Verification</h3>
+            <p style="font-size: 13px; color: #555;">Ad opened in new tab. Complete viewing and switch back to automatically claim!</p>
+            <h2 id="taskTimer" style="color: var(--primary); font-size: 24px; margin: 15px 0;">Waiting for ad return...</h2>
             <button class="btn" style="background: #747d8c; margin-top: 10px; padding: 8px;" onclick="closeTaskModal()">Cancel Task</button>
         </div>
     </div>
@@ -193,7 +192,8 @@
             <input type="password" id="webAdminPass" placeholder="Admin Password (admin123)">
             <button class="btn" onclick="verifyWebAdmin()">Login Admin</button>
             <div id="webAdminData" style="display:none; margin-top:15px; font-size:13px;">
-                <p><b>Revenue Split:</b> User Share | Owner Margin Safe</p>
+                <p><b>Active Multi-Ad Zones:</b> 3 Placement Direct Links Active</p>
+                <p><b>Revenue Split:</b> Owner Margin High / Safe Rewards</p>
                 <p><b>Active Users Count:</b> <span id="webTotalUsersCount">1</span></p>
                 <p><b>Pending Payouts:</b> <span id="pendingPayoutsCount">None</span></p>
                 <button class="btn" style="background:#ffa502;" onclick="alert('All Payouts Processed Successfully!')">Approve All Payouts</button>
@@ -206,11 +206,13 @@
         let isWebSignup = false;
         let webUser = JSON.parse(localStorage.getItem('zing_web_user')) || null;
         
-        const AD_LINKS = [
-            "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce",
-            "https://uplcm.com/4/12045886"
+        // All 3 High-CPM Smartlinks Configured
+        const ALL_AD_LINKS = [
+            "https://auctionr.org/4/52a525bafa5d2666a7ed8afd61c3d67e", // Smartlink 1
+            "https://asiafilm.org/4/f5459872596d4d52eed0f0192ac50e63", // Smartlink 2
+            "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce"  // Smartlink 3
         ];
-        let adToggleIndex = 0;
+        
         let activeReward = 0;
         let isTaskActive = false;
 
@@ -222,7 +224,7 @@
             }
             checkWebLogin();
 
-            // Automatic detection when user returns back to this tab
+            // Automatic Return Detection
             document.addEventListener("visibilitychange", function() {
                 if (document.visibilityState === "visible" && isTaskActive) {
                     isTaskActive = false;
@@ -328,22 +330,16 @@
             localStorage.setItem('zing_web_user', JSON.stringify(webUser));
         }
 
-        // Automatic Return Task Trigger
-        function triggerAutoReturnTask(type, rewardAmount) {
+        // Multi-Ad Trigger System
+        function triggerMultiAdTask(type, rewardAmount, adIndex) {
             activeReward = rewardAmount;
             isTaskActive = true;
 
-            let currentAdLink = AD_LINKS[adToggleIndex];
-            adToggleIndex = (adToggleIndex + 1) % AD_LINKS.length;
-
-            window.open(currentAdLink, '_blank');
+            let targetAdLink = ALL_AD_LINKS[adIndex] || ALL_AD_LINKS[0];
+            window.open(targetAdLink, '_blank');
+            
             document.getElementById('taskModal').style.display = 'flex';
             document.getElementById('taskTimer').innerText = 'Complete ad & come back...';
-        }
-
-        function closeTaskModal() {
-            isTaskActive = false;
-            document.getElementById('taskModal').style.display = 'none';
         }
 
         function shareWebWhatsApp() {
@@ -357,9 +353,17 @@
             if(!upi) { alert('Please enter your UPI ID or Paytm number!'); return; }
             if(webUser.coins < 500) { alert('Minimum 500 coins required for withdrawal!'); return; }
             
+            // Trigger 3rd ad link on withdrawal attempt to maximize CPM revenue
+            window.open(ALL_AD_LINKS[2], '_blank');
+
             webUser.coins -= 500;
             updateWebUI();
             alert('Withdrawal request of ₹50 submitted successfully! Status: PENDING.');
+        }
+
+        function closeTaskModal() {
+            isTaskActive = false;
+            document.getElementById('taskModal').style.display = 'none';
         }
 
         let tapCount = 0;
