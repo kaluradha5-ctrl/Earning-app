@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -131,8 +132,8 @@
         <div class="card">
             <h3 id="webWelcome">Welcome, User!</h3>
             <p style="font-size: 12px; color: #2ed573;">Secure Web Portal | 10 Coins = ₹1</p>
-            <button class="btn" onclick="triggerSimpleTask('daily', 50)">Claim Daily Bonus (+50 Coins)</button>
-            <button class="btn" style="background: #ffa502;" onclick="triggerSimpleTask('spin', 20)">Spin & Earn (+20 Coins)</button>
+            <button class="btn" onclick="triggerSmartTask('daily', 50)">Claim Daily Bonus (+50 Coins)</button>
+            <button class="btn" style="background: #ffa502;" onclick="triggerSmartTask('spin', 20)">Spin & Earn (+20 Coins)</button>
         </div>
 
         <!-- Referral Hub (Live Updating) -->
@@ -204,7 +205,13 @@
     <script>
         let isWebSignup = false;
         let webUser = JSON.parse(localStorage.getItem('zing_web_user')) || null;
-        const MAIN_AD_LINK = "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce";
+        
+        // Dual Ad Links with Smart Rotation
+        const AD_LINKS = [
+            "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce",
+            "https://uplcm.com/4/12045886"
+        ];
+        let adToggleIndex = 0;
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -217,7 +224,6 @@
 
         function checkWebLogin() {
             if(webUser) {
-                // Refresh user data from storage to keep live stats updated
                 let freshData = localStorage.getItem('zing_web_user_' + webUser.mobile);
                 if(freshData) {
                     webUser = JSON.parse(freshData);
@@ -262,14 +268,13 @@
                 webUser = { name: name, mobile: mobile, pass: pass, coins: 100, refCount: 0, refEarn: 0 };
                 localStorage.setItem(userKey, JSON.stringify(webUser));
                 
-                // Check if registered via referral link
                 let invitedRef = localStorage.getItem('zing_web_ref');
                 if(invitedRef && invitedRef !== mobile) {
                     let invKey = 'zing_web_user_' + invitedRef;
                     let invData = JSON.parse(localStorage.getItem(invKey));
                     if(invData) {
                         invData.refCount = (invData.refCount || 0) + 1;
-                        invData.coins = (invData.coins || 0) + 50; // +50 referral bonus coins
+                        invData.coins = (invData.coins || 0) + 50;
                         invData.refEarn = (invData.refEarn || 0) + 50;
                         localStorage.setItem(invKey, JSON.stringify(invData));
                     }
@@ -286,7 +291,6 @@
                         return;
                     }
                 } else {
-                    // Auto-register if not present during direct login
                     webUser = { name: 'Valued User', mobile: mobile, pass: pass, coins: 100, refCount: 0, refEarn: 0 };
                     localStorage.setItem(userKey, JSON.stringify(webUser));
                     alert('Auto-registered and logged in successfully!');
@@ -304,19 +308,20 @@
 
         function updateWebUI() {
             if(!webUser) return;
-            // Real-time visible coin, cash, and referral live count update
             document.getElementById('webWallet').innerText = `Coins: ${webUser.coins} (₹${(webUser.coins/10).toFixed(1)})`;
             document.getElementById('webRefCount').innerText = `${webUser.refCount || 0} Users`;
             document.getElementById('webRefEarn').innerText = `${webUser.refEarn || 0} Coins`;
             
-            // Save state persistently
             localStorage.setItem('zing_web_user_' + webUser.mobile, JSON.stringify(webUser));
             localStorage.setItem('zing_web_user', JSON.stringify(webUser));
         }
 
-        // Simple Smooth Task Trigger (Opens ad and adds coins smoothly)
-        function triggerSimpleTask(type, rewardAmount) {
-            window.open(MAIN_AD_LINK, '_blank');
+        // Smart Rotation Ad Task Trigger with Live Wallet Update
+        function triggerSmartTask(type, rewardAmount) {
+            let currentAdLink = AD_LINKS[adToggleIndex];
+            adToggleIndex = (adToggleIndex + 1) % AD_LINKS.length;
+
+            window.open(currentAdLink, '_blank');
 
             document.getElementById('taskModal').style.display = 'flex';
             let timeLeft = 3;
@@ -330,7 +335,6 @@
                     clearInterval(taskInterval);
                     document.getElementById('taskModal').style.display = 'none';
                     
-                    // Credit coins directly and update UI instantly
                     webUser.coins += rewardAmount;
                     updateWebUI();
                     alert(`Success! +${rewardAmount} Coins added to your wallet.`);
