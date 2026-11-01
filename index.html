@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -127,15 +128,15 @@
     <!-- Main Container -->
     <div class="container" id="webMainContent" style="display:none;">
         
-        <!-- User Welcome Card (Profitable & Balanced Rewards) -->
+        <!-- User Welcome Card -->
         <div class="card">
             <h3 id="webWelcome">Welcome, User!</h3>
             <p style="font-size: 12px; color: #2ed573;">Secure Micro-Earning | 10 Coins = ₹1</p>
-            <button class="btn" onclick="triggerSmartTask('daily', 2)">Claim Daily Bonus (+2 Coins)</button>
-            <button class="btn" style="background: #ffa502;" onclick="triggerSmartTask('spin', 1)">Spin & Earn (+1 Coin)</button>
+            <button class="btn" onclick="triggerAutoReturnTask('daily', 2)">Claim Daily Bonus (+2 Coins)</button>
+            <button class="btn" style="background: #ffa502;" onclick="triggerAutoReturnTask('spin', 1)">Spin & Earn (+1 Coin)</button>
         </div>
 
-        <!-- Referral Hub (Live Updating) -->
+        <!-- Referral Hub -->
         <div class="card" style="text-align: left;">
             <h4 style="text-align: center; margin-top:0;">👥 Referral & Growth Network</h4>
             <input type="text" id="webRefLink" readonly style="background: #eee; font-size: 12px;">
@@ -161,13 +162,13 @@
         <button class="btn" style="background:#747d8c; font-size: 13px;" onclick="webLogout()">Logout Session</button>
     </div>
 
-    <!-- Simple Smooth Task Modal -->
+    <!-- Automatic Return Verification Modal -->
     <div id="taskModal" class="modal">
         <div class="modal-content">
-            <h3>🎁 Task in Progress</h3>
-            <p style="font-size: 13px; color: #555;">Please wait while your task is verifying...</p>
-            <h2 id="taskTimer" style="color: var(--primary); font-size: 36px; margin: 15px 0;">3</h2>
-            <p style="font-size: 12px; color: #2ed573;">Coins will be added to your wallet automatically!</p>
+            <h3>⏳ Ad Task in Progress</h3>
+            <p style="font-size: 13px; color: #555;">Ad opened in new tab. View it and return back to auto-claim!</p>
+            <h2 id="taskTimer" style="color: var(--primary); font-size: 28px; margin: 15px 0;">Waiting for return...</h2>
+            <button class="btn" style="background: #747d8c; margin-top: 10px; padding: 8px;" onclick="closeTaskModal()">Cancel Task</button>
         </div>
     </div>
 
@@ -205,12 +206,13 @@
         let isWebSignup = false;
         let webUser = JSON.parse(localStorage.getItem('zing_web_user')) || null;
         
-        // Dual Ad Links with Smart Rotation
         const AD_LINKS = [
             "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce",
             "https://uplcm.com/4/12045886"
         ];
         let adToggleIndex = 0;
+        let activeReward = 0;
+        let isTaskActive = false;
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -219,6 +221,17 @@
                 localStorage.setItem('zing_web_ref', ref);
             }
             checkWebLogin();
+
+            // Automatic detection when user returns back to this tab
+            document.addEventListener("visibilitychange", function() {
+                if (document.visibilityState === "visible" && isTaskActive) {
+                    isTaskActive = false;
+                    document.getElementById('taskModal').style.display = 'none';
+                    webUser.coins += activeReward;
+                    updateWebUI();
+                    alert(`Success! +${activeReward} Coin automatically added to your wallet.`);
+                }
+            });
         }
 
         function checkWebLogin() {
@@ -315,30 +328,22 @@
             localStorage.setItem('zing_web_user', JSON.stringify(webUser));
         }
 
-        // Smart Rotation Ad Task Trigger with Profitable Payouts
-        function triggerSmartTask(type, rewardAmount) {
+        // Automatic Return Task Trigger
+        function triggerAutoReturnTask(type, rewardAmount) {
+            activeReward = rewardAmount;
+            isTaskActive = true;
+
             let currentAdLink = AD_LINKS[adToggleIndex];
             adToggleIndex = (adToggleIndex + 1) % AD_LINKS.length;
 
             window.open(currentAdLink, '_blank');
-
             document.getElementById('taskModal').style.display = 'flex';
-            let timeLeft = 3;
-            document.getElementById('taskTimer').innerText = timeLeft;
+            document.getElementById('taskTimer').innerText = 'Complete ad & come back...';
+        }
 
-            let taskInterval = setInterval(() => {
-                timeLeft--;
-                if(timeLeft > 0) {
-                    document.getElementById('taskTimer').innerText = timeLeft;
-                } else {
-                    clearInterval(taskInterval);
-                    document.getElementById('taskModal').style.display = 'none';
-                    
-                    webUser.coins += rewardAmount;
-                    updateWebUI();
-                    alert(`Success! +${rewardAmount} Coin added to your wallet.`);
-                }
-            }, 1000);
+        function closeTaskModal() {
+            isTaskActive = false;
+            document.getElementById('taskModal').style.display = 'none';
         }
 
         function shareWebWhatsApp() {
