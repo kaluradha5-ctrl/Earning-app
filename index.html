@@ -187,6 +187,7 @@
     <script>
         let isWebSignup = false;
         let webUser = JSON.parse(localStorage.getItem('zing_web_user')) || null;
+        const MONETAG_LINK = "https://uplcm.com/4/12045886";
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -276,12 +277,14 @@
             localStorage.setItem('zing_web_user', JSON.stringify(webUser));
         }
 
-        // Background Focus & Smartlink Task Verification
+        // Safe Smartlink Task Execution with Anti-Stuck & Auto-Return Focus Detection
         function triggerAdTask(type) {
-            let adWindow = window.open('https://www.highratecpm.com/smartlink-url-here', '_blank');
             let startTime = Date.now();
+            
+            // Open ad in a new tab securely without freezing main window
+            window.open(MONETAG_LINK, '_blank');
 
-            alert('Complete the ad view and return back to claim your reward!');
+            alert('Ad opened in new tab! Complete the view and return back to claim your reward.');
 
             let checkInterval = setInterval(() => {
                 if (document.visibilityState === 'visible') {
@@ -298,7 +301,7 @@
                         }
                         updateWebUI();
                     } else {
-                        alert('Task failed: You returned too early without viewing the ad.');
+                        alert('Task notice: Please view the ad completely before returning.');
                     }
                 }
             }, 1000);
