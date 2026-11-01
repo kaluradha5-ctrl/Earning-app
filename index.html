@@ -1,321 +1,344 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zing Pro - Rewards Platform</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <title>Zing Pro - Web Portal</title>
     <style>
-        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311045 100%); }
+        :root {
+            --primary: #ff4757;
+            --secondary: #2f3542;
+            --bg: #f1f2f6;
+            --white: #ffffff;
+            --success: #2ed573;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .logo-area h2 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--primary);
+        }
+        .wallet-box {
+            background: rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 480px;
+            margin: 15px auto;
+            padding: 15px;
+        }
+        .card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+        }
     </style>
 </head>
-<body class="gradient-bg text-white min-h-screen font-sans antialiased pb-20">
+<body>
 
-    <!-- Header Navbar -->
-    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex justify-between items-center">
-        <div class="flex items-center space-x-2 cursor-pointer select-none" id="logoClickArea" title="Zing Pro">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-fuchsia-600 flex items-center justify-center font-bold text-xl shadow-lg shadow-violet-500/30">Z</div>
-            <div>
-                <h1 class="font-extrabold text-lg tracking-wide bg-gradient-to-r from-white via-slate-200 to-violet-400 bg-clip-text text-transparent">Zing Pro</h1>
-                <p class="text-[10px] text-slate-400">Secure Rewards Hub</p>
-            </div>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-area" id="webSecretLogo">
+            <h2>🌐 Zing Pro Web Portal</h2>
         </div>
-        <div class="flex items-center space-x-3">
-            <div class="bg-slate-800/90 border border-slate-700/60 px-3 py-1.5 rounded-full flex items-center space-x-2 shadow-inner">
-                <i class="fa-solid fa-coins text-amber-400 text-sm"></i>
-                <span id="headerCoins" class="font-bold text-amber-300 text-sm">0</span>
-                <span class="text-xs text-slate-400 border-l border-slate-700 pl-2">(<span id="headerInr">₹0.00</span>)</span>
-            </div>
-        </div>
-    </header>
+        <div class="wallet-box" id="webWallet">Coins: 0 (₹0.0)</div>
+    </div>
 
     <!-- Main Container -->
-    <main class="max-w-md mx-auto px-4 mt-4 space-y-4">
-
-        <!-- Navigation Tabs -->
-        <div class="flex bg-slate-800/60 p-1 rounded-xl border border-slate-700/50 text-xs font-medium">
-            <button onclick="switchTab('home')" id="navHome" class="flex-1 py-2.5 rounded-lg bg-violet-600 text-white shadow transition"><i class="fa-solid fa-house mr-1"></i> Home</button>
-            <button onclick="switchTab('network')" id="navNetwork" class="flex-1 py-2.5 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-users mr-1"></i> My Network</button>
-            <button onclick="switchTab('wallet')" id="navWallet" class="flex-1 py-2.5 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-wallet mr-1"></i> Payouts</button>
+    <div class="container" id="webMainContent" style="display:none;">
+        
+        <!-- User Welcome Card -->
+        <div class="card">
+            <h3 id="webWelcome">Welcome, User!</h3>
+            <p style="font-size: 12px; color: #2ed573;">Secure Web Portal | 10 Coins = ₹1</p>
+            <button class="btn" onclick="triggerAdTask('daily')">Claim Daily Bonus (+50 Coins)</button>
+            <button class="btn" style="background: #ffa502;" onclick="triggerAdTask('spin')">Spin & Earn (+20 Coins)</button>
         </div>
 
-        <!-- TAB 1: HOME / EARNING TASKS -->
-        <div id="tabHome" class="space-y-4">
-            <!-- Wallet Banner -->
-            <div class="bg-gradient-to-r from-violet-900/60 to-indigo-900/60 border border-violet-500/30 rounded-2xl p-5 shadow-xl relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-violet-500/10 rounded-full blur-2xl"></div>
-                <p class="text-xs text-violet-300 font-medium uppercase tracking-wider">Available Balance</p>
-                <div class="flex items-baseline space-x-2 mt-1">
-                    <h2 class="text-3xl font-black text-white" id="userCoinsDisplay">0</h2>
-                    <span class="text-sm text-violet-200">Coins</span>
-                </div>
-                <div class="mt-2 text-xs text-slate-300 flex justify-between items-center">
-                    <span>Equivalent Value: <strong class="text-emerald-400" id="userInrDisplay">₹0.00</strong></span>
-                    <span class="bg-violet-800/60 px-2 py-0.5 rounded text-[10px] text-violet-200">Rate: 10 Coins = ₹1</span>
-                </div>
-            </div>
-
-            <!-- Daily Checkin -->
-            <div class="glass-card rounded-2xl p-4 flex items-center justify-between">
-                <div>
-                    <h3 class="font-bold text-sm text-slate-100"><i class="fa-solid fa-calendar-check text-emerald-400 mr-2"></i>Daily Check-In</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Claim your daily reward coins instantly.</p>
-                </div>
-                <button onclick="claimDailyBonus()" id="dailyBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-lg shadow-emerald-600/30 transition">Claim 50 Coins</button>
-            </div>
-
-            <!-- Earning Tasks Grid -->
-            <div class="grid grid-cols-2 gap-3">
-                <div onclick="triggerSmartTask('Spin & Win', 20)" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-violet-500/50 transition group">
-                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg mb-3 group-hover:scale-110 transition"><i class="fa-solid fa-dharmachakra"></i></div>
-                    <h4 class="font-bold text-sm">Spin & Win</h4>
-                    <p class="text-[11px] text-slate-400 mt-0.5">Earn up to 20 Coins per spin</p>
-                </div>
-                <div onclick="triggerSmartTask('Scratch Card', 25)" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-violet-500/50 transition group">
-                    <div class="w-10 h-10 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center text-fuchsia-400 text-lg mb-3 group-hover:scale-110 transition"><i class="fa-solid fa-ticket"></i></div>
-                    <h4 class="font-bold text-sm">Scratch Card</h4>
-                    <p class="text-[11px] text-slate-400 mt-0.5">Scratch & reveal instant rewards</p>
-                </div>
-            </div>
-
-            <!-- Finance & High Payout Hub -->
-            <div onclick="triggerSmartTask('Finance Offer Hub', 50)" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-violet-500/50 transition flex items-center space-x-4">
-                <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-xl shrink-0"><i class="fa-solid fa-shield-halved"></i></div>
-                <div class="flex-1">
-                    <h4 class="font-bold text-sm">Exclusive Partner Offers</h4>
-                    <p class="text-xs text-slate-400">Complete task & earn high rewards instantly.</p>
-                </div>
-                <i class="fa-solid fa-chevron-right text-xs text-slate-500"></i>
-            </div>
-        </div>
-
-        <!-- TAB 2: MY NETWORK (REFERRAL HUB) -->
-        <div id="tabNetwork" class="space-y-4 hidden">
-            <div class="glass-card rounded-2xl p-5 space-y-3">
-                <h3 class="font-bold text-base flex items-center"><i class="fa-solid fa-users text-violet-400 mr-2"></i>My Referral Network</h3>
-                <p class="text-xs text-slate-300 leading-relaxed">Invite your friends using your unique link below. When they join and complete tasks, your account automatically receives commission benefits seamlessly.</p>
-                
-                <div class="pt-2">
-                    <label class="text-[11px] text-slate-400 uppercase tracking-wider block mb-1">Your Invite Link</label>
-                    <div class="flex space-x-2">
-                        <input type="text" id="referralLinkInput" readonly class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-300 w-full focus:outline-none" value="https://app-rose.vercel.app/?ref=USER9842">
-                        <button onclick="copyReferralLink()" class="bg-violet-600 hover:bg-violet-500 text-white px-4 py-2 rounded-xl text-xs font-semibold shrink-0 transition">Copy</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="glass-card rounded-2xl p-4 space-y-3">
-                <h4 class="font-bold text-xs uppercase tracking-wider text-slate-400">Network Statistics</h4>
-                <div class="grid grid-cols-2 gap-3 text-center">
-                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800">
-                        <span class="text-xs text-slate-400 block">Total Invited</span>
-                        <span class="text-lg font-bold text-white mt-0.5 block" id="totalInvitedCount">4 Friends</span>
-                    </div>
-                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800">
-                        <span class="text-xs text-slate-400 block">Commission Earned</span>
-                        <span class="text-lg font-bold text-emerald-400 mt-0.5 block">120 Coins</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 3: PAYOUTS / WALLET -->
-        <div id="tabWallet" class="space-y-4 hidden">
-            <div class="glass-card rounded-2xl p-5 space-y-4">
-                <h3 class="font-bold text-base flex items-center"><i class="fa-solid fa-wallet text-amber-400 mr-2"></i>Request Withdrawal</h3>
-                <p class="text-xs text-slate-300">Minimum withdrawal limit is 500 Coins (₹50). Payouts are processed safely to your UPI ID or Paytm number.</p>
-                
-                <div class="space-y-3 pt-1">
-                    <div>
-                        <label class="text-xs text-slate-400 block mb-1">Enter UPI ID / Paytm Number</label>
-                        <input type="text" id="payoutAddress" placeholder="e.g. user@paytm or 9876543210@upi" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white w-full focus:outline-none focus:border-violet-500">
-                    </div>
-                    <div>
-                        <label class="text-xs text-slate-400 block mb-1">Coins to Redeem</label>
-                        <input type="number" id="payoutCoins" placeholder="Min 500 Coins" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white w-full focus:outline-none focus:border-violet-500">
-                    </div>
-                    <button onclick="submitWithdrawal()" class="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white font-semibold py-3 rounded-xl text-xs shadow-lg transition">Submit Withdrawal Request</button>
-                </div>
-            </div>
-
-            <div class="glass-card rounded-2xl p-4 space-y-2">
-                <h4 class="font-bold text-xs uppercase tracking-wider text-slate-400">Recent Payout History</h4>
-                <div id="payoutHistoryList" class="space-y-2 pt-1 text-xs text-slate-400">
-                    <p class="text-center py-2">No withdrawal history found yet.</p>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- SECRET ADMIN MODAL (Password Protected) -->
-    <div id="adminModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-5 space-y-4 shadow-2xl relative">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="font-bold text-base text-violet-400"><i class="fa-solid fa-shield-cat mr-2"></i>Owner Admin Dashboard</h3>
-                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
+        <!-- Referral Hub -->
+        <div class="card" style="text-align: left;">
+            <h4 style="text-align: center; margin-top:0;">👥 Referral & Growth Network</h4>
+            <input type="text" id="webRefLink" readonly style="background: #eee; font-size: 12px;">
+            <button class="btn" style="background: #25D366; margin-top: 5px;" onclick="shareWebWhatsApp()">Share on WhatsApp</button>
             
-            <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
-                <div class="grid grid-cols-2 gap-2 text-center">
-                    <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
-                        <span class="text-[10px] text-slate-400 uppercase">Total Users</span>
-                        <h4 class="font-bold text-lg text-white mt-1">1,240</h4>
-                    </div>
-                    <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
-                        <span class="text-[10px] text-slate-400 uppercase">Pending Payouts</span>
-                        <h4 class="font-bold text-lg text-amber-400 mt-1" id="adminPendingCount">0 Requests</h4>
-                    </div>
-                </div>
-
-                <div class="space-y-2 pt-2">
-                    <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Pending Withdrawal Requests</h4>
-                    <div id="adminWithdrawalsList" class="space-y-2">
-                        <p class="text-xs text-slate-500 text-center py-3">No pending withdrawal requests.</p>
-                    </div>
-                </div>
+            <div class="stats-row">
+                <span>Total Referrals:</span>
+                <strong id="webRefCount">0 Users</strong>
             </div>
+            <div class="stats-row">
+                <span>Referral Earnings:</span>
+                <strong id="webRefEarn">0 Coins</strong>
+            </div>
+        </div>
+
+        <!-- Withdrawal Section -->
+        <div class="card" style="text-align: left;">
+            <h4 style="text-align: center; margin-top:0;">💸 Withdrawal (Min 500 Coins = ₹50)</h4>
+            <input type="text" id="webUpi" placeholder="Enter UPI ID / Paytm Number">
+            <button class="btn" style="background:var(--success);" onclick="webWithdraw()">Withdraw ₹50</button>
+        </div>
+
+        <button class="btn" style="background:#747d8c; font-size: 13px;" onclick="webLogout()">Logout Session</button>
+    </div>
+
+    <!-- Web Auth Modal -->
+    <div id="webAuthModal" class="modal" style="display:flex;">
+        <div class="modal-content">
+            <h2 style="text-align:center; color:var(--primary);">Zing Pro Web Login</h2>
+            <div id="webRegFields" style="display:none;">
+                <input type="text" id="webName" placeholder="Full Name">
+            </div>
+            <input type="text" id="webMobile" placeholder="Mobile Number">
+            <input type="password" id="webPass" placeholder="Password">
+            <button class="btn" id="webAuthBtn" onclick="handleWebAuth()">Login Web Account</button>
+            <p style="text-align:center; font-size:13px; margin-top:15px; cursor:pointer; color:blue;" onclick="toggleWebAuth()" id="webToggleText">New user? Register here</p>
         </div>
     </div>
 
-    <!-- Password Prompt Modal for Admin -->
-    <div id="adminLoginModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 w-full max-w-xs rounded-2xl p-5 space-y-4 shadow-2xl text-center">
-            <div class="w-12 h-12 rounded-full bg-violet-600/20 text-violet-400 flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-lock"></i></div>
-            <h3 class="font-bold text-sm">Enter Owner Passcode</h3>
-            <input type="password" id="adminPasswordInput" placeholder="Passcode (default: admin123)" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white w-full text-center focus:outline-none">
-            <div class="flex space-x-2 pt-1">
-                <button onclick="cancelAdminLogin()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-xs py-2 rounded-xl text-slate-300">Cancel</button>
-                <button onclick="verifyAdminPassword()" class="flex-1 bg-violet-600 hover:bg-violet-500 text-xs py-2 rounded-xl text-white font-semibold">Access</button>
+    <!-- Admin Panel Modal -->
+    <div id="webAdminModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Secret Admin Panel</h3>
+            <input type="password" id="webAdminPass" placeholder="Admin Password (admin123)">
+            <button class="btn" onclick="verifyWebAdmin()">Login Admin</button>
+            <div id="webAdminData" style="display:none; margin-top:15px; font-size:13px;">
+                <p><b>Revenue Split:</b> 75% User | 5% Ref | 20% Owner</p>
+                <p><b>Active Users Count:</b> <span id="webTotalUsersCount">1</span></p>
+                <p><b>Pending Payouts:</b> <span id="pendingPayoutsCount">None</span></p>
+                <button class="btn" style="background:#ffa502;" onclick="alert('All Payouts Processed Successfully!')">Approve All Payouts</button>
             </div>
+            <button class="btn" style="background:#747d8c; margin-top:10px;" onclick="document.getElementById('webAdminModal').style.display='none'">Close</button>
         </div>
     </div>
 
-    <!-- Application Script Logic -->
     <script>
-        // State Management with LocalStorage sync
-        let appState = {
-            coins: parseInt(localStorage.getItem('zing_coins')) || 120,
-            dailyClaimed: localStorage.getItem('zing_daily') === 'true',
-            withdrawals: JSON.parse(localStorage.getItem('zing_withdrawals')) || []
-        };
+        let isWebSignup = false;
+        let webUser = JSON.parse(localStorage.getItem('zing_web_user')) || null;
 
-        function updateUI() {
-            document.getElementById('headerCoins').innerText = appState.coins;
-            document.getElementById('headerInr').innerText = '₹' + (appState.coins / 10).toFixed(2);
-            document.getElementById('userCoinsDisplay').innerText = appState.coins;
-            document.getElementById('userInrDisplay').innerText = '₹' + (appState.coins / 10).toFixed(2);
-            
-            if (appState.dailyClaimed) {
-                const btn = document.getElementById('dailyBtn');
-                btn.innerText = 'Claimed Today';
-                btn.disabled = true;
-                btn.className = 'bg-slate-800 text-slate-500 text-xs font-semibold px-4 py-2 rounded-xl cursor-not-allowed';
-            }
-            
-            localStorage.setItem('zing_coins', appState.coins);
-            localStorage.setItem('zing_daily', appState.dailyClaimed);
-            localStorage.setItem('zing_withdrawals', JSON.stringify(appState.withdrawals));
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let ref = urlParams.get('ref');
+            if(ref && !webUser) localStorage.setItem('zing_web_ref', ref);
+            checkWebLogin();
         }
 
-        // Tab Switcher
-        function switchTab(tab) {
-            ['Home', 'Network', 'Wallet'].forEach(t => {
-                const el = document.getElementById('tab' + t);
-                const nav = document.getElementById('nav' + t);
-                if (el && nav) {
-                    el.classList.add('hidden');
-                    nav.className = 'flex-1 py-2.5 rounded-lg text-slate-400 hover:text-white transition';
+        function checkWebLogin() {
+            if(webUser) {
+                document.getElementById('webAuthModal').style.display = 'none';
+                document.getElementById('webMainContent').style.display = 'block';
+                document.getElementById('webWelcome').innerText = `Welcome, ${webUser.name}!`;
+                document.getElementById('webRefLink').value = `${window.location.origin}${window.location.pathname}?ref=${webUser.mobile}`;
+                updateWebUI();
+            } else {
+                document.getElementById('webAuthModal').style.display = 'flex';
+                document.getElementById('webMainContent').style.display = 'none';
+            }
+        }
+
+        function toggleWebAuth() {
+            isWebSignup = !isWebSignup;
+            document.getElementById('webRegFields').style.display = isWebSignup ? 'block' : 'none';
+            document.getElementById('webAuthBtn').innerText = isWebSignup ? 'Register Web Account' : 'Login Web Account';
+            document.getElementById('webToggleText').innerText = isWebSignup ? 'Already have account? Login' : 'New user? Register here';
+        }
+
+        function handleWebAuth() {
+            let mobile = document.getElementById('webMobile').value.trim();
+            let pass = document.getElementById('webPass').value.trim();
+            let name = document.getElementById('webName').value.trim();
+
+            if(!mobile || !pass || (isWebSignup && !name)) {
+                alert('Please fill all fields properly!');
+                return;
+            }
+
+            if(isWebSignup) {
+                webUser = { name: name, mobile: mobile, pass: pass, coins: 100, refCount: 0, refEarn: 0 };
+                localStorage.setItem('zing_web_user_' + mobile, JSON.stringify(webUser));
+                
+                let invited = localStorage.getItem('zing_web_ref');
+                if(invited && invited !== mobile) {
+                    let invData = JSON.parse(localStorage.getItem('zing_web_user_' + invited));
+                    if(invData) {
+                        invData.refCount += 1;
+                        invData.coins += 50;
+                        invData.refEarn += 50;
+                        localStorage.setItem('zing_web_user_' + invited, JSON.stringify(invData));
+                    }
                 }
-            });
-            const activeTab = document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1));
-            const activeNav = document.getElementById('nav' + tab.charAt(0).toUpperCase() + tab.slice(1));
-            if (activeTab && activeNav) {
-                activeTab.classList.remove('hidden');
-                activeNav.className = 'flex-1 py-2.5 rounded-lg bg-violet-600 text-white shadow transition';
+                alert('Registration Successful! +100 Coins Bonus added.');
+            } else {
+                let saved = localStorage.getItem('zing_web_user_' + mobile);
+                if(saved) {
+                    let p = JSON.parse(saved);
+                    if(p.pass === pass) {
+                        webUser = p;
+                        alert('Login Successful!');
+                    } else {
+                        alert('Incorrect Password!');
+                        return;
+                    }
+                } else {
+                    webUser = { name: 'Valued User', mobile: mobile, pass: pass, coins: 100, refCount: 0, refEarn: 0 };
+                    localStorage.setItem('zing_web_user_' + mobile, JSON.stringify(webUser));
+                    alert('Auto-registered and logged in successfully!');
+                }
             }
+            localStorage.setItem('zing_web_user', JSON.stringify(webUser));
+            checkWebLogin();
         }
 
-        // Daily Bonus Claim
-        function claimDailyBonus() {
-            if (appState.dailyClaimed) return;
-            appState.coins += 50;
-            appState.dailyClaimed = true;
-            updateUI();
-            try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e) {}
+        function webLogout() {
+            localStorage.removeItem('zing_web_user');
+            webUser = null;
+            checkWebLogin();
         }
 
-        // Smart Task & Ad Loop Handler (High Payout Smartlink Safe Trigger)
-        function triggerSmartTask(taskName, rewardCoins) {
-            // Opens Smartlink safely in a separate window without trapping the user
-            const smartlinkWindow = window.open('about:blank', '_blank');
-            if (smartlinkWindow) {
-                smartlinkWindow.document.write(`<html><head><title>Processing Task...</title></head><body style="background:#0f172a;color:#fff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;"><div style="text-align:center;"><h2>Verifying ${taskName}...</h2><p>Please wait a moment while your task is validated securely.</p></div></body></html>`);
-                setTimeout(() => {
-                    smartlinkWindow.location.href = 'https://www.google.com'; // Replace with Monetag / Adsterra Smartlink URL
-                }, 1000);
-            }
-
-            // Auto credit upon task completion focus return
-            setTimeout(() => {
-                appState.coins += rewardCoins;
-                updateUI();
-                try { confetti({ particleCount: 50, spread: 50, origin: { y: 0.7 } }); } catch(e) {}
-            }, 2500);
+        function updateWebUI() {
+            if(!webUser) return;
+            document.getElementById('webWallet').innerText = `Coins: ${webUser.coins} (₹${(webUser.coins/10).toFixed(1)})`;
+            document.getElementById('webRefCount').innerText = `${webUser.refCount} Users`;
+            document.getElementById('webRefEarn').innerText = `${webUser.refEarn} Coins`;
+            localStorage.setItem('zing_web_user_' + webUser.mobile, JSON.stringify(webUser));
+            localStorage.setItem('zing_web_user', JSON.stringify(webUser));
         }
 
-        // Copy Referral Link
-        function copyReferralLink() {
-            const input = document.getElementById('referralLinkInput');
-            if (input) {
-                input.select();
-                navigator.clipboard.writeText(input.value);
-                alert('Referral link copied successfully!');
-            }
+        // Background Focus & Smartlink Task Verification
+        function triggerAdTask(type) {
+            let adWindow = window.open('https://www.highratecpm.com/smartlink-url-here', '_blank');
+            let startTime = Date.now();
+
+            alert('Complete the ad view and return back to claim your reward!');
+
+            let checkInterval = setInterval(() => {
+                if (document.visibilityState === 'visible') {
+                    let elapsedTime = (Date.now() - startTime) / 1000;
+                    clearInterval(checkInterval);
+                    
+                    if(elapsedTime >= 3) {
+                        if(type === 'daily') {
+                            webUser.coins += 50;
+                            alert('Success! +50 Coins Daily Bonus Added.');
+                        } else if(type === 'spin') {
+                            webUser.coins += 20;
+                            alert('Success! +20 Coins Spin Reward Added.');
+                        }
+                        updateWebUI();
+                    } else {
+                        alert('Task failed: You returned too early without viewing the ad.');
+                    }
+                }
+            }, 1000);
         }
 
-        // Withdrawal Submission
-        function submitWithdrawal() {
-            const addressInput = document.getElementById('payoutAddress');
-            const coinsInput = document.getElementById('payoutCoins');
-            if (!addressInput || !coinsInput) return;
-
-            const address = addressInput.value.trim();
-            const coins = parseInt(coinsInput.value);
-
-            if (!address) {
-                alert('Please enter your valid UPI ID or Paytm number.');
-                return;
-            }
-            if (isNaN(coins) || coins < 500) {
-                alert('Minimum withdrawal requirement is 500 Coins (₹50).');
-                return;
-            }
-            if (coins > appState.coins) {
-                alert('Insufficient coin balance in your wallet.');
-                return;
-            }
-
-            // Deduct coins instantly & record withdrawal
-            appState.coins -= coins;
-            const newReq = { id: Date.now(), address, coins, status: 'Pending', date: new Date().toLocaleDateString() };
-            appState.withdrawals.unshift(newReq);
-            updateUI();
-            renderPayoutHistory();
-
-            addressInput.value = '';
-            coinsInput.value = '';
-            alert('Withdrawal request submitted successfully!');
+        function shareWebWhatsApp() {
+            let link = document.getElementById('webRefLink').value;
+            let text = encodeURIComponent(`🔥 Zing Pro Web Portal par join karein aur ghar baithe kamayein: ${link}`);
+            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
         }
 
-        function renderPayoutHistory() {
-            const list = document.getElementById('payoutHistoryList');
-            if (!list) return;
-            if (appState.withdrawals.length === 0) {
-                list.innerHTML = '<p class="text-center py-2">No withdrawal history found yet.</p>';
-                return;
+        function webWithdraw() {
+            let upi = document.getElementById('webUpi').value;
+            if(!upi) { alert('Please enter your UPI ID or Paytm number!'); return; }
+            if(webUser.coins < 500) { alert('Minimum 500 coins required for withdrawal!'); return; }
+            
+            webUser.coins -= 500; // Immediate deduction to prevent double spending
+            updateWebUI();
+            alert('Withdrawal request of ₹50 submitted successfully! Status: PENDING.');
+        }
+
+        // Secret Admin Panel trigger via 5 fast logo clicks
+        let tapCount = 0;
+        document.getElementById('webSecretLogo').addEventListener('click', () => {
+            tapCount++;
+            if(tapCount >= 5) {
+                tapCount = 0;
+                document.getElementById('webAdminModal').style.display = 'flex';
             }
-            list.innerHTML = 
+        });
+
+        function verifyWebAdmin() {
+            let adminPass = document.getElementById('webAdminPass').value;
+            if(adminPass === 'admin123') {
+                document.getElementById('webAdminData').style.display = 'block';
+                alert('Admin Access Verified Successfully!');
+            } else {
+                alert('Wrong Admin Password!');
+            }
+        }
+    </script>
+</body>
+</html>
