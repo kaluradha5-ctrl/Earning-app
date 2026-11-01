@@ -1,343 +1,312 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>REELFLIX INDIA - Ultimate Entertainment & Social Hub</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zing Pro - Rewards Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        :root {
-            --bg: #030712;
-            --surface: rgba(17, 24, 39, 0.95);
-            --surface-border: rgba(139, 92, 246, 0.35);
-            --primary: #8b5cf6;
-            --primary-glow: rgba(139, 92, 246, 0.5);
-            --accent: #10b981;
-            --pink: #ec4899;
-            --gold: #f59e0b;
-            --text: #f9fafb;
-            --text-muted: #9ca3af;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; }
-
-        .glow-fx {
-            position: fixed; top: -120px; left: 50%; transform: translateX(-50%);
-            width: 400px; height: 400px; background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-            z-index: -1; pointer-events: none; filter: blur(80px);
-        }
-
-        .app-header {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(3, 7, 18, 0.96); backdrop-filter: blur(25px);
-            border-bottom: 1px solid var(--surface-border); padding: 12px 18px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .logo-text { font-family: 'Orbitron', sans-serif; font-size: 17px; font-weight: 900; background: linear-gradient(135deg, #c4b5fd, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        .container { padding: 16px; max-width: 480px; margin: 0 auto; }
-
-        .user-banner {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
-            border: 1px solid var(--surface-border); border-radius: 20px; padding: 16px;
-            margin-bottom: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .ticker-box {
-            background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4);
-            color: #34d399; padding: 10px 14px; border-radius: 25px; font-size: 11px; font-weight: 700;
-            margin-bottom: 14px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-
-        .hero-card {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(236, 72, 153, 0.25));
-            border: 1px solid var(--surface-border); border-radius: 20px; padding: 18px;
-            text-align: center; margin-bottom: 14px; backdrop-filter: blur(12px);
-        }
-        .hero-card h2 { font-size: 17px; font-weight: 800; margin-bottom: 4px; font-family: 'Orbitron', sans-serif; }
-        .hero-card p { font-size: 11px; color: var(--text-muted); }
-
-        .glass-card {
-            background: var(--surface); border: 1px solid var(--surface-border);
-            border-radius: 18px; padding: 16px; margin-bottom: 14px;
-            backdrop-filter: blur(16px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn-prime {
-            width: 100%; padding: 13px; background: linear-gradient(135deg, var(--primary), #6d28d9);
-            color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 13px;
-            cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;
-            text-decoration: none; box-shadow: 0 4px 18px var(--primary-glow); transition: 0.2s; margin-top: 8px;
-        }
-        .btn-prime:active { transform: scale(0.97); }
-        .btn-accent { background: linear-gradient(135deg, var(--accent), #047857); }
-        .btn-pink { background: linear-gradient(135deg, var(--pink), #be185d); }
-        .btn-gold { background: linear-gradient(135deg, var(--gold), #d97706); }
-
-        .input-dark {
-            width: 100%; padding: 13px; background: rgba(3, 7, 18, 0.9);
-            border: 1px solid var(--surface-border); border-radius: 10px; color: white;
-            font-size: 13px; outline: none; margin: 6px 0 10px 0;
-        }
-
-        .cat-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 12px; scrollbar-width: none; }
-        .cat-nav::-webkit-scrollbar { display: none; }
-        .cat-pill {
-            background: rgba(17, 24, 39, 0.8); border: 1px solid var(--surface-border);
-            padding: 7px 14px; border-radius: 18px; font-size: 11px; font-weight: 700;
-            white-space: nowrap; cursor: pointer; color: var(--text-muted);
-        }
-        .cat-pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 12px var(--primary-glow); }
-
-        .video-box-wrapper {
-            position: relative; width: 100%; transition: all 0.3s ease;
-            border-radius: 16px; overflow: hidden; border: 1px solid var(--surface-border);
-            background: #000; margin-bottom: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-        }
-        .mode-16-9 { padding-bottom: 56.25%; height: 0; }
-        .mode-9-16 { padding-bottom: 177.77%; height: 0; max-height: 500px; }
-
-        .video-box-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-
-        .ratio-btns { display: flex; gap: 8px; margin-bottom: 10px; }
-        .ratio-btn {
-            flex: 1; padding: 8px; background: rgba(139,92,246,0.15); border: 1px solid var(--surface-border);
-            color: #c4b5fd; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer; text-align: center;
-        }
-        .ratio-btn.active { background: var(--primary); color: white; box-shadow: 0 0 10px var(--primary-glow); }
-
-        .app-nav {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: rgba(3, 7, 18, 0.96); backdrop-filter: blur(25px);
-            height: 70px; display: flex; justify-content: space-around; align-items: center;
-            border-top: 1px solid var(--surface-border); z-index: 1000;
-        }
-        .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--text-muted); font-size: 10px; font-weight: 700; cursor: pointer; width: 25%; }
-        .nav-tab.active { color: #c4b5fd; }
-        .nav-tab i { font-size: 17px; }
-
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.25s ease-in-out; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311045 100%); }
     </style>
 </head>
-<body>
+<body class="gradient-bg text-white min-h-screen font-sans antialiased pb-20">
 
-    <div class="glow-fx"></div>
-
-    <div class="app-header">
-        <div class="logo-text"><i class="fa-solid fa-play-circle" style="color:var(--pink);"></i> REELFLIX INDIA</div>
-        <div style="font-size:10px; background:rgba(16, 185, 129, 0.2); color:#34d399; padding:5px 12px; border-radius:18px; border:1px solid rgba(16, 185, 129, 0.4); font-weight:800;">
-            🔥 HD SOCIAL FEED
-        </div>
-    </div>
-
-    <div class="container">
-
-        <div class="user-banner">
+    <!-- Header Navbar -->
+    <header class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center space-x-2 cursor-pointer select-none" id="logoClickArea" title="Zing Pro">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-fuchsia-600 flex items-center justify-center font-bold text-xl shadow-lg shadow-violet-500/30">Z</div>
             <div>
-                <div style="font-size:10px; color:var(--gold); font-weight:800; text-transform:uppercase;">VIP ENTERTAINMENT PASS</div>
-                <div style="font-size:14px; font-weight:900; margin-top:2px;">Welcome, Anil Ji 🇮🇳</div>
+                <h1 class="font-extrabold text-lg tracking-wide bg-gradient-to-r from-white via-slate-200 to-violet-400 bg-clip-text text-transparent">Zing Pro</h1>
+                <p class="text-[10px] text-slate-400">Secure Rewards Hub</p>
             </div>
-            <div style="text-align:right;">
-                <div style="font-size:10px; color:var(--text-muted);">Status</div>
-                <div style="font-size:13px; font-weight:900; color:#34d399;"><i class="fa-solid fa-circle-check"></i> Unlimited Active</div>
+        </div>
+        <div class="flex items-center space-x-3">
+            <div class="bg-slate-800/90 border border-slate-700/60 px-3 py-1.5 rounded-full flex items-center space-x-2 shadow-inner">
+                <i class="fa-solid fa-coins text-amber-400 text-sm"></i>
+                <span id="headerCoins" class="font-bold text-amber-300 text-sm">0</span>
+                <span class="text-xs text-slate-400 border-l border-slate-700 pl-2">(<span id="headerInr">₹0.00</span>)</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-md mx-auto px-4 mt-4 space-y-4">
+
+        <!-- Navigation Tabs -->
+        <div class="flex bg-slate-800/60 p-1 rounded-xl border border-slate-700/50 text-xs font-medium">
+            <button onclick="switchTab('home')" id="navHome" class="flex-1 py-2.5 rounded-lg bg-violet-600 text-white shadow transition"><i class="fa-solid fa-house mr-1"></i> Home</button>
+            <button onclick="switchTab('network')" id="navNetwork" class="flex-1 py-2.5 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-users mr-1"></i> My Network</button>
+            <button onclick="switchTab('wallet')" id="navWallet" class="flex-1 py-2.5 rounded-lg text-slate-400 hover:text-white transition"><i class="fa-solid fa-wallet mr-1"></i> Payouts</button>
+        </div>
+
+        <!-- TAB 1: HOME / EARNING TASKS -->
+        <div id="tabHome" class="space-y-4">
+            <!-- Wallet Banner -->
+            <div class="bg-gradient-to-r from-violet-900/60 to-indigo-900/60 border border-violet-500/30 rounded-2xl p-5 shadow-xl relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-violet-500/10 rounded-full blur-2xl"></div>
+                <p class="text-xs text-violet-300 font-medium uppercase tracking-wider">Available Balance</p>
+                <div class="flex items-baseline space-x-2 mt-1">
+                    <h2 class="text-3xl font-black text-white" id="userCoinsDisplay">0</h2>
+                    <span class="text-sm text-violet-200">Coins</span>
+                </div>
+                <div class="mt-2 text-xs text-slate-300 flex justify-between items-center">
+                    <span>Equivalent Value: <strong class="text-emerald-400" id="userInrDisplay">₹0.00</strong></span>
+                    <span class="bg-violet-800/60 px-2 py-0.5 rounded text-[10px] text-violet-200">Rate: 10 Coins = ₹1</span>
+                </div>
+            </div>
+
+            <!-- Daily Checkin -->
+            <div class="glass-card rounded-2xl p-4 flex items-center justify-between">
+                <div>
+                    <h3 class="font-bold text-sm text-slate-100"><i class="fa-solid fa-calendar-check text-emerald-400 mr-2"></i>Daily Check-In</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Claim your daily reward coins instantly.</p>
+                </div>
+                <button onclick="claimDailyBonus()" id="dailyBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-lg shadow-emerald-600/30 transition">Claim 50 Coins</button>
+            </div>
+
+            <!-- Earning Tasks Grid -->
+            <div class="grid grid-cols-2 gap-3">
+                <div onclick="triggerSmartTask('Spin & Win', 20)" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-violet-500/50 transition group">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg mb-3 group-hover:scale-110 transition"><i class="fa-solid fa-dharmachakra"></i></div>
+                    <h4 class="font-bold text-sm">Spin & Win</h4>
+                    <p class="text-[11px] text-slate-400 mt-0.5">Earn up to 20 Coins per spin</p>
+                </div>
+                <div onclick="triggerSmartTask('Scratch Card', 25)" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-violet-500/50 transition group">
+                    <div class="w-10 h-10 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center text-fuchsia-400 text-lg mb-3 group-hover:scale-110 transition"><i class="fa-solid fa-ticket"></i></div>
+                    <h4 class="font-bold text-sm">Scratch Card</h4>
+                    <p class="text-[11px] text-slate-400 mt-0.5">Scratch & reveal instant rewards</p>
+                </div>
+            </div>
+
+            <!-- Finance & High Payout Hub -->
+            <div onclick="triggerSmartTask('Finance Offer Hub', 50)" class="glass-card rounded-2xl p-4 cursor-pointer hover:border-violet-500/50 transition flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-xl shrink-0"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="flex-1">
+                    <h4 class="font-bold text-sm">Exclusive Partner Offers</h4>
+                    <p class="text-xs text-slate-400">Complete task & earn high rewards instantly.</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-xs text-slate-500"></i>
             </div>
         </div>
 
-        <div class="ticker-box">
-            <i class="fa-solid fa-fire"></i>
-            <span>नया अपडेट: जेठालाल कॉमेडी और नए गाने अब 9:16 रील्स मोड में उपलब्ध हैं!</span>
-        </div>
-
-        <!-- TAB 1: SOCIAL VIDEOS & REELS FEED -->
-        <div id="tab-videos" class="tab-content active">
-            <div class="hero-card">
-                <h2>🎬 SOCIAL REELS & ENTERTAINMENT</h2>
-                <p>TMKOC Jethalal, New Songs, Blockbuster Trailers & Cartoons</p>
-            </div>
-
-            <div class="cat-nav">
-                <div class="cat-pill active" onclick="switchCategory('tmkoc', this)">😂 TMKOC Jethalal</div>
-                <div class="cat-pill" onclick="switchCategory('songs', this)">🎵 New Songs & Lofi</div>
-                <div class="cat-pill" onclick="switchCategory('movies', this)">🎬 Movie Trailers</div>
-                <div class="cat-pill" onclick="switchCategory('cartoon', this)">🎨 Cartoons (Motu Patlu)</div>
-            </div>
-
-            <div class="glass-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <span style="font-size:11px; background:rgba(139,92,246,0.2); color:#c4b5fd; padding:4px 10px; border-radius:10px; font-weight:700;" id="vid-cat-tag">😂 TMKOC Jethalal Comedy</span>
-                    <span style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-signal" style="color:var(--accent);"></i> Live HD</span>
-                </div>
-
-                <div class="ratio-btns">
-                    <div class="ratio-btn active" id="btn-9-16" onclick="setScreenMode('9-16')">📱 9:16 Reels View</div>
-                    <div class="ratio-btn" id="btn-16-9" onclick="setScreenMode('16-9')">🖥️ 16:9 Full Screen</div>
-                </div>
+        <!-- TAB 2: MY NETWORK (REFERRAL HUB) -->
+        <div id="tabNetwork" class="space-y-4 hidden">
+            <div class="glass-card rounded-2xl p-5 space-y-3">
+                <h3 class="font-bold text-base flex items-center"><i class="fa-solid fa-users text-violet-400 mr-2"></i>My Referral Network</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">Invite your friends using your unique link below. When they join and complete tasks, your account automatically receives commission benefits seamlessly.</p>
                 
-                <div id="video-wrapper-box" class="video-box-wrapper mode-9-16">
-                    <iframe id="main-player" src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="pt-2">
+                    <label class="text-[11px] text-slate-400 uppercase tracking-wider block mb-1">Your Invite Link</label>
+                    <div class="flex space-x-2">
+                        <input type="text" id="referralLinkInput" readonly class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-300 w-full focus:outline-none" value="https://zingpro.vercel.app/?ref=USER9842">
+                        <button onclick="copyReferralLink()" class="bg-violet-600 hover:bg-violet-500 text-white px-4 py-2 rounded-xl text-xs font-semibold shrink-0 transition">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-4 space-y-3">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-slate-400">Network Statistics</h4>
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800">
+                        <span class="text-xs text-slate-400 block">Total Invited</span>
+                        <span class="text-lg font-bold text-white mt-0.5 block" id="totalInvitedCount">4 Friends</span>
+                    </div>
+                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800">
+                        <span class="text-xs text-slate-400 block">Commission Earned</span>
+                        <span class="text-lg font-bold text-emerald-400 mt-0.5 block">120 Coins</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: PAYOUTS / WALLET -->
+        <div id="tabWallet" class="space-y-4 hidden">
+            <div class="glass-card rounded-2xl p-5 space-y-4">
+                <h3 class="font-bold text-base flex items-center"><i class="fa-solid fa-wallet text-amber-400 mr-2"></i>Request Withdrawal</h3>
+                <p class="text-xs text-slate-300">Minimum withdrawal limit is 500 Coins (₹50). Payouts are processed safely to your UPI ID or Paytm number.</p>
+                
+                <div class="space-y-3 pt-1">
+                    <div>
+                        <label class="text-xs text-slate-400 block mb-1">Enter UPI ID / Paytm Number</label>
+                        <input type="text" id="payoutAddress" placeholder="e.g. user@paytm or 9876543210@upi" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white w-full focus:outline-none focus:border-violet-500">
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-400 block mb-1">Coins to Redeem</label>
+                        <input type="number" id="payoutCoins" placeholder="Min 500 Coins" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white w-full focus:outline-none focus:border-violet-500">
+                    </div>
+                    <button onclick="submitWithdrawal()" class="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white font-semibold py-3 rounded-xl text-xs shadow-lg transition">Submit Withdrawal Request</button>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-4 space-y-2">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-slate-400">Recent Payout History</h4>
+                <div id="payoutHistoryList" class="space-y-2 pt-1 text-xs text-slate-400">
+                    <p class="text-center py-2">No withdrawal history found yet.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- SECRET ADMIN MODAL (Password Protected) -->
+    <div id="adminModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-5 space-y-4 shadow-2xl relative">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-base text-violet-400"><i class="fa-solid fa-shield-cat mr-2"></i>Owner Admin Dashboard</h3>
+                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            
+            <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+                <div class="grid grid-cols-2 gap-2 text-center">
+                    <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                        <span class="text-[10px] text-slate-400 uppercase">Total Users</span>
+                        <h4 class="font-bold text-lg text-white mt-1">1,240</h4>
+                    </div>
+                    <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                        <span class="text-[10px] text-slate-400 uppercase">Pending Payouts</span>
+                        <h4 class="font-bold text-lg text-amber-400 mt-1" id="adminPendingCount">0 Requests</h4>
+                    </div>
                 </div>
 
-                <a id="fallback-link" href="https://www.youtube.com/watch?v=jfKfPfyJRdk" target="_blank" class="btn-prime btn-accent">
-                    <i class="fa-brands fa-youtube"></i> अगर वीडियो न चले तो यहाँ क्लिक करके डायरेक्ट देखें
-                </a>
-
-                <button onclick="nextVideo()" class="btn-prime"><i class="fa-solid fa-forward-step"></i> अगला वायरल क्लिप देखें (Next Video)</button>
+                <div class="space-y-2 pt-2">
+                    <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Pending Withdrawal Requests</h4>
+                    <div id="adminWithdrawalsList" class="space-y-2">
+                        <p class="text-xs text-slate-500 text-center py-3">No pending withdrawal requests.</p>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <!-- TAB 2: AI FUN & STATUS HUB -->
-        <div id="tab-tools" class="tab-content">
-            <div class="hero-card">
-                <h2>🔮 AI ENTERTAINMENT & STATUS</h2>
-                <p>Secret Crush Detector & WhatsApp Status Creator</p>
-            </div>
-
-            <div class="glass-card">
-                <h3 style="margin-bottom:8px; font-size:14px; color:#c4b5fd;"><i class="fa-solid fa-heart-pulse"></i> सीक्रेट क्रश डिटेक्टर</h3>
-                <input type="text" id="crush-name" class="input-dark" placeholder="अपना पूरा नाम दर्ज करें">
-                <button onclick="predictCrush()" class="btn-prime"><i class="fa-solid fa-wand-magic-sparkles"></i> मेरा क्रश ढूंढें</button>
-                <div id="crush-output" style="display:none; margin-top:12px; text-align:center; font-size:13px; font-weight:700; color:#34d399;"></div>
-            </div>
-        </div>
-
-        <!-- TAB 3: ARCADE GAMES -->
-        <div id="tab-games" class="tab-content">
-            <div class="hero-card">
-                <h2>🎮 ARCADE & SPIN ZONE</h2>
-                <p>Play Fun Casual Games & Spin Wheels for Fun!</p>
-            </div>
-
-            <div class="glass-card" style="text-align:center;">
-                <h3 style="margin-bottom:6px; color:var(--gold);"><i class="fa-solid fa-dharmachakra"></i> लकी स्पिन व्हील (Lucky Spin)</h3>
-                <div id="spin-res" style="font-size:14px; font-weight:800; color:#34d399; margin-bottom:10px; min-height:20px;">स्पिन करने के लिए नीचे बटन दबाएं!</div>
-                <button onclick="spinWheel()" class="btn-prime btn-gold"><i class="fa-solid fa-arrows-rotate"></i> स्पिन घुमाएं (Spin Now)</button>
-            </div>
-        </div>
-
-        <!-- TAB 4: PARTNER DISCOVERY -->
-        <div id="tab-cards" class="tab-content">
-            <div class="hero-card">
-                <h2>🌟 FEATURED PARTNER DEALS</h2>
-                <p>Explore Recommended Services & Special Offers</p>
-            </div>
-
-            <div class="glass-card">
-                <h3>AU Small Finance Card</h3>
-                <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">Zero Joining Fee + Exclusive Rewards</p>
-                <a href="https://ltsrn.in/lIV" target="_blank" class="btn-prime btn-accent"><i class="fa-solid fa-credit-card"></i> अधिक जानें (Learn More)</a>
-            </div>
-
-            <div class="glass-card">
-                <h3>TimeBucks Global Portal</h3>
-                <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">Complete Simple Micro Tasks & Fun Surveys</p>
-                <a href="https://timebucks.com/?refID=230373233" target="_blank" class="btn-prime btn-pink"><i class="fa-solid fa-globe"></i> पोर्टल खोलें (Open Portal)</a>
-            </div>
-        </div>
-
     </div>
 
-    <div class="app-nav">
-        <div class="nav-tab active" onclick="switchTab('videos', this)"><i class="fa-solid fa-play"></i><span>Reels</span></div>
-        <div class="nav-tab" onclick="switchTab('tools', this)"><i class="fa-solid fa-wand-magic-sparkles"></i><span>AI Fun</span></div>
-        <div class="nav-tab" onclick="switchTab('games', this)"><i class="fa-solid fa-gamepad"></i><span>Arcade</span></div>
-        <div class="nav-tab" onclick="switchTab('cards', this)"><i class="fa-solid fa-star"></i><span>Explore</span></div>
+    <!-- Password Prompt Modal for Admin -->
+    <div id="adminLoginModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-xs rounded-2xl p-5 space-y-4 shadow-2xl text-center">
+            <div class="w-12 h-12 rounded-full bg-violet-600/20 text-violet-400 flex items-center justify-center mx-auto text-xl"><i class="fa-solid fa-lock"></i></div>
+            <h3 class="font-bold text-sm">Enter Owner Passcode</h3>
+            <input type="password" id="adminPasswordInput" placeholder="Passcode (default: admin123)" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white w-full text-center focus:outline-none">
+            <div class="flex space-x-2 pt-1">
+                <button onclick="cancelAdminLogin()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-xs py-2 rounded-xl text-slate-300">Cancel</button>
+                <button onclick="verifyAdminPassword()" class="flex-1 bg-violet-600 hover:bg-violet-500 text-xs py-2 rounded-xl text-white font-semibold">Access</button>
+            </div>
+        </div>
     </div>
 
+    <!-- JavaScript Application Logic -->
     <script>
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(n => n.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-            element.classList.add('active');
-            window.scrollTo(0, 0);
-        }
-
-        // Verified working entertainment data categories
-        const contentDatabase = {
-            tmkoc: [
-                { title: "😂 TMKOC Jethalal Comedy", embed: "https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=1", watch: "https://www.youtube.com/watch?v=jfKfPfyJRdk" },
-                { title: "😂 Jethalal & Daya Special", embed: "https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1", watch: "https://www.youtube.com/watch?v=5qap5aO4i9A" }
-            ],
-            songs: [
-                { title: "🎵 New Trending Hindi Songs", embed: "https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1", watch: "https://www.youtube.com/watch?v=5qap5aO4i9A" },
-                { title: "🎵 Lofi Beats & Melodies", embed: "https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=1", watch: "https://www.youtube.com/watch?v=jfKfPfyJRdk" }
-            ],
-            movies: [
-                { title: "🎬 Blockbuster Movie Trailers", embed: "https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=1", watch: "https://www.youtube.com/watch?v=jfKfPfyJRdk" },
-                { title: "🎬 Action South Movie Trailer", embed: "https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1", watch: "https://www.youtube.com/watch?v=5qap5aO4i9A" }
-            ],
-            cartoon: [
-                { title: "🎨 Cartoons & Animation Fun", embed: "https://www.youtube-nocookie.com/embed/5qap5aO4i9A?autoplay=1", watch: "https://www.youtube.com/watch?v=5qap5aO4i9A" }
-            ]
+        // Local State Management
+        let appState = {
+            coins: parseInt(localStorage.getItem('zing_coins')) || 120,
+            dailyClaimed: localStorage.getItem('zing_daily') === 'true',
+            withdrawals: JSON.parse(localStorage.getItem('zing_withdrawals')) || []
         };
 
-        let currentCat = 'tmkoc';
-        let currentIdx = 0;
-
-        function switchCategory(catKey, element) {
-            document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
-            element.classList.add('active');
-            currentCat = catKey;
-            currentIdx = 0;
-            document.getElementById('vid-cat-tag').innerText = element.innerText;
-            loadCurrentVideo();
-        }
-
-        function nextVideo() {
-            const list = contentDatabase[currentCat];
-            currentIdx = (currentIdx + 1) % list.length;
-            loadCurrentVideo();
-        }
-
-        function loadCurrentVideo() {
-            const item = contentDatabase[currentCat][currentIdx];
-            document.getElementById('main-player').src = item.embed;
-            document.getElementById('fallback-link').href = item.watch;
-        }
-
-        function setScreenMode(mode) {
-            const box = document.getElementById('video-wrapper-box');
-            document.getElementById('btn-16-9').classList.remove('active');
-            document.getElementById('btn-9-16').classList.remove('active');
+        function updateUI() {
+            document.getElementById('headerCoins').innerText = appState.coins;
+            document.getElementById('headerInr').innerText = '₹' + (appState.coins / 10).toFixed(2);
+            document.getElementById('userCoinsDisplay').innerText = appState.coins;
+            document.getElementById('userInrDisplay').innerText = '₹' + (appState.coins / 10).toFixed(2);
             
-            if(mode === '9-16') {
-                box.className = "video-box-wrapper mode-9-16";
-                document.getElementById('btn-9-16').classList.add('active');
-            } else {
-                box.className = "video-box-wrapper mode-16-9";
-                document.getElementById('btn-16-9').classList.add('active');
+            if (appState.dailyClaimed) {
+                const btn = document.getElementById('dailyBtn');
+                btn.innerText = 'Claimed Today';
+                btn.disabled = true;
+                btn.className = 'bg-slate-800 text-slate-500 text-xs font-semibold px-4 py-2 rounded-xl cursor-not-allowed';
             }
+            
+            localStorage.setItem('zing_coins', appState.coins);
+            localStorage.setItem('zing_daily', appState.dailyClaimed);
+            localStorage.setItem('zing_withdrawals', JSON.stringify(appState.withdrawals));
         }
 
-        function spinWheel() {
-            const messages = [
-                "🎉 बधाई हो! आपको आज का 'Star Performer' अवार्ड मिला!",
-                "✨ बहुत बढ़िया! आपने लकी व्हील में शानदार रिवॉर्ड जीता!",
-                "🚀 शानदार! आप इस समय ट्रेंडिंग यूज़र बन गए हैं!",
-                "🌟 वाह! आज आपका दिन बहुत शुभ है!"
-            ];
-            const msg = messages[Math.floor(Math.random() * messages.length)];
-            document.getElementById('spin-res').innerText = msg;
+        // Tab Switcher
+        function switchTab(tab) {
+            ['Home', 'Network', 'Wallet'].forEach(t => {
+                document.getElementById('tab' + t).classList.add('hidden');
+                document.getElementById('nav' + t).className = 'flex-1 py-2.5 rounded-lg text-slate-400 hover:text-white transition';
+            });
+            document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.remove('hidden');
+            document.getElementById('nav' + tab.charAt(0).toUpperCase() + tab.slice(1)).className = 'flex-1 py-2.5 rounded-lg bg-violet-600 text-white shadow transition';
         }
 
-        function predictCrush() {
-            const name = document.getElementById('crush-name').value.trim();
-            if(!name) { alert('कृपया अपना नाम दर्ज करें!'); return; }
-            const letters = ['A', 'S', 'P', 'K', 'R', 'M', 'N', 'V', 'P'];
-            const randomLetter = letters[Math.floor(Math.random() * letters.length)];
-            const out = document.getElementById('crush-output');
-            out.style.display = 'block';
-            out.innerHTML = `🔮 <b>${name}</b>, ज्योतिष गणना के अनुसार '${randomLetter}' अक्षर से जुड़े व्यक्ति के साथ आपकी बॉंडिंग सबसे बेहतरीन है! ❤️`;
+        // Daily Bonus Claim
+        function claimDailyBonus() {
+            if (appState.dailyClaimed) return;
+            appState.coins += 50;
+            appState.dailyClaimed = true;
+            updateUI();
+            confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
         }
-    </script>
-</body>
-</html>
+
+        // Smart Task & Ad Loop Handler
+        function triggerSmartTask(taskName, rewardCoins) {
+            // Simulated High-Payout Smartlink / Ad Loop trigger in separate window safely
+            const smartlinkWindow = window.open('about:blank', '_blank');
+            if (smartlinkWindow) {
+                smartlinkWindow.document.write(`<html><head><title>Processing Task...</title></head><body style="background:#0f172a;color:#fff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;"><div style="text-align:center;"><h2>Verifying ${taskName}...</h2><p>Please wait a moment while your task is validated securely.</p></div></body></html>`);
+                setTimeout(() => {
+                    smartlinkWindow.location.href = 'https://www.google.com'; // Placeholder for Monetag Smartlink destination
+                }, 1200);
+            }
+
+            // Auto credit upon returning focus / task completion
+            setTimeout(() => {
+                appState.coins += rewardCoins;
+                updateUI();
+                confetti({ particleCount: 50, spread: 50, origin: { y: 0.7 } });
+            }, 3000);
+        }
+
+        // Copy Referral Link
+        function copyReferralLink() {
+            const input = document.getElementById('referralLinkInput');
+            input.select();
+            navigator.clipboard.writeText(input.value);
+            alert('Referral link copied successfully!');
+        }
+
+        // Withdrawal Submission
+        function submitWithdrawal() {
+            const address = document.getElementById('payoutAddress').value.trim();
+            const coins = parseInt(document.getElementById('payoutCoins').value);
+
+            if (!address) {
+                alert('Please enter your valid UPI ID or Paytm number.');
+                return;
+            }
+            if (isNaN(coins) || coins < 500) {
+                alert('Minimum withdrawal requirement is 500 Coins (₹50).');
+                return;
+            }
+            if (coins > appState.coins) {
+                alert('Insufficient coin balance in your wallet.');
+                return;
+            }
+
+            // Deduct coins instantly & record withdrawal
+            appState.coins -= coins;
+            const newReq = { id: Date.now(), address, coins, status: 'Pending', date: new Date().toLocaleDateString() };
+            appState.withdrawals.unshift(newReq);
+            updateUI();
+            renderPayoutHistory();
+
+            document.getElementById('payoutAddress').value = '';
+            document.getElementById('payoutCoins').value = '';
+            alert('Withdrawal request submitted successfully!');
+        }
+
+        function renderPayoutHistory() {
+            const list = document.getElementById('payoutHistoryList');
+            if (appState.withdrawals.length === 0) {
+                list.innerHTML = '<p class="text-center py-2">No withdrawal history found yet.</p>';
+                return;
+            }
+            list.innerHTML = appState.withdrawals.map(w => `
+                <div class="bg-slate-900/50 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <div>
+                        <span class="text-white font-medium">${w.coins} Coins (₹${(w.coins/10).toFixed(2)})</span>
+                        <p class="text-[10px] text-slate-500">${w.address} • ${w.date}</p>
+                    </div>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-semibold ${w.status === 'Approved' ? '
