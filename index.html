@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -41,11 +40,13 @@
             color: var(--primary);
         }
         .wallet-box {
-            background: rgba(255,255,255,0.1);
-            padding: 6px 12px;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 15px;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 15px;
+            color: #2ed573;
+            border: 1px solid #2ed573;
         }
         .container {
             max-width: 480px;
@@ -71,10 +72,10 @@
             cursor: pointer;
             width: 100%;
             margin-top: 10px;
+            transition: 0.2s;
         }
-        .btn:disabled {
-            background: #a4b0be;
-            cursor: not-allowed;
+        .btn:active {
+            transform: scale(0.98);
         }
         input {
             width: 100%;
@@ -118,7 +119,7 @@
     <!-- Header -->
     <div class="header">
         <div class="logo-area" id="webSecretLogo">
-            <h2>🌐 Zing Pro Web Portal</h2>
+            <h2>🌐 Zing Pro Web</h2>
         </div>
         <div class="wallet-box" id="webWallet">Coins: 0 (₹0.0)</div>
     </div>
@@ -130,11 +131,11 @@
         <div class="card">
             <h3 id="webWelcome">Welcome, User!</h3>
             <p style="font-size: 12px; color: #2ed573;">Secure Web Portal | 10 Coins = ₹1</p>
-            <button class="btn" onclick="startTaskProcess('daily')">Claim Daily Bonus (+50 Coins)</button>
-            <button class="btn" style="background: #ffa502;" onclick="startTaskProcess('spin')">Spin & Earn (+20 Coins)</button>
+            <button class="btn" onclick="triggerSimpleTask('daily', 50)">Claim Daily Bonus (+50 Coins)</button>
+            <button class="btn" style="background: #ffa502;" onclick="triggerSimpleTask('spin', 20)">Spin & Earn (+20 Coins)</button>
         </div>
 
-        <!-- Referral Hub -->
+        <!-- Referral Hub (Live Updating) -->
         <div class="card" style="text-align: left;">
             <h4 style="text-align: center; margin-top:0;">👥 Referral & Growth Network</h4>
             <input type="text" id="webRefLink" readonly style="background: #eee; font-size: 12px;">
@@ -142,11 +143,11 @@
             
             <div class="stats-row">
                 <span>Total Referrals:</span>
-                <strong id="webRefCount">0 Users</strong>
+                <strong id="webRefCount" style="color:var(--primary);">0 Users</strong>
             </div>
             <div class="stats-row">
                 <span>Referral Earnings:</span>
-                <strong id="webRefEarn">0 Coins</strong>
+                <strong id="webRefEarn" style="color:var(--success);">0 Coins</strong>
             </div>
         </div>
 
@@ -160,14 +161,13 @@
         <button class="btn" style="background:#747d8c; font-size: 13px;" onclick="webLogout()">Logout Session</button>
     </div>
 
-    <!-- Task Verification Modal -->
+    <!-- Simple Smooth Task Modal -->
     <div id="taskModal" class="modal">
         <div class="modal-content">
-            <h3>⏳ Ad Verification in Progress</h3>
-            <p id="taskInstruction" style="font-size: 13px; color: #555;">Ad opened in new tab. Please view it completely and return back here.</p>
-            <h2 id="timerDisplay" style="color: var(--primary); font-size: 28px; margin: 15px 0;">Waiting for view...</h2>
-            <button id="claimRewardBtn" class="btn" style="background: var(--success);" disabled onclick="finalizeTaskReward()">Claim Reward</button>
-            <button class="btn" style="background: #747d8c; margin-top: 10px; padding: 8px;" onclick="closeTaskModal()">Cancel</button>
+            <h3>🎁 Task in Progress</h3>
+            <p style="font-size: 13px; color: #555;">Please wait while your task is verifying...</p>
+            <h2 id="taskTimer" style="color: var(--primary); font-size: 36px; margin: 15px 0;">3</h2>
+            <p style="font-size: 12px; color: #2ed573;">Coins will be added to your wallet automatically!</p>
         </div>
     </div>
 
@@ -204,27 +204,25 @@
     <script>
         let isWebSignup = false;
         let webUser = JSON.parse(localStorage.getItem('zing_web_user')) || null;
-        
-        // Both Ad Links configured for Smart Rotation
-        const AD_LINKS = [
-            "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce",
-            "https://uplcm.com/4/12045886"
-        ];
-        let adToggleIndex = 0;
-
-        let activeTaskType = '';
-        let adOpenedTime = 0;
-        let taskVerifier = null;
+        const MAIN_AD_LINK = "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce";
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             let ref = urlParams.get('ref');
-            if(ref && !webUser) localStorage.setItem('zing_web_ref', ref);
+            if(ref) {
+                localStorage.setItem('zing_web_ref', ref);
+            }
             checkWebLogin();
         }
 
         function checkWebLogin() {
             if(webUser) {
+                // Refresh user data from storage to keep live stats updated
+                let freshData = localStorage.getItem('zing_web_user_' + webUser.mobile);
+                if(freshData) {
+                    webUser = JSON.parse(freshData);
+                }
+
                 document.getElementById('webAuthModal').style.display = 'none';
                 document.getElementById('webMainContent').style.display = 'block';
                 document.getElementById('webWelcome').innerText = `Welcome, ${webUser.name}!`;
@@ -253,23 +251,31 @@
                 return;
             }
 
+            let userKey = 'zing_web_user_' + mobile;
+            let saved = localStorage.getItem(userKey);
+
             if(isWebSignup) {
+                if(saved) {
+                    alert('This mobile number is already registered! Please login.');
+                    return;
+                }
                 webUser = { name: name, mobile: mobile, pass: pass, coins: 100, refCount: 0, refEarn: 0 };
-                localStorage.setItem('zing_web_user_' + mobile, JSON.stringify(webUser));
+                localStorage.setItem(userKey, JSON.stringify(webUser));
                 
-                let invited = localStorage.getItem('zing_web_ref');
-                if(invited && invited !== mobile) {
-                    let invData = JSON.parse(localStorage.getItem('zing_web_user_' + invited));
+                // Check if registered via referral link
+                let invitedRef = localStorage.getItem('zing_web_ref');
+                if(invitedRef && invitedRef !== mobile) {
+                    let invKey = 'zing_web_user_' + invitedRef;
+                    let invData = JSON.parse(localStorage.getItem(invKey));
                     if(invData) {
-                        invData.refCount += 1;
-                        invData.coins += 50;
-                        invData.refEarn += 50;
-                        localStorage.setItem('zing_web_user_' + invited, JSON.stringify(invData));
+                        invData.refCount = (invData.refCount || 0) + 1;
+                        invData.coins = (invData.coins || 0) + 50; // +50 referral bonus coins
+                        invData.refEarn = (invData.refEarn || 0) + 50;
+                        localStorage.setItem(invKey, JSON.stringify(invData));
                     }
                 }
                 alert('Registration Successful! +100 Coins Bonus added.');
             } else {
-                let saved = localStorage.getItem('zing_web_user_' + mobile);
                 if(saved) {
                     let p = JSON.parse(saved);
                     if(p.pass === pass) {
@@ -280,8 +286,9 @@
                         return;
                     }
                 } else {
+                    // Auto-register if not present during direct login
                     webUser = { name: 'Valued User', mobile: mobile, pass: pass, coins: 100, refCount: 0, refEarn: 0 };
-                    localStorage.setItem('zing_web_user_' + mobile, JSON.stringify(webUser));
+                    localStorage.setItem(userKey, JSON.stringify(webUser));
                     alert('Auto-registered and logged in successfully!');
                 }
             }
@@ -297,68 +304,38 @@
 
         function updateWebUI() {
             if(!webUser) return;
+            // Real-time visible coin, cash, and referral live count update
             document.getElementById('webWallet').innerText = `Coins: ${webUser.coins} (₹${(webUser.coins/10).toFixed(1)})`;
-            document.getElementById('webRefCount').innerText = `${webUser.refCount} Users`;
-            document.getElementById('webRefEarn').innerText = `${webUser.refEarn} Coins`;
+            document.getElementById('webRefCount').innerText = `${webUser.refCount || 0} Users`;
+            document.getElementById('webRefEarn').innerText = `${webUser.refEarn || 0} Coins`;
+            
+            // Save state persistently
             localStorage.setItem('zing_web_user_' + webUser.mobile, JSON.stringify(webUser));
             localStorage.setItem('zing_web_user', JSON.stringify(webUser));
         }
 
-        // Dual Ad Rotation Task Process with Focus Verification
-        function startTaskProcess(type) {
-            activeTaskType = type;
-            adOpenedTime = Date.now();
-            
-            // Pick next ad link in rotation
-            let currentAdLink = AD_LINKS[adToggleIndex];
-            adToggleIndex = (adToggleIndex + 1) % AD_LINKS.length;
-
-            window.open(currentAdLink, '_blank');
+        // Simple Smooth Task Trigger (Opens ad and adds coins smoothly)
+        function triggerSimpleTask(type, rewardAmount) {
+            window.open(MAIN_AD_LINK, '_blank');
 
             document.getElementById('taskModal').style.display = 'flex';
-            document.getElementById('timerDisplay').innerText = 'Viewing Ad...';
-            document.getElementById('claimRewardBtn').disabled = true;
-            document.getElementById('claimRewardBtn').innerText = 'Please Wait...';
+            let timeLeft = 3;
+            document.getElementById('taskTimer').innerText = timeLeft;
 
-            let requiredSeconds = 5;
-            let hasLeftPage = false;
-
-            window.onblur = function() {
-                hasLeftPage = true;
-            };
-
-            if(taskVerifier) clearInterval(taskVerifier);
-
-            taskVerifier = setInterval(() => {
-                if (document.visibilityState === 'visible' && hasLeftPage) {
-                    let timeSpent = (Date.now() - adOpenedTime) / 1000;
-                    if (timeSpent >= requiredSeconds) {
-                        clearInterval(taskVerifier);
-                        document.getElementById('timerDisplay').innerText = 'Task Verified!';
-                        document.getElementById('claimRewardBtn').disabled = false;
-                        document.getElementById('claimRewardBtn').innerText = 'Claim Reward Now';
-                    } else {
-                        document.getElementById('timerDisplay').innerText = 'Please spend more time on ad!';
-                    }
+            let taskInterval = setInterval(() => {
+                timeLeft--;
+                if(timeLeft > 0) {
+                    document.getElementById('taskTimer').innerText = timeLeft;
+                } else {
+                    clearInterval(taskInterval);
+                    document.getElementById('taskModal').style.display = 'none';
+                    
+                    // Credit coins directly and update UI instantly
+                    webUser.coins += rewardAmount;
+                    updateWebUI();
+                    alert(`Success! +${rewardAmount} Coins added to your wallet.`);
                 }
             }, 1000);
-        }
-
-        function finalizeTaskReward() {
-            document.getElementById('taskModal').style.display = 'none';
-            if(activeTaskType === 'daily') {
-                webUser.coins += 50;
-                alert('Success! +50 Coins Daily Bonus Added.');
-            } else if(activeTaskType === 'spin') {
-                webUser.coins += 20;
-                alert('Success! +20 Coins Spin Reward Added.');
-            }
-            updateWebUI();
-        }
-
-        function closeTaskModal() {
-            if(taskVerifier) clearInterval(taskVerifier);
-            document.getElementById('taskModal').style.display = 'none';
         }
 
         function shareWebWhatsApp() {
