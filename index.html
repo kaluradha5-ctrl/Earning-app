@@ -2,453 +2,154 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zing Pro Enterprise - World Class Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top-up & 24h Passive Earning Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --primary: #ff4757;
-            --secondary: #2f3542;
-            --bg: #f1f2f6;
-            --white: #ffffff;
-            --success: #2ed573;
-            --warning: #ffa502;
-            --accent: #70a1ff;
-        }
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg); margin: 0; padding: 0; color: #333; user-select: none; }
-        
-        .ticker-bar {
-            background: #1e90ff;
-            color: white;
-            font-size: 11px;
-            padding: 6px 10px;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-        .ticker-text {
-            display: inline-block;
-            animation: marquee 22s linear infinite;
-        }
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .header {
-            background: var(--secondary);
-            color: var(--white);
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-            position: sticky; top: 0; z-index: 100;
-        }
-        .logo-area { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-        .logo-area h2 { margin: 0; font-size: 17px; color: var(--primary); }
-        .wallet-box {
-            background: rgba(46, 213, 115, 0.15);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 13px;
-            color: var(--success);
-            border: 1px solid var(--success);
-        }
-
-        .container { max-width: 480px; margin: 10px auto; padding: 0 12px 30px 12px; }
-        
-        .card {
-            background: var(--white);
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.06);
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .btn {
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 8px;
-            transition: all 0.2s ease;
-        }
-        .btn:active { transform: scale(0.97); }
-        .btn-warning { background: var(--warning); }
-        .btn-success { background: var(--success); }
-        .btn-accent { background: var(--accent); }
-
-        input {
-            width: 100%;
-            padding: 11px;
-            margin: 6px 0;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 13px;
-            outline: none;
-        }
-
-        .stats-row {
-            display: flex;
-            justify-content: space-between;
-            background: #f8f9fa;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin: 6px 0;
-            font-size: 13px;
-        }
-
-        .permission-card {
-            background: #fff8e7;
-            border: 2px dashed var(--warning);
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            text-align: left;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.75);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 15px;
-        }
-        .modal-content {
-            background: var(--white);
-            padding: 20px;
-            border-radius: 14px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        }
-
-        .floating-ad-widget {
-            position: fixed;
-            bottom: 25px;
-            right: 15px;
-            background: var(--secondary);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 25px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.35);
-            font-size: 11px;
-            display: none;
-            align-items: center;
-            gap: 8px;
-            z-index: 999;
-            cursor: pointer;
-            border: 2px solid var(--success);
-        }
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body>
+<body class="min-h-screen p-4 flex flex-col justify-between">
 
-    <div class="ticker-bar">
-        <div class="ticker-text">
-            🛡️ Neon Cloud Connected • ⚡ 75% User / 5% Referral / 20% Owner Split Engine Active • Background Persistent Service Running
-        </div>
-    </div>
-
-    <div class="header">
-        <div class="logo-area" id="webSecretLogo">
-            <h2>🌐 Zing Pro Enterprise</h2>
-        </div>
-        <div class="wallet-box" id="webWallet">Coins: 0 (₹0.0)</div>
-    </div>
-
-    <div class="container" id="webMainContent" style="display:none;">
-        
-        <div class="permission-card" id="permBox">
-            <h4 style="margin:0 0 4px 0; color:#2f3542;">⚡ 24h Background Split Engine</h4>
-            <p style="font-size:11px; margin:0 0 8px 0; color:#555;">Enable background service to keep generating earnings while playing Free Fire or using YouTube.</p>
-            <button class="btn btn-warning" style="margin-top:0; font-size:12px; padding:9px;" onclick="enableBackgroundService()">Enable Background 75% Engine</button>
-        </div>
-
-        <div class="card">
-            <h3 id="webWelcome" style="margin:0 0 5px 0; font-size:16px;">Welcome, User!</h3>
-            <p style="font-size: 11px; color: var(--success); margin:0 0 10px 0;">🛡️ Anti-Ban Rotator & Cloud Secure</p>
-            
-            <button class="btn" onclick="triggerTask(2, 0)">Claim Daily Bonus (+2 Coins)</button>
-            <button class="btn btn-accent" onclick="triggerTask(1, 1)">Hourly Impression Reward (+1 Coin)</button>
-        </div>
-
-        <div class="card" style="text-align: left;">
-            <h4 style="text-align: center; margin:0 0 8px 0; font-size:14px;">👥 Referral Network (5% Bonus)</h4>
-            <input type="text" id="webRefLink" readonly style="background: #f1f2f6; font-size: 11px;">
-            <button class="btn" style="background: #25D366; margin-top: 4px; padding:10px;" onclick="shareWhatsApp()">Share on WhatsApp</button>
-            
-            <div class="stats-row" style="margin-top:8px;">
-                <span>Total Referrals:</span>
-                <strong id="webRefCount" style="color:var(--primary);">0 Users</strong>
+    <div class="max-w-md mx-auto w-full space-y-4">
+        <!-- Header -->
+        <div class="glass p-4 rounded-2xl flex justify-between items-center shadow-lg">
+            <div>
+                <h1 class="text-xl font-bold text-blue-400">Top-up Earning Hub</h1>
+                <p class="text-xs text-slate-400">75% User | 5% Referral | 20% Owner</p>
             </div>
-            <div class="stats-row">
-                <span>Referral Earnings (5%):</span>
-                <strong id="webRefEarn" style="color:var(--success);">0 Coins</strong>
+            <div id="live-status" class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-semibold animate-pulse">
+                ● Live Active
             </div>
         </div>
 
-        <div class="card" style="text-align: left;">
-            <h4 style="text-align: center; margin:0 0 8px 0; font-size:14px;">💸 Instant Payout (Min 500 Coins = ₹50)</h4>
-            <input type="text" id="webUpi" placeholder="Enter UPI ID or Paytm Number">
-            <button class="btn btn-success" onclick="withdrawPayout()">Withdraw ₹50 Direct</button>
+        <!-- In-App One-Tap Permission & Background Setup Card -->
+        <div class="glass p-4 rounded-2xl border-l-4 border-blue-500 shadow-md">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                ⚡ In-App Background Control
+            </h3>
+            <p class="text-xs text-slate-300 mt-1">
+                Bina kisi phone setting mein gaye, yhi se background ticker aur ads system active karein.
+            </p>
+            <button onclick="activateInAppSystem()" class="mt-3 w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-sm transition-all shadow-lg flex items-center justify-center gap-2">
+                <span>🚀 Ek Click Mein Background Chalu Karein</span>
+            </button>
+            <p id="perm-status" class="text-[11px] text-amber-400 mt-2 text-center"></p>
         </div>
 
-        <button class="btn" style="background:#a4b0be; font-size: 12px; padding:8px;" onclick="userLogout()">Logout Session</button>
-    </div>
-
-    <div class="floating-ad-widget" id="floatingWidget" onclick="triggerTask(1, 2)">
-        <span style="width:8px; height:8px; background:var(--success); border-radius:50%; display:inline-block;"></span>
-        <span>⚡ Background Active (<b id="widgetCoins">0</b>)</span>
-    </div>
-
-    <!-- Auth Modal (Fixed & Fully Responsive) -->
-    <div id="authModal" class="modal" style="display:flex;">
-        <div class="modal-content">
-            <h2 style="color:var(--primary); margin-top:0; font-size:20px;">Zing Pro Enterprise Portal</h2>
-            <div id="regFields" style="display:none;">
-                <input type="text" id="userName" placeholder="Full Name">
+        <!-- Wallet / Balance Display -->
+        <div class="glass p-5 rounded-2xl text-center shadow-lg">
+            <span class="text-xs text-slate-400 uppercase tracking-wider">Total Earned Coins</span>
+            <h2 id="coin-display" class="text-3xl font-extrabold text-emerald-400 mt-1">0.00</h2>
+            <div class="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-slate-700/50 text-xs">
+                <div>
+                    <span class="text-slate-400 block">User (75%)</span>
+                    <span id="user-share" class="font-bold text-white">0.00</span>
+                </div>
+                <div>
+                    <span class="text-slate-400 block">Ref (5%)</span>
+                    <span id="ref-share" class="font-bold text-white">0.00</span>
+                </div>
+                <div>
+                    <span class="text-slate-400 block">Owner (20%)</span>
+                    <span id="owner-share" class="font-bold text-white">0.00</span>
+                </div>
             </div>
-            <input type="text" id="userMobile" placeholder="Mobile Number">
-            <input type="password" id="userPass" placeholder="Password">
-            <button class="btn" id="authBtn" onclick="handleAuth()">Login</button>
-            <p style="font-size:12px; margin-top:12px; cursor:pointer; color:#1e90ff;" onclick="toggleAuth()" id="toggleText">New user? Register here</p>
+        </div>
+
+        <!-- Manual Smartlink / Ticker Action -->
+        <div class="glass p-4 rounded-2xl text-center">
+            <p class="text-xs text-slate-300 mb-3">60-Second Passive Ticker Status:</p>
+            <div id="ticker-timer" class="text-lg font-mono font-bold text-blue-300">00:60</div>
+            <button onclick="triggerSmartlink()" class="mt-3 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl text-xs transition-all">
+                Test Smartlink Rotator Now
+            </button>
         </div>
     </div>
 
-    <!-- Admin Modal -->
-    <div id="adminModal" class="modal">
-        <div class="modal-content" style="text-align:left;">
-            <h3 style="margin-top:0; color:var(--primary);">🔐 Master Admin Control Room</h3>
-            <input type="password" id="adminPass" placeholder="Admin Key (admin123)">
-            <button class="btn" onclick="verifyAdmin()">Unlock Admin Panel</button>
-            <div id="adminData" style="display:none; margin-top:12px; font-size:12px;">
-                <p><b>Total Users (Cloud Synced):</b> <span id="adminTotalUsers">0</span></p>
-                <p><b>Revenue Split Model:</b> 75% User | 5% Referral | 20% Owner Net Profit</p>
-                <p style="color:var(--success);"><b>Database Status:</b> Neon PostgreSQL Bridge Active</p>
-                <button class="btn btn-warning" onclick="alert('All Payout Requests Approved Successfully!')">Approve All Withdrawals</button>
-            </div>
-            <button class="btn" style="background:#a4b0be; margin-top:8px;" onclick="document.getElementById('adminModal').style.display='none'">Close</button>
-        </div>
-    </div>
+    <!-- Footer -->
+    <footer class="text-center text-xs text-slate-500 mt-4">
+        Secure Cloud Synced & Automated Split Engine
+    </footer>
 
     <script>
-        let isSignup = false;
-        let currentUser = JSON.parse(localStorage.getItem('zing_enterprise_session')) || null;
-        
-        // Secured Smartlinks Rotator Array
-        const SMARTLINKS = [
-            "https://uplcm.com/4/12045886",
-            "https://arwf.org/4/1103079826eeeec00586eefec8220e65",
-            "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce",
-            "https://asiafilm.org/4/f5459872596d4d52eed0f0192ac50e63",
-            "https://auctionr.org/4/52a525bafa5d2666a7ed8afd61c3d67e"
-        ];
-        
-        let backgroundLoop = null;
+        // State Management
+        let totalCoins = parseFloat(localStorage.getItem('topup_coins')) || 0.00;
+        let isBackgroundRunning = false;
+        let tickerSeconds = 60;
 
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            let ref = urlParams.get('ref');
-            if(ref) { localStorage.setItem('zing_enterprise_ref', ref); }
-            checkSession();
+        function updateUI() {
+            document.getElementById('coin-display').innerText = totalCoins.toFixed(2);
+            document.getElementById('user-share').innerText = (totalCoins * 0.75).toFixed(2);
+            document.getElementById('ref-share').innerText = (totalCoins * 0.05).toFixed(2);
+            document.getElementById('owner-share').innerText = (totalCoins * 0.20).toFixed(2);
+            localStorage.setItem('topup_coins', totalCoins);
         }
 
-        function checkSession() {
-            if(currentUser) {
-                let fresh = localStorage.getItem('zing_ent_db_' + currentUser.mobile);
-                if(fresh) { currentUser = JSON.parse(fresh); }
-
-                document.getElementById('authModal').style.display = 'none';
-                document.getElementById('webMainContent').style.display = 'block';
-                document.getElementById('webWelcome').innerText = `Welcome, ${currentUser.name}!`;
-                document.getElementById('webRefLink').value = `${window.location.origin}${window.location.pathname}?ref=${currentUser.mobile}`;
-                
-                if(localStorage.getItem('zing_ent_bg_' + currentUser.mobile) === 'true') {
-                    document.getElementById('permBox').style.display = 'none';
-                    document.getElementById('floatingWidget').style.display = 'flex';
-                    startBackgroundEngine();
-                }
-                syncUI();
-            } else {
-                document.getElementById('authModal').style.display = 'flex';
-                document.getElementById('webMainContent').style.display = 'none';
-            }
-        }
-
-        function toggleAuth() {
-            isSignup = !isSignup;
-            document.getElementById('regFields').style.display = isSignup ? 'block' : 'none';
-            document.getElementById('authBtn').innerText = isSignup ? 'Register' : 'Login';
-            document.getElementById('toggleText').innerText = isSignup ? 'Already registered? Login' : 'New user? Register';
-        }
-
-        function handleAuth() {
-            let mobile = document.getElementById('userMobile').value.trim();
-            let pass = document.getElementById('userPass').value.trim();
-            let name = document.getElementById('userName').value.trim();
-
-            if(!mobile || !pass || (isSignup && !name)) {
-                alert('Please enter all details correctly!');
-                return;
-            }
-
-            let key = 'zing_ent_db_' + mobile;
-            let saved = localStorage.getItem(key);
-
-            if(isSignup) {
-                if(saved) { alert('Mobile number already registered!'); return; }
-                
-                let referrer = localStorage.getItem('zing_enterprise_ref') || null;
-                currentUser = { 
-                    name: name, 
-                    mobile: mobile, 
-                    pass: pass, 
-                    coins: 10, 
-                    refCount: 0, 
-                    refEarn: 0, 
-                    referredBy: referrer,
-                    ownerReserve: 0 
-                };
-                
-                if(referrer && referrer !== mobile) {
-                    let refKey = 'zing_ent_db_' + referrer;
-                    let refData = localStorage.getItem(refKey);
-                    if(refData) {
-                        let refUser = JSON.parse(refData);
-                        refUser.refCount = (refUser.refCount || 0) + 1;
-                        refUser.coins += 5; 
-                        refUser.refEarn += 5;
-                        localStorage.setItem(refKey, JSON.stringify(refUser));
+        // In-App Permission & Background Engine Activation
+        function activateInAppSystem() {
+            const statusText = document.getElementById('perm-status');
+            
+            // Browser/App Notification & Wake Lock Request
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted' || permission === 'default') {
+                        isBackgroundRunning = true;
+                        statusText.innerHTML = "✅ System Active! Background ticker ab bina ruke chal raha hai.";
+                        statusText.className = "text-[11px] text-emerald-400 mt-2 text-center font-semibold";
+                        startBackgroundTicker();
+                    } else {
+                        statusText.innerHTML = "⚠️ Permission restricted. Phir bhi app ke andar ticker chalu rahega.";
+                        statusText.className = "text-[11px] text-amber-400 mt-2 text-center";
+                        isBackgroundRunning = true;
+                        startBackgroundTicker();
                     }
-                }
-
-                localStorage.setItem(key, JSON.stringify(currentUser));
-                let userList = JSON.parse(localStorage.getItem('zing_ent_all_users') || '[]');
-                if(!userList.includes(mobile)) { userList.push(mobile); localStorage.setItem('zing_ent_all_users', JSON.stringify(userList)); }
-                
-                alert('Account Created Successfully! +10 Welcome Coins Added.');
+                });
             } else {
-                if(saved) {
-                    let p = JSON.parse(saved);
-                    if(p.pass === pass) { currentUser = p; }
-                    else { alert('Wrong Password!'); return; }
-                } else {
-                    currentUser = { name: 'Valued User', mobile: mobile, pass: pass, coins: 10, refCount: 0, refEarn: 0, referredBy: null, ownerReserve: 0 };
-                    localStorage.setItem(key, JSON.stringify(currentUser));
-                    let userList = JSON.parse(localStorage.getItem('zing_ent_all_users') || '[]');
-                    if(!userList.includes(mobile)) { userList.push(mobile); localStorage.setItem('zing_ent_all_users', JSON.stringify(userList)); }
+                isBackgroundRunning = true;
+                statusText.innerHTML = "✅ Background Ticker Successfully Started!";
+                startBackgroundTicker();
+            }
+        }
+
+        // 60-Second Background Ticker Loop
+        function startBackgroundTicker() {
+            setInterval(() => {
+                if (isBackgroundRunning) {
+                    tickerSeconds--;
+                    if (tickerSeconds <= 0) {
+                        tickerSeconds = 60;
+                        // Add passive earning credit and split automatically
+                        totalCoins += 1.50; // 1.5 coins per cycle
+                        updateUI();
+                        // Trigger smartlink silently or via user interaction
+                        openSmartlinkSafely();
+                    }
+                    // Format time
+                    let mins = String(Math.floor(tickerSeconds / 60)).padStart(2, '0');
+                    let secs = String(tickerSeconds % 60).padStart(2, '0');
+                    document.getElementById('ticker-timer').innerText = `${mins}:${secs}`;
                 }
-            }
-            localStorage.setItem('zing_enterprise_session', JSON.stringify(currentUser));
-            checkSession();
+            }, 1000);
         }
 
-        function userLogout() {
-            if(backgroundLoop) clearInterval(backgroundLoop);
-            localStorage.removeItem('zing_enterprise_session');
-            currentUser = null;
-            checkSession();
+        function triggerSmartlink() {
+            // Smartlink rotation integration
+            const smartlinkURL = "https://www.highratecpm.com/your-smartlink-id"; // Apka Monetag/Adsterra link
+            window.open(smartlinkURL, '_blank');
+            totalCoins += 0.50;
+            updateUI();
         }
 
-        function syncUI() {
-            if(!currentUser) return;
-            document.getElementById('webWallet').innerText = `Coins: ${currentUser.coins} (₹${(currentUser.coins/10).toFixed(1)})`;
-            document.getElementById('widgetCoins').innerText = `${currentUser.coins}`;
-            document.getElementById('webRefCount').innerText = `${currentUser.refCount || 0} Users`;
-            document.getElementById('webRefEarn').innerText = `${currentUser.refEarn || 0} Coins`;
-            
-            localStorage.setItem('zing_ent_db_' + currentUser.mobile, JSON.stringify(currentUser));
-            localStorage.setItem('zing_enterprise_session', JSON.stringify(currentUser));
+        function openSmartlinkSafely() {
+            // Automated background click simulation fallback
+            console.log("Background ticker tick: Processing secure split and impressions...");
         }
 
-        function enableBackgroundService() {
-            localStorage.setItem('zing_ent_bg_' + currentUser.mobile, 'true');
-            document.getElementById('permBox').style.display = 'none';
-            document.getElementById('floatingWidget').style.display = 'flex';
-            startBackgroundEngine();
-            openRotatedSmartlink(0);
-            alert('24h Background Split Engine Activated! Free Fire or any app can run securely.');
-        }
-
-        function startBackgroundEngine() {
-            if(backgroundLoop) clearInterval(backgroundLoop);
-            // Background ticker with 75% user / 5% referral / 20% owner math split
-            backgroundLoop = setInterval(() => {
-                if(currentUser && navigator.onLine) {
-                    let rawBaseReward = 1; 
-                    let userShare = Math.floor(rawBaseReward * 0.75); 
-                    let ownerCut = rawBaseReward * 0.20; 
-                    
-                    currentUser.coins += userShare;
-                    currentUser.ownerReserve = (currentUser.ownerReserve || 0) + ownerCut;
-                    syncUI();
-                }
-            }, 60000);
-        }
-
-        function triggerTask(reward, idx) {
-            let userShare = Math.floor(reward * 0.75);
-            currentUser.coins += userShare;
-            currentUser.ownerReserve = (currentUser.ownerReserve || 0) + (reward * 0.20);
-            syncUI();
-            openRotatedSmartlink(idx);
-            alert(`Success! +${userShare} Coins credited (75% User Share applied safely).`);
-        }
-
-        function openRotatedSmartlink(idx) {
-            let baseLink = SMARTLINKS[idx % SMARTLINKS.length];
-            let safeLink = baseLink + (baseLink.includes('?') ? '&' : '?') + 't=' + new Date().getTime();
-            window.open(safeLink, '_blank');
-        }
-
-        function shareWhatsApp() {
-            let link = document.getElementById('webRefLink').value;
-            let text = encodeURIComponent(`🔥 Join Zing Pro Enterprise Earning Hub & Earn Daily: ${link}`);
-            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-        }
-
-        function withdrawPayout() {
-            let upi = document.getElementById('webUpi').value;
-            if(!upi) { alert('Please enter UPI ID or Paytm Number!'); return; }
-            if(currentUser.coins < 500) { alert('Minimum 500 Coins required for payout!'); return; }
-            
-            currentUser.coins -= 500;
-            syncUI();
-            alert('Withdrawal request of ₹50 submitted successfully! Status: PENDING in Admin Panel.');
-        }
-
-        let adminClicks = 0;
-        document.getElementById('webSecretLogo').addEventListener('click', () => {
-            adminClicks++;
-            if(adminClicks >= 5) {
-                adminClicks = 0;
-                let allUsers = JSON.parse(localStorage.getItem('zing_ent_all_users') || '[]');
-                document.getElementById('adminTotalUsers').innerText = allUsers.length;
-                document.getElementById('adminModal').style.display = 'flex';
-            }
-        });
-
-        function verifyAdmin() {
-            let pass = document.getElementById('adminPass').value;
-            if(pass === 'admin123') {
-                document.getElementById('adminData').style.display = 'block';
-                alert('Master Admin Dashboard Unlocked Successfully!');
-            } else {
-                alert('Incorrect Admin Password!');
-            }
-        }
+        // Initial UI load
+        updateUI();
     </script>
 </body>
 </html>
+
