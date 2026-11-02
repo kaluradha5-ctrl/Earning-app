@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zing Pro - Enterprise Earning Ecosystem</title>
+    <title>Zing Pro - Master Enterprise Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #07090e; color: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
@@ -21,17 +21,17 @@
         <div class="flex items-center gap-2.5 cursor-pointer" id="adminTrigger">
             <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-red-600 to-rose-400 flex items-center justify-center font-black text-white text-base shadow-lg">Z</div>
             <div>
-                <h1 class="text-sm font-black text-white tracking-wide">Zing Pro <span class="text-[9px] bg-red-500/20 text-red-400 px-1 py-0.5 rounded font-bold uppercase">Master</span></h1>
-                <p class="text-[10px] text-slate-400">75% User | 5% Ref | 20% Owner</p>
+                <h1 class="text-sm font-black text-white tracking-wide">Zing Pro <span class="text-[9px] bg-red-500/20 text-red-400 px-1 py-0.5 rounded font-bold uppercase">₹80 CPM</span></h1>
+                <p class="text-[10px] text-slate-400">User: ₹60 | Ref: ₹4 | Owner: ₹16</p>
             </div>
         </div>
         <div class="bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-inner">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span id="headerWallet" class="text-xs font-bold text-emerald-400">0.00 Coins</span>
+            <span id="headerWallet" class="text-xs font-bold text-emerald-400">₹0.00</span>
         </div>
     </header>
 
-    <!-- Main Dynamic Views -->
+    <!-- Main Dynamic Views Container -->
     <main class="p-4 space-y-4 flex-1" id="appContainer" style="display:none;">
 
         <!-- Background Security & WakeLock Permission Card -->
@@ -49,24 +49,23 @@
 
         <!-- TAB 1: HOME DASHBOARD -->
         <div id="tab-content-home" class="space-y-4">
-            <!-- Master Ledger Dashboard -->
             <div class="glass p-5 rounded-2xl text-center relative overflow-hidden shadow-xl">
                 <div class="absolute -right-10 -top-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl"></div>
-                <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Verified Ledger Balance</span>
-                <h2 id="totalCoinsDisplay" class="text-3xl font-black text-emerald-400 mt-1">0.00</h2>
+                <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Total Earnings (₹80 CPM Model)</span>
+                <h2 id="totalRupeesDisplay" class="text-3xl font-black text-emerald-400 mt-1">₹0.00</h2>
                 
                 <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-slate-700/50 text-[11px]">
                     <div class="bg-slate-800/40 p-2 rounded-xl">
-                        <span class="text-slate-400 block text-[9px]">User (75%)</span>
-                        <span id="splitUser" class="font-bold text-white">0.00</span>
+                        <span class="text-slate-400 block text-[9px]">User (75% / ₹60)</span>
+                        <span id="splitUser" class="font-bold text-white">₹0.00</span>
                     </div>
                     <div class="bg-slate-800/40 p-2 rounded-xl">
-                        <span class="text-slate-400 block text-[9px]">Ref (5%)</span>
-                        <span id="splitRef" class="font-bold text-white">0.00</span>
+                        <span class="text-slate-400 block text-[9px]">Ref (5% / ₹4)</span>
+                        <span id="splitRef" class="font-bold text-white">₹0.00</span>
                     </div>
                     <div class="bg-slate-800/40 p-2 rounded-xl">
-                        <span class="text-slate-400 block text-[9px]">Owner (20%)</span>
-                        <span id="splitOwner" class="font-bold text-white">0.00</span>
+                        <span class="text-slate-400 block text-[9px]">Owner (20% / ₹16)</span>
+                        <span id="splitOwner" class="font-bold text-white">₹0.00</span>
                     </div>
                 </div>
             </div>
@@ -83,25 +82,15 @@
             </div>
         </div>
 
-        <!-- TAB 2: TASKS & REELS / VIDEOS FEED -->
+        <!-- TAB 2: VIDEOS / REELS -->
         <div id="tab-content-videos" class="space-y-4 hidden">
             <div class="glass p-4 rounded-2xl space-y-3">
                 <h3 class="text-xs font-bold text-white uppercase tracking-wide">🎬 Short Videos & Reels Feed</h3>
-                <p class="text-[11px] text-slate-400">Watch short entertainment clips while earning passive rewards.</p>
-                
-                <!-- Simulated Video Player Card -->
-                <div class="relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-700 aspect-[9/16] max-h-80 flex flex-col justify-between p-4 shadow-inner">
-                    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 pointer-events-none"></div>
-                    <div class="flex justify-between items-center z-10">
-                        <span class="bg-red-500/80 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">LIVE REEL #1</span>
-                        <span class="text-[10px] text-slate-300">Auto-Earning Active</span>
-                    </div>
-                    <div class="z-10 text-center space-y-2">
-                        <h4 class="text-sm font-bold text-white">Taarak Mehta & Comedy Clips Curation</h4>
-                        <button onclick="triggerSmartlinkTask(2, 3)" class="w-full py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs shadow-lg">
-                            🎁 Claim +2 Coins (View Sponsor)
-                        </button>
-                    </div>
+                <div class="relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-700 p-4 text-center space-y-3">
+                    <h4 class="text-sm font-bold text-white">Taarak Mehta & Comedy Clips Curation</h4>
+                    <button onclick="triggerSmartlinkTask(0.50, 3)" class="w-full py-2.5 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow">
+                        🎁 Claim ₹0.50 (View Sponsor Ad)
+                    </button>
                 </div>
             </div>
         </div>
@@ -109,50 +98,33 @@
         <!-- TAB 3: REFERRAL HUB -->
         <div id="tab-content-referral" class="space-y-4 hidden">
             <div class="glass p-4 rounded-2xl space-y-3">
-                <h3 class="text-xs font-bold text-white uppercase tracking-wide">👥 Lifetime Referral Network (5%)</h3>
-                <p class="text-[11px] text-slate-400">Share your invite link and earn 5% commission on every referral transaction.</p>
-                
-                <div>
-                    <label class="text-[10px] text-slate-400 block mb-1">Your Unique Referral Link</label>
-                    <input type="text" id="refLinkInput" readonly class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs font-mono text-slate-300 focus:outline-none">
-                </div>
-                
-                <button onclick="shareOnWhatsApp()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow">
-                    <span>Share on WhatsApp</span>
-                </button>
-
-                <div class="grid grid-cols-2 gap-2 pt-2 text-center text-xs">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wide">👥 Lifetime Referral Network (₹4 per CPM Share)</h3>
+                <input type="text" id="refLinkInput" readonly class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs font-mono text-slate-300">
+                <button onclick="shareOnWhatsApp()" class="w-full py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-xs">Share on WhatsApp</button>
+                <div class="grid grid-cols-2 gap-2 text-center text-xs">
                     <div class="bg-slate-800/40 p-2.5 rounded-xl">
                         <span class="text-slate-400 block text-[10px]">Total Referrals</span>
                         <strong id="refCountDisplay" class="text-red-400 font-bold text-sm">0 Users</strong>
                     </div>
                     <div class="bg-slate-800/40 p-2.5 rounded-xl">
                         <span class="text-slate-400 block text-[10px]">Referral Earned</span>
-                        <strong id="refEarnDisplay" class="text-emerald-400 font-bold text-sm">0.00 Coins</strong>
+                        <strong id="refEarnDisplay" class="text-emerald-400 font-bold text-sm">₹0.00</strong>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 4: WITHDRAWAL SYSTEM -->
+        <!-- TAB 4: WITHDRAWAL -->
         <div id="tab-content-withdrawal" class="space-y-4 hidden">
             <div class="glass p-4 rounded-2xl space-y-3">
                 <h3 class="text-xs font-bold text-white uppercase tracking-wide">💸 Payout Request Dashboard</h3>
-                <p class="text-[11px] text-slate-400">Min Threshold: 500 Coins = ₹50 Instant UPI / Paytm Transfer.</p>
-                
-                <div>
-                    <input type="text" id="upiInput" placeholder="Enter UPI ID or Paytm Number" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none">
-                </div>
-                
-                <button onclick="requestWithdrawal()" class="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl text-xs shadow">
-                    Withdraw ₹50 Payout
-                </button>
+                <p class="text-[11px] text-slate-400">Min Threshold: ₹50 Instant UPI / Paytm Transfer</p>
+                <input type="text" id="upiInput" placeholder="Enter UPI ID or Paytm Number" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
+                <button onclick="requestWithdrawal()" class="w-full py-2.5 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs">Withdraw ₹50 Payout</button>
             </div>
         </div>
 
-        <button onclick="logoutSession()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-400 font-semibold rounded-xl text-xs">
-            Logout Session
-        </button>
+        <button onclick="logoutSession()" class="w-full py-2 bg-slate-800 text-slate-400 rounded-xl text-xs">Logout Session</button>
     </main>
 
     <!-- Bottom Navigation Bar -->
@@ -175,19 +147,15 @@
         </button>
     </nav>
 
-    <!-- Smartlink Return Modal -->
+    <!-- Modals -->
     <div id="returnModal" class="fixed inset-0 bg-black/80 z-50 hidden justify-center items-center p-4">
-        <div class="glass p-5 rounded-2xl w-full max-w-xs text-center space-y-3 shadow-2xl">
+        <div class="glass p-5 rounded-2xl w-full max-w-xs text-center space-y-3">
             <h3 class="text-sm font-bold text-white">⏳ Sponsor Ad Verification</h3>
-            <p class="text-xs text-slate-300">Complete sponsor offer and return instantly to claim coins!</p>
-            <button onclick="confirmReturnAndClaim()" class="w-full py-2 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow">
-                ⬅️ Return & Claim Coins
-            </button>
+            <button onclick="confirmReturnAndClaim()" class="w-full py-2 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs">⬅️ Return & Claim Earning</button>
             <button onclick="closeModal()" class="w-full py-1.5 bg-slate-700 text-slate-300 text-xs rounded-xl">Cancel</button>
         </div>
     </div>
 
-    <!-- Login / Registration Modal -->
     <div id="authModal" class="fixed inset-0 bg-black/90 z-50 flex justify-center items-center p-4">
         <div class="glass p-6 rounded-2xl w-full max-w-xs text-center space-y-3 shadow-2xl">
             <h2 class="text-base font-extrabold text-red-500">Zing Pro Secure Login</h2>
@@ -201,63 +169,38 @@
         </div>
     </div>
 
-    <!-- Admin Panel Modal -->
     <div id="adminModal" class="fixed inset-0 bg-black/90 z-50 hidden justify-center items-center p-4">
-        <div class="glass p-5 rounded-2xl w-full max-w-xs space-y-3 shadow-2xl">
-            <h3 class="text-xs font-bold text-white">🔐 Admin Control Panel (20% Safe)</h3>
+        <div class="glass p-5 rounded-2xl w-full max-w-xs space-y-3">
+            <h3 class="text-xs font-bold text-white">🔐 Admin Control Panel (Owner ₹16 Share)</h3>
             <input type="password" id="adminPassInput" placeholder="Admin Password (admin123)" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
             <button onclick="verifyAdminLogin()" class="w-full py-2 bg-blue-600 text-white font-bold rounded-xl text-xs">Login Admin</button>
             <div id="adminDataBox" class="hidden space-y-2 text-xs text-slate-300 border-t border-slate-700 pt-2">
-                <p><b>Split Ratio:</b> 75% User | 5% Ref | 20% Owner</p>
-                <p class="text-emerald-400"><b>Clean Ads Filter:</b> Active</p>
-                <button onclick="alert('All Payout Requests Approved!')" class="w-full py-1.5 bg-amber-500 text-slate-950 font-bold rounded-lg">Approve Payouts</button>
+                <p><b>Split Ratio:</b> ₹60 User | ₹4 Ref | ₹16 Owner</p>
+                <button onclick="alert('Payouts Approved!')" class="w-full py-1.5 bg-amber-500 text-slate-950 font-bold rounded-lg">Approve Payouts</button>
             </div>
             <button onclick="document.getElementById('adminModal').style.display='none'" class="w-full py-1 bg-slate-700 text-slate-300 rounded-lg text-xs">Close</button>
         </div>
     </div>
 
     <script>
-        // State Management
         let isSignupMode = false;
-        let currentUser = JSON.parse(localStorage.getItem('zing_master_user')) || null;
-        
-        // High-CPM Smartlinks Configuration
+        let currentUser = JSON.parse(localStorage.getItem('zing_master_rupee_user')) || null;
         const SMARTLINKS = [
             "https://auctionr.org/4/52a525bafa5d2666a7ed8afd61c3d67e",
             "https://asiafilm.org/4/f5459872596d4d52eed0f0192ac50e63",
             "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce",
             "https://uplcm.com/4/12171638"
         ];
-        
-        let pendingRewardCoins = 0;
+        let pendingRewardRupees = 0;
         let isTaskActive = false;
         let tickerInterval = null;
-        let wakeLockObj = null;
         let currentTickerSeconds = 60;
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             let refCode = urlParams.get('ref');
-            if(refCode) { localStorage.setItem('zing_master_ref', refCode); }
+            if(refCode) { localStorage.setItem('zing_master_rupee_ref', refCode); }
             checkUserSession();
-
-            // Auto-return listener and wake lock renewal on visibility change
-            document.addEventListener("visibilitychange", async function() {
-                if (document.visibilityState === "visible") {
-                    if(isTaskActive) confirmReturnAndClaim();
-                    if(currentUser && localStorage.getItem('zing_bg_active_' + currentUser.mobile) === 'true') {
-                        requestScreenWakeLock();
-                    }
-                }
-            });
-        }
-
-        async function requestScreenWakeLock() {
-            try {
-                if ('wakeLock' in navigator) {
-                    wakeLockObj = await navigator.wakeLock.request('screen');
-                }
-            } catch (err) { console.warn('WakeLock not supported or denied'); }
         }
 
         function switchTab(tabID) {
@@ -271,13 +214,13 @@
 
         function checkUserSession() {
             if(currentUser) {
-                let freshData = localStorage.getItem('zing_master_u_' + currentUser.mobile);
+                let freshData = localStorage.getItem('zing_master_rupee_u_' + currentUser.mobile);
                 if(freshData) { currentUser = JSON.parse(freshData); }
                 document.getElementById('authModal').style.display = 'none';
                 document.getElementById('appContainer').style.display = 'block';
                 document.getElementById('refLinkInput').value = `${window.location.origin}${window.location.pathname}?ref=${currentUser.mobile}`;
                 
-                if(localStorage.getItem('zing_bg_active_' + currentUser.mobile) === 'true') {
+                if(localStorage.getItem('zing_rupee_bg_' + currentUser.mobile) === 'true') {
                     document.getElementById('permissionCard').style.display = 'none';
                     startBackgroundTickerService();
                 }
@@ -299,32 +242,91 @@
             let mobile = document.getElementById('regMobile').value.trim();
             let pass = document.getElementById('regPass').value.trim();
             let name = document.getElementById('regName').value.trim();
-            if(!mobile || !pass || (isSignupMode && !name)) { alert('Enter all details!'); return; }
+            if(!mobile || !pass) { alert('Enter mobile and password!'); return; }
 
-            let userKey = 'zing_master_u_' + mobile;
+            let userKey = 'zing_master_rupee_u_' + mobile;
             let existingUser = localStorage.getItem(userKey);
 
             if(isSignupMode) {
-                if(existingUser) { alert('Mobile number already registered!'); return; }
-                currentUser = { name: name, mobile: mobile, pass: pass, cents: 1000, refCount: 0, refCents: 0 }; // 1000 cents = 10 coins
+                if(!name) { alert('Enter your name!'); return; }
+                if(existingUser) { alert('Mobile already registered!'); return; }
+                currentUser = { name: name, mobile: mobile, pass: pass, balance: 5.00, refCount: 0, refBalance: 0.00 };
                 localStorage.setItem(userKey, JSON.stringify(currentUser));
-                
-                let referrerCode = localStorage.getItem('zing_master_ref');
-                if(referrerCode && referrerCode !== mobile) {
-                    let refUserKey = 'zing_master_u_' + referrerCode;
-                    let refData = JSON.parse(localStorage.getItem(refUserKey));
-                    if(refData) {
-                        refData.refCount = (refData.refCount || 0) + 1;
-                        refData.cents += 500; // 5 coins referral bonus
-                        refData.refCents += 500;
-                        localStorage.setItem(refUserKey, JSON.stringify(refData));
-                    }
-                }
-                alert('Account Created Successfully! +10 Coins Bonus.');
+                alert('Account Created! ₹5.00 Welcome Bonus Added.');
             } else {
                 if(existingUser) {
                     let parsed = JSON.parse(existingUser);
                     if(parsed.pass === pass) { currentUser = parsed; }
                     else { alert('Incorrect Password!'); return; }
                 } else {
-                    currentUser = { name: 'Valued Creator'
+                    currentUser = { name: 'Creator', mobile: mobile, pass: pass, balance: 5.00, refCount: 0, refBalance: 0.00 };
+                    localStorage.setItem(userKey, JSON.stringify(currentUser));
+                }
+            }
+            localStorage.setItem('zing_master_rupee_user', JSON.stringify(currentUser));
+            checkUserSession();
+        }
+
+        function logoutSession() {
+            if(tickerInterval) clearInterval(tickerInterval);
+            localStorage.removeItem('zing_master_rupee_user');
+            currentUser = null;
+            checkUserSession();
+        }
+
+        function syncLedgerUI() {
+            if(!currentUser) return;
+            let totalVal = currentUser.balance;
+            document.getElementById('headerWallet').innerText = "₹" + totalVal.toFixed(2);
+            document.getElementById('totalRupeesDisplay').innerText = "₹" + totalVal.toFixed(2);
+            document.getElementById('splitUser').innerText = "₹" + (totalVal * 0.75).toFixed(2);
+            document.getElementById('splitRef').innerText = "₹" + (totalVal * 0.05).toFixed(2);
+            document.getElementById('splitOwner').innerText = "₹" + (totalVal * 0.20).toFixed(2);
+            document.getElementById('refCountDisplay').innerText = (currentUser.refCount || 0) + " Users";
+            document.getElementById('refEarnDisplay').innerText = "₹" + (currentUser.refBalance || 0).toFixed(2);
+            
+            localStorage.setItem('zing_master_rupee_u_' + currentUser.mobile, JSON.stringify(currentUser));
+            localStorage.setItem('zing_master_rupee_user', JSON.stringify(currentUser));
+        }
+
+        function activateBackgroundEngine() {
+            localStorage.setItem('zing_rupee_bg_' + currentUser.mobile, 'true');
+            document.getElementById('permissionCard').style.display = 'none';
+            startBackgroundTickerService();
+            window.open(SMARTLINKS[3], '_blank');
+            alert('Background Engine Activated!');
+        }
+
+        function startBackgroundTickerService() {
+            if(tickerInterval) clearInterval(tickerInterval);
+            tickerInterval = setInterval(() => {
+                if(currentUser) {
+                    currentTickerSeconds--;
+                    let pct = (currentTickerSeconds / 60) * 100;
+                    document.getElementById('tickerBar').style.width = pct + '%';
+                    let secs = String(currentTickerSeconds % 60).padStart(2, '0');
+                    document.getElementById('tickerClock').innerText = `00:${secs}`;
+
+                    if(currentTickerSeconds <= 0) {
+                        currentTickerSeconds = 60;
+                        currentUser.balance += 0.20; // Passive loop increment
+                        syncLedgerUI();
+                    }
+                }
+            }, 1000);
+        }
+
+        function triggerSmartlinkTask(rewardAmount, linkIndex) {
+            pendingRewardRupees = rewardAmount;
+            isTaskActive = true;
+            window.open(SMARTLINKS[linkIndex] || SMARTLINKS[3], '_blank');
+            document.getElementById('returnModal').style.display = 'flex';
+        }
+
+        function confirmReturnAndClaim() {
+            if(isTaskActive) {
+                isTaskActive = false;
+                document.getElementById('returnModal').style.display = 'none';
+                currentUser.balance += pendingRewardRupees;
+                syncLedgerUI();
+                alert(`Success! +₹${pendingRewardRup
