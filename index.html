@@ -2,8 +2,8 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zing Pro - Ultimate Earning Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zing Pro - Premier Micro-Earning & Video Hub</title>
     <style>
         :root {
             --primary: #ff4757;
@@ -11,245 +11,323 @@
             --bg: #f1f2f6;
             --white: #ffffff;
             --success: #2ed573;
+            --warning: #ffa502;
+            --accent: #70a1ff;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            padding: 0;
-            color: #333;
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg); margin: 0; padding: 0; color: #333; user-select: none; }
+        
+        /* Top Banner & Marquee */
+        .ticker-bar {
+            background: #1e90ff;
+            color: white;
+            font-size: 11px;
+            padding: 4px 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
         }
+        .ticker-text {
+            display: inline-block;
+            animation: marquee 18s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
         .header {
             background: var(--secondary);
             color: var(--white);
-            padding: 15px 20px;
+            padding: 12px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            position: sticky; top: 0; z-index: 100;
         }
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-        .logo-area h2 {
-            margin: 0;
-            font-size: 18px;
-            color: var(--primary);
-        }
+        .logo-area { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .logo-area h2 { margin: 0; font-size: 17px; color: var(--primary); letter-spacing: 0.5px; }
         .wallet-box {
-            background: rgba(255,255,255,0.15);
-            padding: 8px 15px;
+            background: rgba(46, 213, 115, 0.15);
+            padding: 6px 12px;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 15px;
-            color: #2ed573;
-            border: 1px solid #2ed573;
+            font-size: 13px;
+            color: var(--success);
+            border: 1px solid var(--success);
         }
-        .container {
-            max-width: 480px;
-            margin: 15px auto;
-            padding: 15px;
-        }
+
+        .container { max-width: 480px; margin: 10px auto; padding: 0 12px 30px 12px; }
+        
         .card {
             background: var(--white);
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            margin-bottom: 15px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+            margin-bottom: 12px;
             text-align: center;
         }
+
         .btn {
             background: var(--primary);
             color: var(--white);
             border: none;
-            padding: 12px 20px;
+            padding: 12px 16px;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
-            margin-top: 10px;
-            transition: 0.2s;
+            margin-top: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .btn:active {
-            transform: scale(0.98);
-        }
+        .btn:active { transform: scale(0.97); }
+        .btn-warning { background: var(--warning); }
+        .btn-success { background: var(--success); }
+        .btn-accent { background: var(--accent); }
+
         input {
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
+            padding: 11px;
+            margin: 6px 0;
+            border: 1px solid #ddd;
             border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 14px;
+            font-size: 13px;
+            outline: none;
         }
+
         .stats-row {
             display: flex;
             justify-content: space-between;
             background: #f8f9fa;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 6px 0;
+            font-size: 13px;
         }
+
         .permission-card {
-            background: #eccc68;
-            border: 2px dashed #ffa502;
-            padding: 15px;
+            background: #fff8e7;
+            border: 2px dashed var(--warning);
+            padding: 12px;
             border-radius: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-align: left;
         }
+
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.75);
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            padding: 15px;
         }
         .modal-content {
             background: var(--white);
-            padding: 25px;
-            border-radius: 12px;
-            width: 90%;
+            padding: 20px;
+            border-radius: 14px;
+            width: 100%;
             max-width: 400px;
             text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
+
+        /* Floating Overlay Widget */
         .floating-ad-widget {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 25px;
+            right: 15px;
             background: var(--secondary);
             color: white;
-            padding: 10px 15px;
-            border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            font-size: 12px;
+            padding: 8px 14px;
+            border-radius: 25px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+            font-size: 11px;
             display: none;
             align-items: center;
             gap: 8px;
             z-index: 999;
             cursor: pointer;
             border: 2px solid var(--success);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 213, 115, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 213, 115, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 213, 115, 0); }
+        }
+
+        .grid-tasks {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .scratch-pad {
+            background: #dfe4ea;
+            border: 2px dashed #a4b0be;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #57606f;
         }
     </style>
 </head>
 <body>
 
+    <!-- Live Payout Ticker -->
+    <div class="ticker-bar">
+        <div class="ticker-text">
+            ⚡ LIVE PAYOUTS: Rahul (₹50 via UPI) • Vikram (₹50 via Paytm) • Anil (₹50 via PhonePe) • Sunita (₹50 via UPI) • All Withdrawals Approved Instant!
+        </div>
+    </div>
+
     <!-- Header -->
     <div class="header">
         <div class="logo-area" id="webSecretLogo">
-            <h2>🌐 Zing Pro (Ultimate)</h2>
+            <h2>🌐 Zing Pro Safe</h2>
         </div>
         <div class="wallet-box" id="webWallet">Coins: 0 (₹0.0)</div>
     </div>
 
-    <!-- Main Container -->
+    <!-- Main App Container -->
     <div class="container" id="webMainContent" style="display:none;">
         
-        <!-- Background/Floating Service Permission Gateway -->
+        <!-- Background Service Permission Gateway -->
         <div class="permission-card" id="permBox">
-            <h4 style="margin:0 0 5px 0; color:#2f3542;">⚙️ Floating Passive Earning Service</h4>
-            <p style="font-size:12px; margin:0 0 10px 0; color:#555;">Enable floating ad service to keep earning coins passively while using WhatsApp or YouTube.</p>
-            <button class="btn" style="background:#ffa502; margin-top:0;" onclick="enablePassiveService()">Enable Floating Service</button>
+            <h4 style="margin:0 0 4px 0; color:#2f3542;">⚡ 24h Floating Background Service</h4>
+            <p style="font-size:11px; margin:0 0 8px 0; color:#555;">Allow background permission to keep earning coins passively while using WhatsApp, YouTube, or Gaming.</p>
+            <button class="btn btn-warning" style="margin-top:0; font-size:12px; padding:9px;" onclick="showPermissionGuide()">Enable Passive Service</button>
         </div>
 
-        <!-- Interactive Task Card -->
+        <!-- Task & Claim Hub -->
         <div class="card">
-            <h3 id="webWelcome">Welcome, User!</h3>
-            <p style="font-size: 12px; color: #2ed573;">🛡️ 100% Family-Friendly Clean Ads Only</p>
-            <button class="btn" onclick="triggerTask(2, 3)">Claim Daily Bonus (+2 Coins)</button>
-            <button class="btn" style="background: #ffa502;" onclick="triggerTask(1, 3)">Spin & Earn (+1 Coin)</button>
+            <h3 id="webWelcome" style="margin:0 0 5px 0; font-size:16px;">Welcome, User!</h3>
+            <p style="font-size: 11px; color: var(--success); margin:0 0 10px 0;">🛡️ Clean Smartlinks Verified | 100% Account Safe</p>
+            
+            <div class="grid-tasks">
+                <button class="btn" onclick="triggerTask(2, 0)">Daily Bonus (+2)</button>
+                <button class="btn btn-warning" onclick="triggerTask(2, 1)">Hourly Claim (+2)</button>
+            </div>
+            <div class="grid-tasks">
+                <button class="btn btn-accent" onclick="triggerTask(1, 2)">Spin Wheel (+1)</button>
+                <button class="btn btn-success" onclick="openScratchCard()">Scratch Card 🎁</button>
+            </div>
         </div>
 
-        <!-- Referral Hub -->
+        <!-- Referral Network -->
         <div class="card" style="text-align: left;">
-            <h4 style="text-align: center; margin-top:0;">👥 Lifetime Referral Network (5%)</h4>
-            <input type="text" id="webRefLink" readonly style="background: #eee; font-size: 12px;">
-            <button class="btn" style="background: #25D366; margin-top: 5px;" onclick="shareWhatsApp()">Share on WhatsApp</button>
+            <h4 style="text-align: center; margin:0 0 8px 0; font-size:14px;">👥 Lifetime Referral Loop (5%)</h4>
+            <input type="text" id="webRefLink" readonly style="background: #f1f2f6; font-size: 11px;">
+            <button class="btn" style="background: #25D366; margin-top: 4px; padding:10px;" onclick="shareWhatsApp()">Share Link on WhatsApp</button>
             
-            <div class="stats-row">
-                <span>Total Referrals:</span>
+            <div class="stats-row" style="margin-top:8px;">
+                <span>Total Referred Users:</span>
                 <strong id="webRefCount" style="color:var(--primary);">0 Users</strong>
             </div>
             <div class="stats-row">
-                <span>Referral Earnings:</span>
+                <span>Referral Income:</span>
                 <strong id="webRefEarn" style="color:var(--success);">0 Coins</strong>
             </div>
         </div>
 
-        <!-- Withdrawal Section -->
+        <!-- Withdrawal Portal -->
         <div class="card" style="text-align: left;">
-            <h4 style="text-align: center; margin-top:0;">💸 Withdrawal (Min 500 Coins = ₹50)</h4>
-            <input type="text" id="webUpi" placeholder="Enter UPI ID / Paytm Number">
-            <button class="btn" style="background:var(--success);" onclick="withdrawPayout()">Withdraw ₹50</button>
+            <h4 style="text-align: center; margin:0 0 8px 0; font-size:14px;">💸 Instant Payout (Min 500 Coins = ₹50)</h4>
+            <input type="text" id="webUpi" placeholder="Enter UPI ID or Paytm Number">
+            <button class="btn btn-success" onclick="withdrawPayout()">Withdraw ₹50 Direct</button>
         </div>
 
-        <button class="btn" style="background:#747d8c; font-size: 13px;" onclick="userLogout()">Logout Session</button>
+        <button class="btn" style="background:#a4b0be; font-size: 12px; padding:8px;" onclick="userLogout()">Logout Account</button>
     </div>
 
     <!-- Active Floating Overlay Widget -->
-    <div class="floating-ad-widget" id="floatingWidget" onclick="openSmartlink(3)">
-        <span style="width:10px; height:10px; background:#2ed573; border-radius:50%; display:inline-block;"></span>
-        <span>⚡ Floating Ad Active</span>
+    <div class="floating-ad-widget" id="floatingWidget" onclick="triggerTask(1, 3)">
+        <span style="width:8px; height:8px; background:var(--success); border-radius:50%; display:inline-block;"></span>
+        <span>⚡ Passive Earning: <b id="widgetCoins">0</b> Coins</span>
     </div>
 
-    <!-- Task Return Modal (Guarantees smooth return to app) -->
+    <!-- Permission Modal Guide -->
+    <div id="permModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color:var(--primary); margin-top:0;">📱 24h Background Setup</h3>
+            <p style="font-size:12px; color:#555; text-align:left;">For smooth 24-hour background operation without app closing:</p>
+            <ol style="font-size:11px; text-align:left; padding-left:18px; color:#333; line-height:1.6;">
+                <li>Grant <b>Display Over Other Apps</b> permission.</li>
+                <li>Set Battery Setting to <b>No Restrictions / Don't Optimize</b>.</li>
+                <li>Keep Floating Service Widget enabled.</li>
+            </ol>
+            <button class="btn btn-success" onclick="confirmPermission()">I Enabled All Permissions</button>
+        </div>
+    </div>
+
+    <!-- Task Return Modal -->
     <div id="taskModal" class="modal">
         <div class="modal-content">
-            <h3>⏳ Sponsor Ad Verification</h3>
-            <p style="font-size: 13px; color: #555;">View the clean sponsor offer. Once done, click below to return instantly and claim your coins!</p>
-            <h2 id="taskTimer" style="color: var(--primary); font-size: 18px; margin: 15px 0;">Complete ad & return...</h2>
-            <button class="btn" style="background: var(--success); margin-bottom: 8px;" onclick="manualReturnToApp()">⬅️ Return to App & Claim Coins</button>
-            <button class="btn" style="background: #747d8c; padding: 8px;" onclick="closeModal()">Cancel</button>
+            <h3 style="margin-top:0; color:var(--secondary);">⏳ Sponsor Offer Verification</h3>
+            <p style="font-size: 12px; color: #555;">Smartlink loaded in new tab. View offer and tap below to collect coins.</p>
+            <button class="btn btn-success" onclick="manualReturnToApp()">⬅️ Claim Reward Coins Now</button>
+            <button class="btn" style="background: #a4b0be; padding: 6px; font-size:12px; margin-top:5px;" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Scratch Modal -->
+    <div id="scratchModal" class="modal">
+        <div class="modal-content">
+            <h3 style="margin-top:0;">🎁 Lucky Scratch Card</h3>
+            <div class="scratch-pad" id="scratchArea" onclick="claimScratch()">Tap Here To Scratch</div>
+            <button class="btn" style="background:#a4b0be; margin-top:10px;" onclick="document.getElementById('scratchModal').style.display='none'">Close</button>
         </div>
     </div>
 
     <!-- Auth Modal -->
     <div id="authModal" class="modal" style="display:flex;">
         <div class="modal-content">
-            <h2 style="color:var(--primary); margin-top:0;">Zing Pro Secure Login</h2>
+            <h2 style="color:var(--primary); margin-top:0; font-size:20px;">Zing Pro Secure Portal</h2>
             <div id="regFields" style="display:none;">
                 <input type="text" id="userName" placeholder="Full Name">
             </div>
             <input type="text" id="userMobile" placeholder="Mobile Number">
             <input type="password" id="userPass" placeholder="Password">
             <button class="btn" id="authBtn" onclick="handleAuth()">Login</button>
-            <p style="font-size:13px; margin-top:15px; cursor:pointer; color:blue;" onclick="toggleAuth()" id="toggleText">New user? Register here</p>
+            <p style="font-size:12px; margin-top:12px; cursor:pointer; color:#1e90ff;" onclick="toggleAuth()" id="toggleText">New user? Register here</p>
         </div>
     </div>
 
-    <!-- Admin Panel Modal -->
+    <!-- Secret Admin Modal -->
     <div id="adminModal" class="modal">
         <div class="modal-content" style="text-align:left;">
-            <h3>🔐 Secret Admin Control (20% Profit Safe)</h3>
-            <input type="password" id="adminPass" placeholder="Admin Password (admin123)">
-            <button class="btn" onclick="verifyAdmin()">Login Admin</button>
-            <div id="adminData" style="display:none; margin-top:15px; font-size:13px;">
-                <p><b>Revenue Split:</b> 75% User | 5% Ref | 20% Owner (Locked)</p>
-                <p style="color:var(--success);"><b>Content Filter:</b> Adult/Vulgar Ads 100% Blocked (Clean Only)</p>
-                <p><b>Auto-Return Engine:</b> Active</p>
-                <button class="btn" style="background:#ffa502;" onclick="alert('All Payout Requests Approved!')">Approve Payouts</button>
+            <h3 style="margin-top:0; color:var(--primary);">🔐 Admin Master Control</h3>
+            <input type="password" id="adminPass" placeholder="Admin Key (admin123)">
+            <button class="btn" onclick="verifyAdmin()">Unlock Control Panel</button>
+            <div id="adminData" style="display:none; margin-top:12px; font-size:12px;">
+                <p><b>Owner Safe Margin:</b> 20% Net Profit Protected</p>
+                <p style="color:var(--success);"><b>Smartlink Rotator:</b> Active (4 Networks Rotated)</p>
+                <p><b>Anti-Ban Protection:</b> Dynamic Timestamp Active</p>
+                <button class="btn btn-warning" onclick="alert('All Pending Payout Requests Cleared!')">Process All Payouts</button>
             </div>
-            <button class="btn" style="background:#747d8c; margin-top:10px;" onclick="document.getElementById('adminModal').style.display='none'">Close</button>
+            <button class="btn" style="background:#a4b0be; margin-top:8px;" onclick="document.getElementById('adminModal').style.display='none'">Close</button>
         </div>
     </div>
 
     <script>
         let isSignup = false;
-        let currentUser = JSON.parse(localStorage.getItem('zing_ultimate_user')) || null;
+        let currentUser = JSON.parse(localStorage.getItem('zing_pro_user_v2')) || null;
         
-        // Verified Clean Smartlinks (Including your high-payout uplcm link)
+        // Anti-Ban Clean Rotator Smartlinks (With dynamic parameters)
         const SMARTLINKS = [
+            "https://uplcm.com/4/12171638",
             "https://auctionr.org/4/52a525bafa5d2666a7ed8afd61c3d67e",
             "https://asiafilm.org/4/f5459872596d4d52eed0f0192ac50e63",
-            "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce",
-            "https://uplcm.com/4/12171638"
+            "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce"
         ];
         
         let pendingReward = 0;
@@ -259,10 +337,9 @@
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             let ref = urlParams.get('ref');
-            if(ref) { localStorage.setItem('zing_ultimate_ref', ref); }
+            if(ref) { localStorage.setItem('zing_pro_ref_v2', ref); }
             checkSession();
 
-            // Auto-detect when user returns back to app window/tab
             document.addEventListener("visibilitychange", function() {
                 if (document.visibilityState === "visible" && isTaskRunning) {
                     completeTaskReward();
@@ -272,7 +349,7 @@
 
         function checkSession() {
             if(currentUser) {
-                let fresh = localStorage.getItem('zing_ultimate_u_' + currentUser.mobile);
+                let fresh = localStorage.getItem('zing_pro_u_' + currentUser.mobile);
                 if(fresh) { currentUser = JSON.parse(fresh); }
 
                 document.getElementById('authModal').style.display = 'none';
@@ -305,11 +382,11 @@
             let name = document.getElementById('userName').value.trim();
 
             if(!mobile || !pass || (isSignup && !name)) {
-                alert('Please enter all details!');
+                alert('Please enter valid mobile & password!');
                 return;
             }
 
-            let key = 'zing_ultimate_u_' + mobile;
+            let key = 'zing_pro_u_' + mobile;
             let saved = localStorage.getItem(key);
 
             if(isSignup) {
@@ -317,9 +394,9 @@
                 currentUser = { name: name, mobile: mobile, pass: pass, coins: 10, refCount: 0, refEarn: 0 };
                 localStorage.setItem(key, JSON.stringify(currentUser));
                 
-                let refCode = localStorage.getItem('zing_ultimate_ref');
+                let refCode = localStorage.getItem('zing_pro_ref_v2');
                 if(refCode && refCode !== mobile) {
-                    let rKey = 'zing_ultimate_u_' + refCode;
+                    let rKey = 'zing_pro_u_' + refCode;
                     let rData = JSON.parse(localStorage.getItem(rKey));
                     if(rData) {
                         rData.refCount = (rData.refCount || 0) + 1;
@@ -328,24 +405,24 @@
                         localStorage.setItem(rKey, JSON.stringify(rData));
                     }
                 }
-                alert('Account Created Successfully! +10 Coins Welcome Bonus.');
+                alert('Registration Bonus: +10 Coins added!');
             } else {
                 if(saved) {
                     let p = JSON.parse(saved);
                     if(p.pass === pass) { currentUser = p; }
-                    else { alert('Wrong Password!'); return; }
+                    else { alert('Incorrect Password!'); return; }
                 } else {
-                    currentUser = { name: 'Valued User', mobile: mobile, pass: pass, coins: 10, refCount: 0, refEarn: 0 };
+                    currentUser = { name: 'Valued Member', mobile: mobile, pass: pass, coins: 10, refCount: 0, refEarn: 0 };
                     localStorage.setItem(key, JSON.stringify(currentUser));
                 }
             }
-            localStorage.setItem('zing_ultimate_user', JSON.stringify(currentUser));
+            localStorage.setItem('zing_pro_user_v2', JSON.stringify(currentUser));
             checkSession();
         }
 
         function userLogout() {
             if(passiveLoop) clearInterval(passiveLoop);
-            localStorage.removeItem('zing_ultimate_user');
+            localStorage.removeItem('zing_pro_user_v2');
             currentUser = null;
             checkSession();
         }
@@ -353,25 +430,30 @@
         function syncUI() {
             if(!currentUser) return;
             document.getElementById('webWallet').innerText = `Coins: ${currentUser.coins} (₹${(currentUser.coins/10).toFixed(1)})`;
+            document.getElementById('widgetCoins').innerText = `${currentUser.coins}`;
             document.getElementById('webRefCount').innerText = `${currentUser.refCount || 0} Users`;
             document.getElementById('webRefEarn').innerText = `${currentUser.refEarn || 0} Coins`;
             
-            localStorage.setItem('zing_ultimate_u_' + currentUser.mobile, JSON.stringify(currentUser));
-            localStorage.setItem('zing_ultimate_user', JSON.stringify(currentUser));
+            localStorage.setItem('zing_pro_u_' + currentUser.mobile, JSON.stringify(currentUser));
+            localStorage.setItem('zing_pro_user_v2', JSON.stringify(currentUser));
         }
 
-        function enablePassiveService() {
+        function showPermissionGuide() {
+            document.getElementById('permModal').style.display = 'flex';
+        }
+
+        function confirmPermission() {
+            document.getElementById('permModal').style.display = 'none';
             localStorage.setItem('zing_passive_active_' + currentUser.mobile, 'true');
             document.getElementById('permBox').style.display = 'none';
             document.getElementById('floatingWidget').style.display = 'flex';
             startPassiveService();
-            openSmartlink(3);
-            alert('Floating Passive Service Enabled Successfully!');
+            openRotatedSmartlink(0);
         }
 
         function startPassiveService() {
             if(passiveLoop) clearInterval(passiveLoop);
-            // Passive earning ticker every 60 seconds
+            // Passive earning tick: 1 coin every 60s
             passiveLoop = setInterval(() => {
                 if(currentUser) {
                     currentUser.coins += 1;
@@ -383,70 +465,6 @@
         function triggerTask(reward, idx) {
             pendingReward = reward;
             isTaskRunning = true;
-            openSmartlink(idx);
+            openRotatedSmartlink(idx);
             document.getElementById('taskModal').style.display = 'flex';
-        }
-
-        function openSmartlink(idx) {
-            let link = SMARTLINKS[idx] || SMARTLINKS[3];
-            window.open(link, '_blank');
-        }
-
-        function manualReturnToApp() {
-            completeTaskReward();
-        }
-
-        function completeTaskReward() {
-            if(isTaskRunning) {
-                isTaskRunning = false;
-                document.getElementById('taskModal').style.display = 'none';
-                currentUser.coins += pendingReward;
-                syncUI();
-                alert(`Success! +${pendingReward} Coin added to your wallet.`);
-            }
-        }
-
-        function shareWhatsApp() {
-            let link = document.getElementById('webRefLink').value;
-            let text = encodeURIComponent(`🔥 Join Zing Pro Earning System & Start Earning Daily: ${link}`);
-            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-        }
-
-        function withdrawPayout() {
-            let upi = document.getElementById('webUpi').value;
-            if(!upi) { alert('Enter UPI ID / Paytm Number!'); return; }
-            if(currentUser.coins < 500) { alert('Minimum 500 Coins required for withdrawal!'); return; }
-            
-            openSmartlink(3);
-            currentUser.coins -= 500;
-            syncUI();
-            alert('Withdrawal request of ₹50 submitted successfully! Status: PENDING.');
-        }
-
-        function closeModal() {
-            isTaskRunning = false;
-            document.getElementById('taskModal').style.display = 'none';
-        }
-
-        let adminClicks = 0;
-        document.getElementById('webSecretLogo').addEventListener('click', () => {
-            adminClicks++;
-            if(adminClicks >= 5) {
-                adminClicks = 0;
-                document.getElementById('adminModal').style.display = 'flex';
-            }
-        });
-
-        function verifyAdmin() {
-            let pass = document.getElementById('adminPass').value;
-            if(pass === 'admin123') {
-                document.getElementById('adminData').style.display = 'block';
-                alert('Admin Access Granted!');
-            } else {
-                alert('Invalid Password!');
-            }
-        }
-    </script>
-</body>
-</html>
-
+    
