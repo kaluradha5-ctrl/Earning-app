@@ -3,123 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zing Pro - Ultimate Earning App</title>
+    <title>Zing Pro - Enterprise Earning Ecosystem</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --primary: #ff4757;
-            --secondary: #0f172a;
-            --success: #2ed573;
-        }
-        body {
-            background-color: #090d16;
-            color: #f8fafc;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .bottom-nav {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(16px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .active-tab {
-            color: #ff4757 !important;
-        }
+        body { background-color: #07090e; color: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
+        .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .bottom-nav { background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .tab-active { color: #ff4757 !important; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between max-w-md mx-auto relative overflow-x-hidden pb-20">
+<body class="min-h-screen flex flex-col justify-between max-w-md mx-auto relative pb-24 overflow-x-hidden">
 
-    <!-- App Top Bar -->
-    <header class="glass-card sticky top-0 z-40 px-4 py-3 flex justify-between items-center shadow-lg">
-        <div class="flex items-center gap-2 cursor-pointer" id="webSecretLogo">
-            <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-red-500 to-rose-400 flex items-center justify-center font-black text-white text-lg shadow-md">Z</div>
+    <!-- Top App Header -->
+    <header class="glass sticky top-0 z-40 px-4 py-3 flex justify-between items-center shadow-xl">
+        <div class="flex items-center gap-2.5 cursor-pointer" id="adminTrigger">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-red-600 to-rose-400 flex items-center justify-center font-black text-white text-base shadow-lg">Z</div>
             <div>
-                <h1 class="text-sm font-extrabold text-white tracking-wide">Zing Pro <span class="text-[10px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded font-bold uppercase">Ultimate</span></h1>
-                <p class="text-[10px] text-slate-400">Continuous Passive Engine</p>
+                <h1 class="text-sm font-black text-white tracking-wide">Zing Pro <span class="text-[9px] bg-red-500/20 text-red-400 px-1 py-0.5 rounded font-bold uppercase">Master</span></h1>
+                <p class="text-[10px] text-slate-400">75% User | 5% Ref | 20% Owner</p>
             </div>
         </div>
         <div class="bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-inner">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span id="webWallet" class="text-xs font-bold text-emerald-400">0 Coins (₹0.0)</span>
+            <span id="headerWallet" class="text-xs font-bold text-emerald-400">0.00 Coins</span>
         </div>
     </header>
 
-    <!-- Main Views Container -->
-    <main class="p-4 space-y-4 flex-1" id="webMainContent" style="display:none;">
+    <!-- Main Dynamic Views -->
+    <main class="p-4 space-y-4 flex-1" id="appContainer" style="display:none;">
 
-        <!-- Floating Background Service Permission Card -->
-        <div class="glass-card p-4 rounded-2xl border-l-4 border-amber-400 shadow-md" id="permBox">
-            <div class="flex items-start justify-between">
-                <div>
-                    <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1">
-                        ⚙️ Background Earning Control
-                    </h4>
-                    <p class="text-[11px] text-slate-300 mt-1 leading-snug">
-                        WhatsApp ya YouTube chalate waqt bhi background mein continuous passive earning allow karein.
-                    </p>
-                </div>
-            </div>
-            <button onclick="enablePassiveService()" class="mt-3 w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl text-xs transition-all shadow-md active:scale-95">
-                ⚡ Enable Floating Service
+        <!-- Background Security & WakeLock Permission Card -->
+        <div class="glass p-4 rounded-2xl border-l-4 border-amber-400 shadow-lg" id="permissionCard">
+            <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1">
+                ⚙️ Background Engine Service
+            </h4>
+            <p class="text-[11px] text-slate-300 mt-1 leading-snug">
+                Oppo/Realme battery restrictions ko bypass karke background mein continuous earning chalu rakhein.
+            </p>
+            <button onclick="activateBackgroundEngine()" class="mt-3 w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl text-xs transition-all shadow-md active:scale-95">
+                ⚡ Enable Background Ticker & WakeLock
             </button>
         </div>
 
         <!-- TAB 1: HOME DASHBOARD -->
-        <div id="view-home" class="space-y-4">
-            <div class="glass-card p-5 rounded-2xl text-center relative overflow-hidden shadow-xl">
-                <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">User Dashboard</span>
-                <h2 id="webWelcome" class="text-lg font-bold text-white mt-0.5">Welcome User!</h2>
-                <p class="text-[11px] text-emerald-400 mt-0.5 font-medium">🛡️ 100% Family-Friendly Safe Ads Active</p>
+        <div id="tab-content-home" class="space-y-4">
+            <!-- Master Ledger Dashboard -->
+            <div class="glass p-5 rounded-2xl text-center relative overflow-hidden shadow-xl">
+                <div class="absolute -right-10 -top-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl"></div>
+                <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Verified Ledger Balance</span>
+                <h2 id="totalCoinsDisplay" class="text-3xl font-black text-emerald-400 mt-1">0.00</h2>
                 
-                <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-slate-700/50">
-                    <button onclick="triggerTask(2, 0)" class="py-2.5 bg-gradient-to-r from-red-500 to-rose-600 hover:opacity-90 text-white font-bold rounded-xl text-xs shadow transition">
-                        🎁 Daily Bonus (+2 Coins)
-                    </button>
-                    <button onclick="triggerTask(1, 1)" class="py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs shadow transition">
-                        🎰 Spin & Earn (+1 Coin)
-                    </button>
+                <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-slate-700/50 text-[11px]">
+                    <div class="bg-slate-800/40 p-2 rounded-xl">
+                        <span class="text-slate-400 block text-[9px]">User (75%)</span>
+                        <span id="splitUser" class="font-bold text-white">0.00</span>
+                    </div>
+                    <div class="bg-slate-800/40 p-2 rounded-xl">
+                        <span class="text-slate-400 block text-[9px]">Ref (5%)</span>
+                        <span id="splitRef" class="font-bold text-white">0.00</span>
+                    </div>
+                    <div class="bg-slate-800/40 p-2 rounded-xl">
+                        <span class="text-slate-400 block text-[9px]">Owner (20%)</span>
+                        <span id="splitOwner" class="font-bold text-white">0.00</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Passive Ticker Status Widget -->
-            <div class="glass-card p-4 rounded-2xl">
+            <!-- Passive Ticker Status -->
+            <div class="glass p-4 rounded-2xl shadow-md">
                 <div class="flex justify-between items-center mb-2">
-                    <span class="text-xs text-slate-300 font-medium">60s Background Passive Loop</span>
+                    <span class="text-xs text-slate-300 font-semibold">60-Sec Passive Loop Status:</span>
                     <span id="tickerClock" class="text-xs font-mono font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/20">01:00</span>
                 </div>
                 <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                    <div id="tickerProgress" class="bg-emerald-400 h-full w-full transition-all duration-1000"></div>
+                    <div id="tickerBar" class="bg-emerald-400 h-full w-full transition-all duration-1000"></div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 2: TASKS & ADS -->
-        <div id="view-tasks" class="space-y-3 hidden">
-            <div class="glass-card p-4 rounded-2xl">
-                <h3 class="text-xs font-bold text-white mb-2 uppercase tracking-wide">🔥 High-Reward Tasks</h3>
-                <div class="space-y-2">
-                    <div class="p-3 bg-slate-800/50 rounded-xl flex justify-between items-center border border-slate-700/40">
-                        <div>
-                            <p class="text-xs font-bold text-white">Sponsor Task #1</p>
-                            <p class="text-[10px] text-slate-400">View clean sponsor ad</p>
-                        </div>
-                        <button onclick="triggerTask(3, 2)" class="px-3 py-1.5 bg-emerald-500 text-slate-950 font-bold rounded-lg text-xs">
-                            Claim +3
-                        </button>
+        <!-- TAB 2: TASKS & REELS / VIDEOS FEED -->
+        <div id="tab-content-videos" class="space-y-4 hidden">
+            <div class="glass p-4 rounded-2xl space-y-3">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wide">🎬 Short Videos & Reels Feed</h3>
+                <p class="text-[11px] text-slate-400">Watch short entertainment clips while earning passive rewards.</p>
+                
+                <!-- Simulated Video Player Card -->
+                <div class="relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-700 aspect-[9/16] max-h-80 flex flex-col justify-between p-4 shadow-inner">
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 pointer-events-none"></div>
+                    <div class="flex justify-between items-center z-10">
+                        <span class="bg-red-500/80 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">LIVE REEL #1</span>
+                        <span class="text-[10px] text-slate-300">Auto-Earning Active</span>
                     </div>
-                    <div class="p-3 bg-slate-800/50 rounded-xl flex justify-between items-center border border-slate-700/40">
-                        <div>
-                            <p class="text-xs font-bold text-white">Premium Offerwall</p>
-                            <p class="text-[10px] text-slate-400">High CPM Smartlink Visit</p>
-                        </div>
-                        <button onclick="triggerTask(5, 3)" class="px-3 py-1.5 bg-red-500 text-white font-bold rounded-lg text-xs">
-                            Claim +5
+                    <div class="z-10 text-center space-y-2">
+                        <h4 class="text-sm font-bold text-white">Taarak Mehta & Comedy Clips Curation</h4>
+                        <button onclick="triggerSmartlinkTask(2, 3)" class="w-full py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs shadow-lg">
+                            🎁 Claim +2 Coins (View Sponsor)
                         </button>
                     </div>
                 </div>
@@ -127,227 +107,224 @@
         </div>
 
         <!-- TAB 3: REFERRAL HUB -->
-        <div id="view-referral" class="space-y-3 hidden">
-            <div class="glass-card p-4 rounded-2xl space-y-3">
+        <div id="tab-content-referral" class="space-y-4 hidden">
+            <div class="glass p-4 rounded-2xl space-y-3">
                 <h3 class="text-xs font-bold text-white uppercase tracking-wide">👥 Lifetime Referral Network (5%)</h3>
+                <p class="text-[11px] text-slate-400">Share your invite link and earn 5% commission on every referral transaction.</p>
+                
                 <div>
-                    <label class="text-[10px] text-slate-400 block mb-1">Your Referral Link</label>
-                    <input type="text" id="webRefLink" readonly class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs font-mono text-slate-300 focus:outline-none">
+                    <label class="text-[10px] text-slate-400 block mb-1">Your Unique Referral Link</label>
+                    <input type="text" id="refLinkInput" readonly class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs font-mono text-slate-300 focus:outline-none">
                 </div>
-                <button onclick="shareWhatsApp()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow">
+                
+                <button onclick="shareOnWhatsApp()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow">
                     <span>Share on WhatsApp</span>
                 </button>
+
                 <div class="grid grid-cols-2 gap-2 pt-2 text-center text-xs">
                     <div class="bg-slate-800/40 p-2.5 rounded-xl">
                         <span class="text-slate-400 block text-[10px]">Total Referrals</span>
-                        <strong id="webRefCount" class="text-red-400 font-bold text-sm">0 Users</strong>
+                        <strong id="refCountDisplay" class="text-red-400 font-bold text-sm">0 Users</strong>
                     </div>
                     <div class="bg-slate-800/40 p-2.5 rounded-xl">
                         <span class="text-slate-400 block text-[10px]">Referral Earned</span>
-                        <strong id="webRefEarn" class="text-emerald-400 font-bold text-sm">0 Coins</strong>
+                        <strong id="refEarnDisplay" class="text-emerald-400 font-bold text-sm">0.00 Coins</strong>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 4: WITHDRAWAL -->
-        <div id="view-withdraw" class="space-y-3 hidden">
-            <div class="glass-card p-4 rounded-2xl space-y-3">
-                <h3 class="text-xs font-bold text-white uppercase tracking-wide">💸 Instant Payout Request</h3>
-                <p class="text-[11px] text-slate-400">Min Threshold: 500 Coins = ₹50 Instant Transfer</p>
+        <!-- TAB 4: WITHDRAWAL SYSTEM -->
+        <div id="tab-content-withdrawal" class="space-y-4 hidden">
+            <div class="glass p-4 rounded-2xl space-y-3">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wide">💸 Payout Request Dashboard</h3>
+                <p class="text-[11px] text-slate-400">Min Threshold: 500 Coins = ₹50 Instant UPI / Paytm Transfer.</p>
+                
                 <div>
-                    <input type="text" id="webUpi" placeholder="Enter UPI ID / Paytm Phone Number" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none">
+                    <input type="text" id="upiInput" placeholder="Enter UPI ID or Paytm Number" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none">
                 </div>
-                <button onclick="withdrawPayout()" class="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl text-xs shadow">
+                
+                <button onclick="requestWithdrawal()" class="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl text-xs shadow">
                     Withdraw ₹50 Payout
                 </button>
             </div>
         </div>
 
-        <button onclick="userLogout()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-400 font-semibold rounded-xl text-xs">
-            Logout Current Session
+        <button onclick="logoutSession()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-400 font-semibold rounded-xl text-xs">
+            Logout Session
         </button>
     </main>
 
-    <!-- Floating Widget for Active Passive Background Service -->
-    <div id="floatingWidget" onclick="openSmartlink(3)" class="fixed bottom-20 right-4 bg-slate-900/90 text-white px-3 py-2 rounded-full border border-emerald-500 shadow-2xl text-xs hidden items-center gap-2 z-50 cursor-pointer animate-pulse">
-        <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full"></span>
-        <span class="font-bold text-[11px]">⚡ Floating Ad Active</span>
-    </div>
-
     <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav fixed bottom-0 left-0 right-0 max-w-md mx-auto px-4 py-2 flex justify-around items-center z-40">
-        <button onclick="switchTab('home')" id="tab-home" class="flex flex-col items-center text-xs text-slate-400 active-tab">
+        <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-xs text-slate-400 tab-active">
             <span class="text-base">🏠</span>
             <span class="text-[10px] mt-0.5 font-semibold">Home</span>
         </button>
-        <button onclick="switchTab('tasks')" id="tab-tasks" class="flex flex-col items-center text-xs text-slate-400">
-            <span class="text-base">🎯</span>
-            <span class="text-[10px] mt-0.5 font-semibold">Tasks</span>
+        <button onclick="switchTab('videos')" id="nav-videos" class="flex flex-col items-center text-xs text-slate-400">
+            <span class="text-base">🎬</span>
+            <span class="text-[10px] mt-0.5 font-semibold">Videos</span>
         </button>
-        <button onclick="switchTab('referral')" id="tab-referral" class="flex flex-col items-center text-xs text-slate-400">
+        <button onclick="switchTab('referral')" id="nav-referral" class="flex flex-col items-center text-xs text-slate-400">
             <span class="text-base">👥</span>
             <span class="text-[10px] mt-0.5 font-semibold">Referral</span>
         </button>
-        <button onclick="switchTab('withdraw')" id="tab-withdraw" class="flex flex-col items-center text-xs text-slate-400">
+        <button onclick="switchTab('withdrawal')" id="nav-withdrawal" class="flex flex-col items-center text-xs text-slate-400">
             <span class="text-base">💸</span>
             <span class="text-[10px] mt-0.5 font-semibold">Withdraw</span>
         </button>
     </nav>
 
-    <!-- Modals (Task, Auth, Admin) -->
-    <div id="taskModal" class="fixed inset-0 bg-black/80 z-50 hidden justify-center items-center p-4">
-        <div class="glass-card p-5 rounded-2xl w-full max-w-xs text-center space-y-3">
+    <!-- Smartlink Return Modal -->
+    <div id="returnModal" class="fixed inset-0 bg-black/80 z-50 hidden justify-center items-center p-4">
+        <div class="glass p-5 rounded-2xl w-full max-w-xs text-center space-y-3 shadow-2xl">
             <h3 class="text-sm font-bold text-white">⏳ Sponsor Ad Verification</h3>
-            <p class="text-xs text-slate-300">View sponsor offer, return to claim rewards!</p>
-            <button onclick="manualReturnToApp()" class="w-full py-2 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs">
+            <p class="text-xs text-slate-300">Complete sponsor offer and return instantly to claim coins!</p>
+            <button onclick="confirmReturnAndClaim()" class="w-full py-2 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow">
                 ⬅️ Return & Claim Coins
             </button>
             <button onclick="closeModal()" class="w-full py-1.5 bg-slate-700 text-slate-300 text-xs rounded-xl">Cancel</button>
         </div>
     </div>
 
+    <!-- Login / Registration Modal -->
     <div id="authModal" class="fixed inset-0 bg-black/90 z-50 flex justify-center items-center p-4">
-        <div class="glass-card p-6 rounded-2xl w-full max-w-xs text-center space-y-3">
+        <div class="glass p-6 rounded-2xl w-full max-w-xs text-center space-y-3 shadow-2xl">
             <h2 class="text-base font-extrabold text-red-500">Zing Pro Secure Login</h2>
-            <div id="regFields" class="hidden">
-                <input type="text" id="userName" placeholder="Full Name" class="w-full p-2.5 mb-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
+            <div id="signupFields" class="hidden">
+                <input type="text" id="regName" placeholder="Full Name" class="w-full p-2.5 mb-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
             </div>
-            <input type="text" id="userMobile" placeholder="Mobile Number" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
-            <input type="password" id="userPass" placeholder="Password" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
-            <button id="authBtn" onclick="handleAuth()" class="w-full py-2.5 bg-red-500 text-white font-bold rounded-xl text-xs shadow">Login</button>
-            <p onclick="toggleAuth()" id="toggleText" class="text-xs text-blue-400 cursor-pointer pt-2">New user? Register here</p>
+            <input type="text" id="regMobile" placeholder="Mobile Number" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
+            <input type="password" id="regPass" placeholder="Password" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
+            <button id="authActionBtn" onclick="handleAuthSubmit()" class="w-full py-2.5 bg-red-500 text-white font-bold rounded-xl text-xs shadow">Login</button>
+            <p onclick="toggleAuthMode()" id="authToggleText" class="text-xs text-blue-400 cursor-pointer pt-2">New user? Register here</p>
         </div>
     </div>
 
+    <!-- Admin Panel Modal -->
     <div id="adminModal" class="fixed inset-0 bg-black/90 z-50 hidden justify-center items-center p-4">
-        <div class="glass-card p-5 rounded-2xl w-full max-w-xs space-y-3">
-            <h3 class="text-xs font-bold text-white">🔐 Admin Panel (20% Profit Locked)</h3>
-            <input type="password" id="adminPass" placeholder="Admin Password (admin123)" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
-            <button onclick="verifyAdmin()" class="w-full py-2 bg-blue-600 text-white font-bold rounded-xl text-xs">Login Admin</button>
-            <div id="adminData" class="hidden space-y-2 text-xs text-slate-300 border-t border-slate-700 pt-2">
-                <p><b>Split:</b> 75% User | 5% Ref | 20% Owner</p>
-                <p class="text-emerald-400"><b>Clean Ads:</b> Active</p>
-                <button onclick="alert('Payouts Approved!')" class="w-full py-1.5 bg-amber-500 text-slate-950 font-bold rounded-lg">Approve Payouts</button>
+        <div class="glass p-5 rounded-2xl w-full max-w-xs space-y-3 shadow-2xl">
+            <h3 class="text-xs font-bold text-white">🔐 Admin Control Panel (20% Safe)</h3>
+            <input type="password" id="adminPassInput" placeholder="Admin Password (admin123)" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
+            <button onclick="verifyAdminLogin()" class="w-full py-2 bg-blue-600 text-white font-bold rounded-xl text-xs">Login Admin</button>
+            <div id="adminDataBox" class="hidden space-y-2 text-xs text-slate-300 border-t border-slate-700 pt-2">
+                <p><b>Split Ratio:</b> 75% User | 5% Ref | 20% Owner</p>
+                <p class="text-emerald-400"><b>Clean Ads Filter:</b> Active</p>
+                <button onclick="alert('All Payout Requests Approved!')" class="w-full py-1.5 bg-amber-500 text-slate-950 font-bold rounded-lg">Approve Payouts</button>
             </div>
             <button onclick="document.getElementById('adminModal').style.display='none'" class="w-full py-1 bg-slate-700 text-slate-300 rounded-lg text-xs">Close</button>
         </div>
     </div>
 
     <script>
-        let isSignup = false;
-        let currentUser = JSON.parse(localStorage.getItem('zing_ultimate_user')) || null;
+        // State Management
+        let isSignupMode = false;
+        let currentUser = JSON.parse(localStorage.getItem('zing_master_user')) || null;
+        
+        // High-CPM Smartlinks Configuration
         const SMARTLINKS = [
             "https://auctionr.org/4/52a525bafa5d2666a7ed8afd61c3d67e",
             "https://asiafilm.org/4/f5459872596d4d52eed0f0192ac50e63",
             "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce",
             "https://uplcm.com/4/12171638"
         ];
-        let pendingReward = 0;
-        let isTaskRunning = false;
-        let passiveLoop = null;
-        let wakeLock = null;
-        let tickerSeconds = 60;
+        
+        let pendingRewardCoins = 0;
+        let isTaskActive = false;
+        let tickerInterval = null;
+        let wakeLockObj = null;
+        let currentTickerSeconds = 60;
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            let ref = urlParams.get('ref');
-            if(ref) { localStorage.setItem('zing_ultimate_ref', ref); }
-            checkSession();
+            let refCode = urlParams.get('ref');
+            if(refCode) { localStorage.setItem('zing_master_ref', refCode); }
+            checkUserSession();
 
+            // Auto-return listener and wake lock renewal on visibility change
             document.addEventListener("visibilitychange", async function() {
                 if (document.visibilityState === "visible") {
-                    if(isTaskRunning) completeTaskReward();
-                    if(currentUser && localStorage.getItem('zing_passive_active_' + currentUser.mobile) === 'true') {
-                        requestWakeLock();
+                    if(isTaskActive) confirmReturnAndClaim();
+                    if(currentUser && localStorage.getItem('zing_bg_active_' + currentUser.mobile) === 'true') {
+                        requestScreenWakeLock();
                     }
                 }
             });
         }
 
-        async function requestWakeLock() {
+        async function requestScreenWakeLock() {
             try {
                 if ('wakeLock' in navigator) {
-                    wakeLock = await navigator.wakeLock.request('screen');
+                    wakeLockObj = await navigator.wakeLock.request('screen');
                 }
-            } catch (err) { console.warn('WakeLock error'); }
+            } catch (err) { console.warn('WakeLock not supported or denied'); }
         }
 
-        function switchTab(tab) {
-            ['home', 'tasks', 'referral', 'withdraw'].forEach(t => {
-                document.getElementById('view-' + t).classList.add('hidden');
-                document.getElementById('tab-' + t).classList.remove('active-tab');
+        function switchTab(tabID) {
+            ['home', 'videos', 'referral', 'withdrawal'].forEach(t => {
+                document.getElementById('tab-content-' + t).classList.add('hidden');
+                document.getElementById('nav-' + t).classList.remove('tab-active');
             });
-            document.getElementById('view-' + tab).classList.remove('hidden');
-            document.getElementById('tab-' + tab).classList.add('active-tab');
+            document.getElementById('tab-content-' + tabID).classList.remove('hidden');
+            document.getElementById('nav-' + tabID).classList.add('tab-active');
         }
 
-        function checkSession() {
+        function checkUserSession() {
             if(currentUser) {
-                let fresh = localStorage.getItem('zing_ultimate_u_' + currentUser.mobile);
-                if(fresh) { currentUser = JSON.parse(fresh); }
+                let freshData = localStorage.getItem('zing_master_u_' + currentUser.mobile);
+                if(freshData) { currentUser = JSON.parse(freshData); }
                 document.getElementById('authModal').style.display = 'none';
-                document.getElementById('webMainContent').style.display = 'block';
-                document.getElementById('webWelcome').innerText = `Welcome, ${currentUser.name}!`;
-                document.getElementById('webRefLink').value = `${window.location.origin}${window.location.pathname}?ref=${currentUser.mobile}`;
+                document.getElementById('appContainer').style.display = 'block';
+                document.getElementById('refLinkInput').value = `${window.location.origin}${window.location.pathname}?ref=${currentUser.mobile}`;
                 
-                if(localStorage.getItem('zing_passive_active_' + currentUser.mobile) === 'true') {
-                    document.getElementById('permBox').style.display = 'none';
-                    document.getElementById('floatingWidget').style.display = 'flex';
-                    startPassiveService();
+                if(localStorage.getItem('zing_bg_active_' + currentUser.mobile) === 'true') {
+                    document.getElementById('permissionCard').style.display = 'none';
+                    startBackgroundTickerService();
                 }
-                syncUI();
+                syncLedgerUI();
             } else {
                 document.getElementById('authModal').style.display = 'flex';
-                document.getElementById('webMainContent').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'none';
             }
         }
 
-        function toggleAuth() {
-            isSignup = !isSignup;
-            document.getElementById('regFields').classList.toggle('hidden', !isSignup);
-            document.getElementById('authBtn').innerText = isSignup ? 'Register' : 'Login';
-            document.getElementById('toggleText').innerText = isSignup ? 'Already registered? Login' : 'New user? Register';
+        function toggleAuthMode() {
+            isSignupMode = !isSignupMode;
+            document.getElementById('signupFields').classList.toggle('hidden', !isSignupMode);
+            document.getElementById('authActionBtn').innerText = isSignupMode ? 'Register' : 'Login';
+            document.getElementById('authToggleText').innerText = isSignupMode ? 'Already registered? Login' : 'New user? Register';
         }
 
-        function handleAuth() {
-            let mobile = document.getElementById('userMobile').value.trim();
-            let pass = document.getElementById('userPass').value.trim();
-            let name = document.getElementById('userName').value.trim();
-            if(!mobile || !pass || (isSignup && !name)) { alert('Enter all details!'); return; }
+        function handleAuthSubmit() {
+            let mobile = document.getElementById('regMobile').value.trim();
+            let pass = document.getElementById('regPass').value.trim();
+            let name = document.getElementById('regName').value.trim();
+            if(!mobile || !pass || (isSignupMode && !name)) { alert('Enter all details!'); return; }
 
-            let key = 'zing_ultimate_u_' + mobile;
-            let saved = localStorage.getItem(key);
+            let userKey = 'zing_master_u_' + mobile;
+            let existingUser = localStorage.getItem(userKey);
 
-            if(isSignup) {
-                if(saved) { alert('Mobile already registered!'); return; }
-                currentUser = { name: name, mobile: mobile, pass: pass, coins: 10, refCount: 0, refEarn: 0 };
-                localStorage.setItem(key, JSON.stringify(currentUser));
+            if(isSignupMode) {
+                if(existingUser) { alert('Mobile number already registered!'); return; }
+                currentUser = { name: name, mobile: mobile, pass: pass, cents: 1000, refCount: 0, refCents: 0 }; // 1000 cents = 10 coins
+                localStorage.setItem(userKey, JSON.stringify(currentUser));
                 
-                let refCode = localStorage.getItem('zing_ultimate_ref');
-                if(refCode && refCode !== mobile) {
-                    let rKey = 'zing_ultimate_u_' + refCode;
-                    let rData = JSON.parse(localStorage.getItem(rKey));
-                    if(rData) {
-                        rData.refCount = (rData.refCount || 0) + 1;
-                        rData.coins = (rData.coins || 0) + 5;
-                        rData.refEarn = (rData.refEarn || 0) + 5;
-                        localStorage.setItem(rKey, JSON.stringify(rData));
+                let referrerCode = localStorage.getItem('zing_master_ref');
+                if(referrerCode && referrerCode !== mobile) {
+                    let refUserKey = 'zing_master_u_' + referrerCode;
+                    let refData = JSON.parse(localStorage.getItem(refUserKey));
+                    if(refData) {
+                        refData.refCount = (refData.refCount || 0) + 1;
+                        refData.cents += 500; // 5 coins referral bonus
+                        refData.refCents += 500;
+                        localStorage.setItem(refUserKey, JSON.stringify(refData));
                     }
                 }
-                alert('Account Created! +10 Coins Welcome Bonus.');
+                alert('Account Created Successfully! +10 Coins Bonus.');
             } else {
-                if(saved) {
-                    let p = JSON.parse(saved);
-                    if(p.pass === pass) { currentUser = p; }
-                    else { alert('Wrong Password!'); return; }
+                if(existingUser) {
+                    let parsed = JSON.parse(existingUser);
+                    if(parsed.pass === pass) { currentUser = parsed; }
+                    else { alert('Incorrect Password!'); return; }
                 } else {
-                    currentUser = { name: 'Valued User', mobile: mobile, pass: pass, coins: 10, refCount: 0, refEarn: 0 };
-                    localStorage.setItem(key, JSON.stringify(currentUser));
-                }
-            }
-            localStorage.setItem('zing_ultimate_user', JSON.stringify(currentUser));
-            checkSession();
-        }
-
-        function use
+                    currentUser = { name: 'Valued Creator'
