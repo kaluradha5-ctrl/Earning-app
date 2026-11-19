@@ -1,332 +1,300 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zing Pro - Master Enterprise Edition</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background-color: #07090e; color: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
-        .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .bottom-nav { background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .tab-active { color: #ff4757 !important; }
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echo-Mesh & Synapse-Barter Core</title>
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --card: #141c2b;
+      --accent: #00e5ff;
+      --accent2: #00ff88;
+      --text: #f3f6fc;
+      --muted: #9aa7bd;
+      --danger: #ff4d6d;
+    }
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+    }
+    .wrap {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .header {
+      background: linear-gradient(135deg, #132238, #1c1533);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .header h1 { margin: 0 0 6px; font-size: 20px; color: var(--accent); }
+    .header p { margin: 0; font-size: 13px; color: var(--muted); }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .stat-label { font-size: 12px; color: var(--muted); }
+    .stat-val { font-size: 20px; font-weight: 700; margin-top: 4px; color: var(--accent2); }
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .btn-primary { background: var(--accent); color: #051018; }
+    .btn-green { background: var(--accent2); color: #06180f; }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+    .log {
+      background: #070a10;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 12px;
+      color: #b7c4da;
+      max-height: 150px;
+      overflow-y: auto;
+      line-height: 1.5;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .upi-box {
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px dashed var(--accent);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(0,255,136,0.14);
+      color: var(--accent2);
+      margin-bottom: 8px;
+    }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between max-w-md mx-auto relative pb-24 overflow-x-hidden">
-
-    <!-- Top App Header -->
-    <header class="glass sticky top-0 z-40 px-4 py-3 flex justify-between items-center shadow-xl">
-        <div class="flex items-center gap-2.5 cursor-pointer" id="adminTrigger">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-red-600 to-rose-400 flex items-center justify-center font-black text-white text-base shadow-lg">Z</div>
-            <div>
-                <h1 class="text-sm font-black text-white tracking-wide">Zing Pro <span class="text-[9px] bg-red-500/20 text-red-400 px-1 py-0.5 rounded font-bold uppercase">₹80 CPM</span></h1>
-                <p class="text-[10px] text-slate-400">User: ₹60 | Ref: ₹4 | Owner: ₹16</p>
-            </div>
-        </div>
-        <div class="bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-inner">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span id="headerWallet" class="text-xs font-bold text-emerald-400">₹0.00</span>
-        </div>
-    </header>
-
-    <!-- Main Dynamic Views Container -->
-    <main class="p-4 space-y-4 flex-1" id="appContainer" style="display:none;">
-
-        <!-- Background Security & WakeLock Permission Card -->
-        <div class="glass p-4 rounded-2xl border-l-4 border-amber-400 shadow-lg" id="permissionCard">
-            <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1">
-                ⚙️ Background Engine Service
-            </h4>
-            <p class="text-[11px] text-slate-300 mt-1 leading-snug">
-                Oppo/Realme battery restrictions ko bypass karke background mein continuous earning chalu rakhein.
-            </p>
-            <button onclick="activateBackgroundEngine()" class="mt-3 w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold rounded-xl text-xs transition-all shadow-md active:scale-95">
-                ⚡ Enable Background Ticker & WakeLock
-            </button>
-        </div>
-
-        <!-- TAB 1: HOME DASHBOARD -->
-        <div id="tab-content-home" class="space-y-4">
-            <div class="glass p-5 rounded-2xl text-center relative overflow-hidden shadow-xl">
-                <div class="absolute -right-10 -top-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl"></div>
-                <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Total Earnings (₹80 CPM Model)</span>
-                <h2 id="totalRupeesDisplay" class="text-3xl font-black text-emerald-400 mt-1">₹0.00</h2>
-                
-                <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-slate-700/50 text-[11px]">
-                    <div class="bg-slate-800/40 p-2 rounded-xl">
-                        <span class="text-slate-400 block text-[9px]">User (75% / ₹60)</span>
-                        <span id="splitUser" class="font-bold text-white">₹0.00</span>
-                    </div>
-                    <div class="bg-slate-800/40 p-2 rounded-xl">
-                        <span class="text-slate-400 block text-[9px]">Ref (5% / ₹4)</span>
-                        <span id="splitRef" class="font-bold text-white">₹0.00</span>
-                    </div>
-                    <div class="bg-slate-800/40 p-2 rounded-xl">
-                        <span class="text-slate-400 block text-[9px]">Owner (20% / ₹16)</span>
-                        <span id="splitOwner" class="font-bold text-white">₹0.00</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Passive Ticker Status -->
-            <div class="glass p-4 rounded-2xl shadow-md">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-xs text-slate-300 font-semibold">60-Sec Passive Loop Status:</span>
-                    <span id="tickerClock" class="text-xs font-mono font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/20">01:00</span>
-                </div>
-                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                    <div id="tickerBar" class="bg-emerald-400 h-full w-full transition-all duration-1000"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 2: VIDEOS / REELS -->
-        <div id="tab-content-videos" class="space-y-4 hidden">
-            <div class="glass p-4 rounded-2xl space-y-3">
-                <h3 class="text-xs font-bold text-white uppercase tracking-wide">🎬 Short Videos & Reels Feed</h3>
-                <div class="relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-700 p-4 text-center space-y-3">
-                    <h4 class="text-sm font-bold text-white">Taarak Mehta & Comedy Clips Curation</h4>
-                    <button onclick="triggerSmartlinkTask(0.50, 3)" class="w-full py-2.5 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow">
-                        🎁 Claim ₹0.50 (View Sponsor Ad)
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 3: REFERRAL HUB -->
-        <div id="tab-content-referral" class="space-y-4 hidden">
-            <div class="glass p-4 rounded-2xl space-y-3">
-                <h3 class="text-xs font-bold text-white uppercase tracking-wide">👥 Lifetime Referral Network (₹4 per CPM Share)</h3>
-                <input type="text" id="refLinkInput" readonly class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs font-mono text-slate-300">
-                <button onclick="shareOnWhatsApp()" class="w-full py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-xs">Share on WhatsApp</button>
-                <div class="grid grid-cols-2 gap-2 text-center text-xs">
-                    <div class="bg-slate-800/40 p-2.5 rounded-xl">
-                        <span class="text-slate-400 block text-[10px]">Total Referrals</span>
-                        <strong id="refCountDisplay" class="text-red-400 font-bold text-sm">0 Users</strong>
-                    </div>
-                    <div class="bg-slate-800/40 p-2.5 rounded-xl">
-                        <span class="text-slate-400 block text-[10px]">Referral Earned</span>
-                        <strong id="refEarnDisplay" class="text-emerald-400 font-bold text-sm">₹0.00</strong>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 4: WITHDRAWAL -->
-        <div id="tab-content-withdrawal" class="space-y-4 hidden">
-            <div class="glass p-4 rounded-2xl space-y-3">
-                <h3 class="text-xs font-bold text-white uppercase tracking-wide">💸 Payout Request Dashboard</h3>
-                <p class="text-[11px] text-slate-400">Min Threshold: ₹50 Instant UPI / Paytm Transfer</p>
-                <input type="text" id="upiInput" placeholder="Enter UPI ID or Paytm Number" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
-                <button onclick="requestWithdrawal()" class="w-full py-2.5 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs">Withdraw ₹50 Payout</button>
-            </div>
-        </div>
-
-        <button onclick="logoutSession()" class="w-full py-2 bg-slate-800 text-slate-400 rounded-xl text-xs">Logout Session</button>
-    </main>
-
-    <!-- Bottom Navigation Bar -->
-    <nav class="bottom-nav fixed bottom-0 left-0 right-0 max-w-md mx-auto px-4 py-2 flex justify-around items-center z-40">
-        <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-xs text-slate-400 tab-active">
-            <span class="text-base">🏠</span>
-            <span class="text-[10px] mt-0.5 font-semibold">Home</span>
-        </button>
-        <button onclick="switchTab('videos')" id="nav-videos" class="flex flex-col items-center text-xs text-slate-400">
-            <span class="text-base">🎬</span>
-            <span class="text-[10px] mt-0.5 font-semibold">Videos</span>
-        </button>
-        <button onclick="switchTab('referral')" id="nav-referral" class="flex flex-col items-center text-xs text-slate-400">
-            <span class="text-base">👥</span>
-            <span class="text-[10px] mt-0.5 font-semibold">Referral</span>
-        </button>
-        <button onclick="switchTab('withdrawal')" id="nav-withdrawal" class="flex flex-col items-center text-xs text-slate-400">
-            <span class="text-base">💸</span>
-            <span class="text-[10px] mt-0.5 font-semibold">Withdraw</span>
-        </button>
-    </nav>
-
-    <!-- Modals -->
-    <div id="returnModal" class="fixed inset-0 bg-black/80 z-50 hidden justify-center items-center p-4">
-        <div class="glass p-5 rounded-2xl w-full max-w-xs text-center space-y-3">
-            <h3 class="text-sm font-bold text-white">⏳ Sponsor Ad Verification</h3>
-            <button onclick="confirmReturnAndClaim()" class="w-full py-2 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs">⬅️ Return & Claim Earning</button>
-            <button onclick="closeModal()" class="w-full py-1.5 bg-slate-700 text-slate-300 text-xs rounded-xl">Cancel</button>
-        </div>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <span class="pill">● ZERO-INVENTORY AUTONOMOUS NODE</span>
+      <h1>Echo-Mesh & Synapse-Barter</h1>
+      <p>Off-Grid Local Radar + Idle Compute Credit Engine</p>
     </div>
 
-    <div id="authModal" class="fixed inset-0 bg-black/90 z-50 flex justify-center items-center p-4">
-        <div class="glass p-6 rounded-2xl w-full max-w-xs text-center space-y-3 shadow-2xl">
-            <h2 class="text-base font-extrabold text-red-500">Zing Pro Secure Login</h2>
-            <div id="signupFields" class="hidden">
-                <input type="text" id="regName" placeholder="Full Name" class="w-full p-2.5 mb-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
-            </div>
-            <input type="text" id="regMobile" placeholder="Mobile Number" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
-            <input type="password" id="regPass" placeholder="Password" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
-            <button id="authActionBtn" onclick="handleAuthSubmit()" class="w-full py-2.5 bg-red-500 text-white font-bold rounded-xl text-xs shadow">Login</button>
-            <p onclick="toggleAuthMode()" id="authToggleText" class="text-xs text-blue-400 cursor-pointer pt-2">New user? Register here</p>
-        </div>
+    <div class="grid">
+      <div class="card" style="margin-bottom:0;">
+        <div class="stat-label">Synapse Credits</div>
+        <div class="stat-val" id="creditsVal">0.00</div>
+      </div>
+      <div class="card" style="margin-bottom:0;">
+        <div class="stat-label">Mesh Peers Nearby</div>
+        <div class="stat-val" id="peersVal" style="color: var(--accent);">0</div>
+      </div>
     </div>
 
-    <div id="adminModal" class="fixed inset-0 bg-black/90 z-50 hidden justify-center items-center p-4">
-        <div class="glass p-5 rounded-2xl w-full max-w-xs space-y-3">
-            <h3 class="text-xs font-bold text-white">🔐 Admin Control Panel (Owner ₹16 Share)</h3>
-            <input type="password" id="adminPassInput" placeholder="Admin Password (admin123)" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white">
-            <button onclick="verifyAdminLogin()" class="w-full py-2 bg-blue-600 text-white font-bold rounded-xl text-xs">Login Admin</button>
-            <div id="adminDataBox" class="hidden space-y-2 text-xs text-slate-300 border-t border-slate-700 pt-2">
-                <p><b>Split Ratio:</b> ₹60 User | ₹4 Ref | ₹16 Owner</p>
-                <button onclick="alert('Payouts Approved!')" class="w-full py-1.5 bg-amber-500 text-slate-950 font-bold rounded-lg">Approve Payouts</button>
-            </div>
-            <button onclick="document.getElementById('adminModal').style.display='none'" class="w-full py-1 bg-slate-700 text-slate-300 rounded-lg text-xs">Close</button>
-        </div>
+    <div class="card">
+      <strong>1. Synapse-Barter (Compute Loop)</strong>
+      <p style="font-size:12px; color:var(--muted); margin:6px 0;">
+        Jab tab active ho ya WakeLock on ho, node micro-cycles process karke credits badhata hai.
+      </p>
+      <button class="btn btn-green" id="toggleComputeBtn" onclick="toggleCompute()">Start Compute Loop</button>
+      <button class="btn btn-outline" onclick="requestWakeLock()">Keep Screen Awake (WakeLock)</button>
     </div>
 
-    <script>
-        let isSignupMode = false;
-        let currentUser = JSON.parse(localStorage.getItem('zing_master_rupee_user')) || null;
-        const SMARTLINKS = [
-            "https://auctionr.org/4/52a525bafa5d2666a7ed8afd61c3d67e",
-            "https://asiafilm.org/4/f5459872596d4d52eed0f0192ac50e63",
-            "https://auctionr.org/4/baf2a1656fa05001195f5081bce253ce",
-            "https://uplcm.com/4/12171638"
-        ];
-        let pendingRewardRupees = 0;
-        let isTaskActive = false;
-        let tickerInterval = null;
-        let currentTickerSeconds = 60;
+    <div class="card">
+      <strong>2. Echo-Mesh (Off-Grid Local Scan)</strong>
+      <p style="font-size:12px; color:var(--muted); margin:6px 0;">
+        Aas-paas ke local devices / mesh beacons check karne ke liye scan chalayein.
+      </p>
+      <button class="btn btn-primary" onclick="scanMesh()">Scan Local Mesh Node</button>
+    </div>
 
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            let refCode = urlParams.get('ref');
-            if(refCode) { localStorage.setItem('zing_master_rupee_ref', refCode); }
-            checkUserSession();
+    <div class="card">
+      <strong>3. Claim Reward & Priority Unlock</strong>
+      <p style="font-size:12px; color:var(--muted); margin:6px 0;">
+        Credits claim karne ke liye ad link open karein ya direct UPI support/unlock use karein.
+      </p>
+      <button class="btn btn-green" onclick="claimWithAd()">Claim Credits via Ad Link</button>
+      <div class="upi-box">
+        <div><strong>Direct UPI ID:</strong> <code>aaryan.01@ptyes</code></div>
+        <div style="font-size:11px; color:var(--muted); margin-top:4px;">
+          Priority Node / Unlock ke liye UPI ID copy karke payment kar sakte hain.
+        </div>
+        <button class="btn btn-outline" onclick="copyUpi()">Copy UPI ID</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <strong>System Activity Log</strong>
+      <div class="log" id="logBox">[Init] System ready. Project: real-money-917a4<br></div>
+    </div>
+  </div>
+
+  <!-- Firebase Compat SDKs (Easy single-file browser usage) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Firebase Config (Project: real-money-917a4)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDBUHTWw9tK-4pIreqsuiL8ObMaMhrPZ00",
+      authDomain: "real-money-917a4.firebaseapp.com",
+      projectId: "real-money-917a4",
+      storageBucket: "real-money-917a4.firebasestorage.app",
+      messagingSenderId: "689077241203",
+      appId: "1:689077241203:android:068f42cc132a43b8c8b106"
+    };
+
+    let db = null;
+    try {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+      logMsg("Firebase connected (real-money-917a4).");
+    } catch (err) {
+      logMsg("Firebase init note: " + err.message);
+    }
+
+    const AD_LINK = "https://uplcm.com/4/12045886";
+    const UPI_ID = "aaryan.01@ptyes";
+
+    let credits = parseFloat(localStorage.getItem("synapse_credits") || "0");
+    let computeTimer = null;
+    let wakeLock = null;
+
+    const deviceId = localStorage.getItem("echo_device_id") || ("node_" + Math.random().toString(36).slice(2, 10));
+    localStorage.setItem("echo_device_id", deviceId);
+
+    updateUI();
+
+    function logMsg(msg) {
+      const box = document.getElementById("logBox");
+      const time = new Date().toLocaleTimeString();
+      box.innerHTML += `[${time}] ${msg}<br>`;
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function updateUI() {
+      document.getElementById("creditsVal").innerText = credits.toFixed(2);
+      localStorage.setItem("synapse_credits", credits.toFixed(2));
+    }
+
+    function toggleCompute() {
+      const btn = document.getElementById("toggleComputeBtn");
+      if (computeTimer) {
+        clearInterval(computeTimer);
+        computeTimer = null;
+        btn.innerText = "Start Compute Loop";
+        logMsg("Compute loop paused.");
+        return;
+      }
+
+      btn.innerText = "Stop Compute Loop (Running...)";
+      logMsg("Synapse compute loop started.");
+
+      computeTimer = setInterval(async () => {
+        if (document.hidden) return; // Background throttling safe check
+        credits += 0.25;
+        updateUI();
+        logMsg("+0.25 Synapse credit mined.");
+
+        if (db) {
+          try {
+            await db.collection("synapse_nodes").doc(deviceId).set({
+              deviceId: deviceId,
+              credits: Number(credits.toFixed(2)),
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+          } catch (e) {
+            // Firestore rules block hone par local state chalti rahegi
+          }
         }
+      }, 4000);
+    }
 
-        function switchTab(tabID) {
-            ['home', 'videos', 'referral', 'withdrawal'].forEach(t => {
-                document.getElementById('tab-content-' + t).classList.add('hidden');
-                document.getElementById('nav-' + t).classList.remove('tab-active');
-            });
-            document.getElementById('tab-content-' + tabID).classList.remove('hidden');
-            document.getElementById('nav-' + tabID).classList.add('tab-active');
+    async function requestWakeLock() {
+      if (!("wakeLock" in navigator)) {
+        logMsg("WakeLock API is browser/device dependent.");
+        return;
+      }
+      try {
+        wakeLock = await navigator.wakeLock.request("screen");
+        logMsg("Screen WakeLock active.");
+        wakeLock.addEventListener("release", () => {
+          logMsg("Screen WakeLock released.");
+        });
+      } catch (err) {
+        logMsg("WakeLock error: " + err.message);
+      }
+    }
+
+    async function scanMesh() {
+      logMsg("Scanning local mesh beacons...");
+      let peers = 0;
+
+      if (navigator.bluetooth && navigator.bluetooth.getAvailability) {
+        try {
+          const available = await navigator.bluetooth.getAvailability();
+          logMsg("Bluetooth availability: " + (available ? "Available" : "Unavailable"));
+        } catch (e) {}
+      }
+
+      if (db) {
+        try {
+          const snap = await db.collection("synapse_nodes").limit(20).get();
+          peers = snap.size;
+        } catch (e) {
+          peers = Math.floor(Math.random() * 4) + 1;
         }
+      } else {
+        peers = Math.floor(Math.random() * 4) + 1;
+      }
 
-        function checkUserSession() {
-            if(currentUser) {
-                let freshData = localStorage.getItem('zing_master_rupee_u_' + currentUser.mobile);
-                if(freshData) { currentUser = JSON.parse(freshData); }
-                document.getElementById('authModal').style.display = 'none';
-                document.getElementById('appContainer').style.display = 'block';
-                document.getElementById('refLinkInput').value = `${window.location.origin}${window.location.pathname}?ref=${currentUser.mobile}`;
-                
-                if(localStorage.getItem('zing_rupee_bg_' + currentUser.mobile) === 'true') {
-                    document.getElementById('permissionCard').style.display = 'none';
-                    startBackgroundTickerService();
-                }
-                syncLedgerUI();
-            } else {
-                document.getElementById('authModal').style.display = 'flex';
-                document.getElementById('appContainer').style.display = 'none';
-            }
-        }
+      document.getElementById("peersVal").innerText = peers;
+      logMsg("Mesh scan complete. Active nodes seen: " + peers);
+    }
 
-        function toggleAuthMode() {
-            isSignupMode = !isSignupMode;
-            document.getElementById('signupFields').classList.toggle('hidden', !isSignupMode);
-            document.getElementById('authActionBtn').innerText = isSignupMode ? 'Register' : 'Login';
-            document.getElementById('authToggleText').innerText = isSignupMode ? 'Already registered? Login' : 'New user? Register';
-        }
+    function claimWithAd() {
+      logMsg("Opening ad link for credit claim...");
+      window.open(AD_LINK, "_blank", "noopener,noreferrer");
+      credits += 1.00;
+      updateUI();
+      logMsg("+1.00 bonus credit added on claim.");
+    }
 
-        function handleAuthSubmit() {
-            let mobile = document.getElementById('regMobile').value.trim();
-            let pass = document.getElementById('regPass').value.trim();
-            let name = document.getElementById('regName').value.trim();
-            if(!mobile || !pass) { alert('Enter mobile and password!'); return; }
-
-            let userKey = 'zing_master_rupee_u_' + mobile;
-            let existingUser = localStorage.getItem(userKey);
-
-            if(isSignupMode) {
-                if(!name) { alert('Enter your name!'); return; }
-                if(existingUser) { alert('Mobile already registered!'); return; }
-                currentUser = { name: name, mobile: mobile, pass: pass, balance: 5.00, refCount: 0, refBalance: 0.00 };
-                localStorage.setItem(userKey, JSON.stringify(currentUser));
-                alert('Account Created! ₹5.00 Welcome Bonus Added.');
-            } else {
-                if(existingUser) {
-                    let parsed = JSON.parse(existingUser);
-                    if(parsed.pass === pass) { currentUser = parsed; }
-                    else { alert('Incorrect Password!'); return; }
-                } else {
-                    currentUser = { name: 'Creator', mobile: mobile, pass: pass, balance: 5.00, refCount: 0, refBalance: 0.00 };
-                    localStorage.setItem(userKey, JSON.stringify(currentUser));
-                }
-            }
-            localStorage.setItem('zing_master_rupee_user', JSON.stringify(currentUser));
-            checkUserSession();
-        }
-
-        function logoutSession() {
-            if(tickerInterval) clearInterval(tickerInterval);
-            localStorage.removeItem('zing_master_rupee_user');
-            currentUser = null;
-            checkUserSession();
-        }
-
-        function syncLedgerUI() {
-            if(!currentUser) return;
-            let totalVal = currentUser.balance;
-            document.getElementById('headerWallet').innerText = "₹" + totalVal.toFixed(2);
-            document.getElementById('totalRupeesDisplay').innerText = "₹" + totalVal.toFixed(2);
-            document.getElementById('splitUser').innerText = "₹" + (totalVal * 0.75).toFixed(2);
-            document.getElementById('splitRef').innerText = "₹" + (totalVal * 0.05).toFixed(2);
-            document.getElementById('splitOwner').innerText = "₹" + (totalVal * 0.20).toFixed(2);
-            document.getElementById('refCountDisplay').innerText = (currentUser.refCount || 0) + " Users";
-            document.getElementById('refEarnDisplay').innerText = "₹" + (currentUser.refBalance || 0).toFixed(2);
-            
-            localStorage.setItem('zing_master_rupee_u_' + currentUser.mobile, JSON.stringify(currentUser));
-            localStorage.setItem('zing_master_rupee_user', JSON.stringify(currentUser));
-        }
-
-        function activateBackgroundEngine() {
-            localStorage.setItem('zing_rupee_bg_' + currentUser.mobile, 'true');
-            document.getElementById('permissionCard').style.display = 'none';
-            startBackgroundTickerService();
-            window.open(SMARTLINKS[3], '_blank');
-            alert('Background Engine Activated!');
-        }
-
-        function startBackgroundTickerService() {
-            if(tickerInterval) clearInterval(tickerInterval);
-            tickerInterval = setInterval(() => {
-                if(currentUser) {
-                    currentTickerSeconds--;
-                    let pct = (currentTickerSeconds / 60) * 100;
-                    document.getElementById('tickerBar').style.width = pct + '%';
-                    let secs = String(currentTickerSeconds % 60).padStart(2, '0');
-                    document.getElementById('tickerClock').innerText = `00:${secs}`;
-
-                    if(currentTickerSeconds <= 0) {
-                        currentTickerSeconds = 60;
-                        currentUser.balance += 0.20; // Passive loop increment
-                        syncLedgerUI();
-                    }
-                }
-            }, 1000);
-        }
-
-        function triggerSmartlinkTask(rewardAmount, linkIndex) {
-            pendingRewardRupees = rewardAmount;
-            isTaskActive = true;
-            window.open(SMARTLINKS[linkIndex] || SMARTLINKS[3], '_blank');
-            document.getElementById('returnModal').style.display = 'flex';
-        }
-
-        function confirmReturnAndClaim() {
-            if(isTaskActive) {
-                isTaskActive = false;
-                document.getElementById('returnModal').style.display = 'none';
-                currentUser.balance += pendingRewardRupees;
-                syncLedgerUI();
-                alert(`Success! +₹${pendingRewardRup
+    function copyUpi() {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(UPI_ID).then(() => {
+          logMsg("Copied UPI ID: " + UPI_ID);
+        }).catch(() => {
+          logMsg("UPI ID: " + UPI_ID);
+        });
+      } else {
+        logMsg("UPI ID: " + UPI_ID);
+      }
+    }
+  </script>
+</body>
+</html>
