@@ -2,299 +2,564 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Echo-Mesh & Synapse-Barter Core</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Apni Marzi — WFH & Level Arena</title>
   <style>
     :root {
-      --bg: #0b0f17;
-      --card: #141c2b;
-      --accent: #00e5ff;
-      --accent2: #00ff88;
-      --text: #f3f6fc;
-      --muted: #9aa7bd;
-      --danger: #ff4d6d;
+      --bg: #0b0d13;
+      --card: #151924;
+      --card2: #1c2232;
+      --gold: #fbbf24;
+      --red: #f43f5e;
+      --green: #10b981;
+      --blue: #38bdf8;
+      --text: #f8fafc;
+      --muted: #94a3b8;
     }
-    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
     body {
-      margin: 0;
       background: var(--bg);
       color: var(--text);
-      padding: 16px;
-    }
-    .wrap {
-      max-width: 520px;
+      max-width: 480px;
       margin: 0 auto;
+      padding: 14px 14px 90px;
+      -webkit-tap-highlight-color: transparent;
     }
-    .header {
-      background: linear-gradient(135deg, #132238, #1c1533);
-      border: 1px solid rgba(255,255,255,0.08);
+
+    /* Top Bar */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .brand { font-size: 19px; font-weight: 800; letter-spacing: 0.3px; }
+    .brand span { color: var(--gold); }
+    .live-pill {
+      background: rgba(244, 63, 94, 0.16);
+      color: var(--red);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 99px;
+      animation: pulse 1.6s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+    /* Reality Alert Box */
+    .mirror-box {
+      background: linear-gradient(135deg, #27111a, #161926);
+      border: 1px solid rgba(244, 63, 94, 0.45);
       border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 14px;
-    }
-    .header h1 { margin: 0 0 6px; font-size: 20px; color: var(--accent); }
-    .header p { margin: 0; font-size: 13px; color: var(--muted); }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 14px;
       padding: 14px;
       margin-bottom: 14px;
     }
-    .stat-label { font-size: 12px; color: var(--muted); }
-    .stat-val { font-size: 20px; font-weight: 700; margin-top: 4px; color: var(--accent2); }
-    .btn {
-      width: 100%;
-      border: none;
+    .mirror-title {
+      font-size: 13px;
+      color: #fda4af;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .mirror-text {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+    .freedom-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+    .bar-bg {
+      height: 10px;
+      background: #090b10;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      width: 18%;
+      background: linear-gradient(90deg, var(--red), var(--gold), var(--green));
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .tab-btn {
+      background: var(--card);
+      color: var(--muted);
+      border: 1px solid #262d3f;
+      padding: 11px 6px;
       border-radius: 12px;
-      padding: 12px 14px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       cursor: pointer;
-      margin-top: 8px;
     }
-    .btn-primary { background: var(--accent); color: #051018; }
-    .btn-green { background: var(--accent2); color: #06180f; }
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.16);
+    .tab-btn.active {
+      background: var(--gold);
+      color: #0b0d13;
+      border-color: var(--gold);
     }
-    .log {
-      background: #070a10;
-      border-radius: 10px;
-      padding: 10px;
-      font-size: 12px;
-      color: #b7c4da;
-      max-height: 150px;
-      overflow-y: auto;
-      line-height: 1.5;
-      border: 1px solid rgba(255,255,255,0.05);
+
+    /* Section */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* Daily Hook Button */
+    .daily-card {
+      background: linear-gradient(135deg, #1b2436, #131824);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
     }
-    .upi-box {
-      background: rgba(0, 229, 255, 0.08);
-      border: 1px dashed var(--accent);
+    .daily-card h3 { font-size: 15px; margin-bottom: 3px; }
+    .daily-card p { font-size: 12px; color: var(--muted); }
+    .btn-gold {
+      background: var(--gold);
+      color: #090b10;
+      border: none;
+      padding: 11px 14px;
       border-radius: 12px;
-      padding: 12px;
+      font-weight: 800;
       font-size: 13px;
-      margin-top: 8px;
+      white-space: nowrap;
+      cursor: pointer;
     }
-    .pill {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: rgba(0,255,136,0.14);
-      color: var(--accent2);
+    .btn-gold:disabled {
+      background: #2b3245;
+      color: #94a3b8;
+    }
+
+    /* Company WFH Cards */
+    .job-card {
+      background: var(--card);
+      border: 1px solid #242b3d;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .job-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .comp-name { font-size: 16px; font-weight: 800; }
+    .badge-pay {
+      background: rgba(16, 185, 129, 0.16);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 9px;
+      border-radius: 8px;
+    }
+    .job-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .job-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .xp-tag {
+      font-size: 12px;
+      color: var(--gold);
+      font-weight: 700;
+    }
+    .btn-action {
+      background: var(--blue);
+      color: #06101c;
+      border: none;
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn-action.done {
+      background: var(--green);
+      color: #04130d;
+    }
+
+    /* Flex Card (Dikhawa) */
+    .flex-card {
+      background: linear-gradient(145deg, #1e1b2e, #2b1d12, #121826);
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      padding: 18px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(251, 191, 36, 0.15);
+      margin-bottom: 14px;
+    }
+    .rank-crown { font-size: 34px; margin-bottom: 4px; }
+    .user-name-input {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      text-align: center;
+      font-size: 17px;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 10px;
+      width: 80%;
       margin-bottom: 8px;
+    }
+    .level-pill {
+      display: inline-block;
+      background: var(--gold);
+      color: #000;
+      font-weight: 900;
+      font-size: 13px;
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+    }
+    .flex-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      background: rgba(0,0,0,0.35);
+      padding: 10px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+    .stat-num { font-size: 16px; font-weight: 900; color: var(--gold); }
+    .stat-lbl { font-size: 11px; color: var(--muted); }
+    .btn-share {
+      width: 100%;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      color: #fff;
+      border: none;
+      padding: 13px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* Leaderboard */
+    .rank-row {
+      background: var(--card);
+      border: 1px solid #232a3b;
+      border-radius: 12px;
+      padding: 11px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .rank-row.me {
+      border-color: var(--gold);
+      background: rgba(251, 191, 36, 0.08);
+    }
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: #000;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 99px;
+      display: none;
+      z-index: 99;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="header">
-      <span class="pill">● ZERO-INVENTORY AUTONOMOUS NODE</span>
-      <h1>Echo-Mesh & Synapse-Barter</h1>
-      <p>Off-Grid Local Radar + Idle Compute Credit Engine</p>
-    </div>
 
-    <div class="grid">
-      <div class="card" style="margin-bottom:0;">
-        <div class="stat-label">Synapse Credits</div>
-        <div class="stat-val" id="creditsVal">0.00</div>
-      </div>
-      <div class="card" style="margin-bottom:0;">
-        <div class="stat-label">Mesh Peers Nearby</div>
-        <div class="stat-val" id="peersVal" style="color: var(--accent);">0</div>
-      </div>
-    </div>
+  <div class="topbar">
+    <div class="brand">APNI <span>MARZI</span></div>
+    <div class="live-pill" id="timerPill">⏳ 05:59:59 बचा है</div>
+  </div>
 
-    <div class="card">
-      <strong>1. Synapse-Barter (Compute Loop)</strong>
-      <p style="font-size:12px; color:var(--muted); margin:6px 0;">
-        Jab tab active ho ya WakeLock on ho, node micro-cycles process karke credits badhata hai.
-      </p>
-      <button class="btn btn-green" id="toggleComputeBtn" onclick="toggleCompute()">Start Compute Loop</button>
-      <button class="btn btn-outline" onclick="requestWakeLock()">Keep Screen Awake (WakeLock)</button>
+  <!-- Reality / Fear Mirror -->
+  <div class="mirror-box">
+    <div class="mirror-title">⚠️ सच का आईना (अटकना मना है)</div>
+    <div class="mirror-text" id="mirrorQuote">
+      "जब तक पैसा हाथ में नहीं, ज़िंदगी और प्यार—दोनों दूसरों की शर्तों पर चलते हैं।"
     </div>
-
-    <div class="card">
-      <strong>2. Echo-Mesh (Off-Grid Local Scan)</strong>
-      <p style="font-size:12px; color:var(--muted); margin:6px 0;">
-        Aas-paas ke local devices / mesh beacons check karne ke liye scan chalayein.
-      </p>
-      <button class="btn btn-primary" onclick="scanMesh()">Scan Local Mesh Node</button>
+    <div class="freedom-row">
+      <span>तुम्हारी आज़ादी का लेवल</span>
+      <strong id="freedomPct" style="color:#fbbf24;">15% (बँधी हुई ज़िंदगी)</strong>
     </div>
-
-    <div class="card">
-      <strong>3. Claim Reward & Priority Unlock</strong>
-      <p style="font-size:12px; color:var(--muted); margin:6px 0;">
-        Credits claim karne ke liye ad link open karein ya direct UPI support/unlock use karein.
-      </p>
-      <button class="btn btn-green" onclick="claimWithAd()">Claim Credits via Ad Link</button>
-      <div class="upi-box">
-        <div><strong>Direct UPI ID:</strong> <code>aaryan.01@ptyes</code></div>
-        <div style="font-size:11px; color:var(--muted); margin-top:4px;">
-          Priority Node / Unlock ke liye UPI ID copy karke payment kar sakte hain.
-        </div>
-        <button class="btn btn-outline" onclick="copyUpi()">Copy UPI ID</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <strong>System Activity Log</strong>
-      <div class="log" id="logBox">[Init] System ready. Project: real-money-917a4<br></div>
+    <div class="bar-bg">
+      <div class="bar-fill" id="freedomBar"></div>
     </div>
   </div>
 
-  <!-- Firebase Compat SDKs (Easy single-file browser usage) -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <!-- Simple 3-Button Navigation -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('wfh', this)">💼 घर से काम</button>
+    <button class="tab-btn" onclick="switchTab('flex', this)">👑 मेरा दिखावा</button>
+    <button class="tab-btn" onclick="switchTab('top', this)">🔥 टॉप रैंक</button>
+  </div>
+
+  <!-- TAB 1: WFH COMPANIES -->
+  <div id="wfh" class="section active">
+    <div class="daily-card">
+      <div>
+        <h3>⚡ रोज़ की हाज़िरी (Streak)</h3>
+        <p id="streakText">आज का लेवल बचाओ वरना रैंक नीचे गिरेगी</p>
+      </div>
+      <button class="btn-gold" id="checkinBtn" onclick="dailyCheckin()">+50 XP लो</button>
+    </div>
+
+    <div id="jobsList"></div>
+  </div>
+
+  <!-- TAB 2: FLEX / DIKHAWA CARD -->
+  <div id="flex" class="section">
+    <div class="flex-card">
+      <div class="rank-crown" id="crownIcon">🥉</div>
+      <input type="text" class="user-name-input" id="userName" value="Apna Naam Likho" oninput="saveName()" />
+      <div><span class="level-pill" id="levelBadge">LEVEL 1 • ROOKIE</span></div>
+
+      <div class="flex-stats">
+        <div>
+          <div class="stat-num" id="statXp">100</div>
+          <div class="stat-lbl">POWER XP</div>
+        </div>
+        <div>
+          <div class="stat-num" id="statTasks">0</div>
+          <div class="stat-lbl">WFH STEPS</div>
+        </div>
+        <div>
+          <div class="stat-num" id="statRank">#48</div>
+          <div class="stat-lbl">LIVE RANK</div>
+        </div>
+      </div>
+
+      <button class="btn-share" onclick="shareFlex()">📲 WhatsApp पर अपना लेवल दिखाओ</button>
+    </div>
+    <p style="text-align:center; font-size:12px; color:#94a3b8;">
+      ऊपर नाम बदलकर सीधा WhatsApp स्टेटस या दोस्तों को भेजो।
+    </p>
+  </div>
+
+  <!-- TAB 3: LEADERBOARD -->
+  <div id="top" class="section">
+    <div id="leaderList"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
 
   <script>
-    // Firebase Config (Project: real-money-917a4)
-    const firebaseConfig = {
-      apiKey: "AIzaSyDBUHTWw9tK-4pIreqsuiL8ObMaMhrPZ00",
-      authDomain: "real-money-917a4.firebaseapp.com",
-      projectId: "real-money-917a4",
-      storageBucket: "real-money-917a4.firebasestorage.app",
-      messagingSenderId: "689077241203",
-      appId: "1:689077241203:android:068f42cc132a43b8c8b106"
+    const quotes = [
+      '"जब तक पैसा हाथ में नहीं, ज़िंदगी और प्यार—दोनों दूसरों की शर्तों पर चलते हैं।"',
+      '"आज फोन पर सिर्फ टाइमपास किया, तो अगले साल भी यही मजबूरी रहेगी।"',
+      '"लोग तुम्हारी बातें नहीं, तुम्हारा लेवल और तुम्हारी जेब देखते हैं।"',
+      '"वक्त निकल रहा है—या तो खुद का लेवल बढ़ाओ, या भीड़ में गुम हो जाओ।"'
+    ];
+
+    const companies = [
+      {
+        id: "c1",
+        name: "Phone App Testing Partner",
+        pay: "₹300 – ₹800 / दिन",
+        desc: "नए ऐप्स फोन में चलाकर 5 मिनट का रिव्यू दो। बिना लैपटॉप के सीधा काम।",
+        xp: 120,
+        link: "#apply-app-testing"
+      },
+      {
+        id: "c2",
+        name: "Hindi Voice & Chat Support",
+        pay: "₹12,000 – ₹22,000 / माह",
+        desc: "घर बैठे फोन से कस्टमर चैट और कॉल हैंडलिंग। फ्लेक्सिबल टाइम।",
+        xp: 200,
+        link: "#apply-chat-support"
+      },
+      {
+        id: "c3",
+        name: "Brand Micro-Task & Survey Hub",
+        pay: "₹50 – ₹400 / टास्क",
+        desc: "कंपनियों के छोटे सर्वे, सोशल चेक और लोकल अपडेट्स पूरा करो।",
+        xp: 100,
+        link: "#apply-micro-task"
+      },
+      {
+        id: "c4",
+        name: "Digital Partner & Referral Desk",
+        pay: "₹500 – ₹2,500 / लीड",
+        desc: "फाइनेंस और शॉपिंग ब्रांड्स के ऑफ़र्स शेयर करके सीधा कमीशन पाओ।",
+        xp: 250,
+        link: "#apply-partner-desk"
+      }
+    ];
+
+    let state = JSON.parse(localStorage.getItem("apniMarziState")) || {
+      name: "Apna Naam Likho",
+      xp: 100,
+      done: [],
+      checkedToday: false
     };
 
-    let db = null;
-    try {
-      firebase.initializeApp(firebaseConfig);
-      db = firebase.firestore();
-      logMsg("Firebase connected (real-money-917a4).");
-    } catch (err) {
-      logMsg("Firebase init note: " + err.message);
+    function saveState() {
+      localStorage.setItem("apniMarziState", JSON.stringify(state));
+      renderAll();
     }
 
-    const AD_LINK = "https://uplcm.com/4/12045886";
-    const UPI_ID = "aaryan.01@ptyes";
-
-    let credits = parseFloat(localStorage.getItem("synapse_credits") || "0");
-    let computeTimer = null;
-    let wakeLock = null;
-
-    const deviceId = localStorage.getItem("echo_device_id") || ("node_" + Math.random().toString(36).slice(2, 10));
-    localStorage.setItem("echo_device_id", deviceId);
-
-    updateUI();
-
-    function logMsg(msg) {
-      const box = document.getElementById("logBox");
-      const time = new Date().toLocaleTimeString();
-      box.innerHTML += `[${time}] ${msg}<br>`;
-      box.scrollTop = box.scrollHeight;
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.innerText = msg;
+      t.style.display = "block";
+      setTimeout(() => { t.style.display = "none"; }, 2200);
     }
 
-    function updateUI() {
-      document.getElementById("creditsVal").innerText = credits.toFixed(2);
-      localStorage.setItem("synapse_credits", credits.toFixed(2));
+    function switchTab(id, btn) {
+      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      btn.classList.add("active");
     }
 
-    function toggleCompute() {
-      const btn = document.getElementById("toggleComputeBtn");
-      if (computeTimer) {
-        clearInterval(computeTimer);
-        computeTimer = null;
-        btn.innerText = "Start Compute Loop";
-        logMsg("Compute loop paused.");
-        return;
-      }
-
-      btn.innerText = "Stop Compute Loop (Running...)";
-      logMsg("Synapse compute loop started.");
-
-      computeTimer = setInterval(async () => {
-        if (document.hidden) return; // Background throttling safe check
-        credits += 0.25;
-        updateUI();
-        logMsg("+0.25 Synapse credit mined.");
-
-        if (db) {
-          try {
-            await db.collection("synapse_nodes").doc(deviceId).set({
-              deviceId: deviceId,
-              credits: Number(credits.toFixed(2)),
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            }, { merge: true });
-          } catch (e) {
-            // Firestore rules block hone par local state chalti rahegi
-          }
-        }
-      }, 4000);
+    function getLevelInfo(xp) {
+      if (xp >= 700) return { lvl: 5, title: "KINGPIN • अपनी मर्ज़ी का मालिक", crown: "👑", pct: 95, rank: "#3" };
+      if (xp >= 500) return { lvl: 4, title: "BOSS • तेज़ रफ़्तार", crown: "💎", pct: 75, rank: "#9" };
+      if (xp >= 320) return { lvl: 3, title: "PRO HUSTLER • आगे बढ़ता हुआ", crown: "🔥", pct: 55, rank: "#18" };
+      if (xp >= 180) return { lvl: 2, title: "RISER • शुरुआत हो चुकी", crown: "⚡", pct: 35, rank: "#31" };
+      return { lvl: 1, title: "ROOKIE • अभी पीछे हो", crown: "🥉", pct: 15, rank: "#48" };
     }
 
-    async function requestWakeLock() {
-      if (!("wakeLock" in navigator)) {
-        logMsg("WakeLock API is browser/device dependent.");
-        return;
-      }
-      try {
-        wakeLock = await navigator.wakeLock.request("screen");
-        logMsg("Screen WakeLock active.");
-        wakeLock.addEventListener("release", () => {
-          logMsg("Screen WakeLock released.");
-        });
-      } catch (err) {
-        logMsg("WakeLock error: " + err.message);
-      }
+    function dailyCheckin() {
+      if (state.checkedToday) return;
+      state.xp += 50;
+      state.checkedToday = true;
+      showToast("🔥 +50 XP! आज का लेवल बच गया!");
+      saveState();
     }
 
-    async function scanMesh() {
-      logMsg("Scanning local mesh beacons...");
-      let peers = 0;
-
-      if (navigator.bluetooth && navigator.bluetooth.getAvailability) {
-        try {
-          const available = await navigator.bluetooth.getAvailability();
-          logMsg("Bluetooth availability: " + (available ? "Available" : "Unavailable"));
-        } catch (e) {}
-      }
-
-      if (db) {
-        try {
-          const snap = await db.collection("synapse_nodes").limit(20).get();
-          peers = snap.size;
-        } catch (e) {
-          peers = Math.floor(Math.random() * 4) + 1;
-        }
+    function doJob(id, xp) {
+      if (!state.done.includes(id)) {
+        state.done.push(id);
+        state.xp += xp;
+        showToast(`🚀 शानदार! +${xp} XP और लेवल ऊपर गया!`);
+        saveState();
       } else {
-        peers = Math.floor(Math.random() * 4) + 1;
+        showToast("✅ यह स्टेप पहले ही पूरा हो चुका है!");
       }
-
-      document.getElementById("peersVal").innerText = peers;
-      logMsg("Mesh scan complete. Active nodes seen: " + peers);
     }
 
-    function claimWithAd() {
-      logMsg("Opening ad link for credit claim...");
-      window.open(AD_LINK, "_blank", "noopener,noreferrer");
-      credits += 1.00;
-      updateUI();
-      logMsg("+1.00 bonus credit added on claim.");
+    function saveName() {
+      state.name = document.getElementById("userName").value || "Player";
+      localStorage.setItem("apniMarziState", JSON.stringify(state));
+      renderLeaderboard();
     }
 
-    function copyUpi() {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(UPI_ID).then(() => {
-          logMsg("Copied UPI ID: " + UPI_ID);
-        }).catch(() => {
-          logMsg("UPI ID: " + UPI_ID);
-        });
+    function shareFlex() {
+      const info = getLevelInfo(state.xp);
+      const msg = `🔥 मेरा लाइव स्टेटस:\n👤 नाम: ${state.name}\n🏆 रैंक: LEVEL ${info.lvl} (${info.title})\n⚡ पावर: ${state.xp} XP | आज़ादी स्कोर: ${info.pct}%\n\nअब दूसरों के हिसाब से नहीं, अपनी मर्ज़ी से जीना है! तुम किस लेवल पर हो?`;
+      if (navigator.share) {
+        navigator.share({ text: msg });
       } else {
-        logMsg("UPI ID: " + UPI_ID);
+        navigator.clipboard.writeText(msg);
+        showToast("📋 स्टेटस कॉपी हो गया! अब WhatsApp पर पेस्ट करो");
       }
     }
+
+    function renderJobs() {
+      const box = document.getElementById("jobsList");
+      box.innerHTML = companies.map(c => {
+        const isDone = state.done.includes(c.id);
+        return `
+          <div class="job-card">
+            <div class="job-top">
+              <div class="comp-name">${c.name}</div>
+              <div class="badge-pay">${c.pay}</div>
+            </div>
+            <div class="job-desc">${c.desc}</div>
+            <div class="job-foot">
+              <span class="xp-tag">+${c.xp} LEVEL XP</span>
+              <button class="btn-action ${isDone ? 'done' : ''}" onclick="doJob('${c.id}', ${c.xp})">
+                ${isDone ? '✔ जुड़ चुके हो' : 'अभी जुड़ो →'}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderLeaderboard() {
+      const info = getLevelInfo(state.xp);
+      const list = [
+        { name: "Aarav Sharma", lvl: "LEVEL 5 • KINGPIN", xp: 890 },
+        { name: "Priya Verma", lvl: "LEVEL 5 • KINGPIN", xp: 760 },
+        { name: state.name, lvl: `LEVEL ${info.lvl} • तुम`, xp: state.xp, me: true },
+        { name: "Rohan Das", lvl: "LEVEL 2 • RISER", xp: 240 },
+        { name: "Neha Singh", lvl: "LEVEL 1 • ROOKIE", xp: 140 }
+      ].sort((a, b) => b.xp - a.xp);
+
+      document.getElementById("leaderList").innerHTML = list.map((u, i) => `
+        <div class="rank-row ${u.me ? 'me' : ''}">
+          <div>
+            <strong>#${i + 1} ${u.name}</strong>
+            <div style="font-size:11px; color:#94a3b8;">${u.lvl}</div>
+          </div>
+          <div style="color:#fbbf24; font-weight:800;">${u.xp} XP</div>
+        </div>
+      `).join("");
+    }
+
+    function renderAll() {
+      const info = getLevelInfo(state.xp);
+      document.getElementById("freedomBar").style.width = info.pct + "%";
+      document.getElementById("freedomPct").innerText = `${info.pct}% (Level ${info.lvl})`;
+      document.getElementById("crownIcon").innerText = info.crown;
+      document.getElementById("levelBadge").innerText = `LEVEL ${info.lvl} • ${info.title}`;
+      document.getElementById("statXp").innerText = state.xp;
+      document.getElementById("statTasks").innerText = state.done.length;
+      document.getElementById("statRank").innerText = info.rank;
+      document.getElementById("userName").value = state.name;
+
+      const btn = document.getElementById("checkinBtn");
+      if (state.checkedToday) {
+        btn.disabled = true;
+        btn.innerText = "✔ सेफ है";
+        document.getElementById("streakText").innerText = "आज का लेवल सुरक्षित है! कल फिर आना।";
+      }
+
+      renderJobs();
+      renderLeaderboard();
+    }
+
+    // Live Countdown & Quote Rotator for Habit Loop
+    let sec = 21599;
+    setInterval(() => {
+      if (sec > 0) sec--;
+      const h = String(Math.floor(sec / 3600)).padStart(2, "0");
+      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, "0");
+      const s = String(sec % 60).padStart(2, "0");
+      document.getElementById("timerPill").innerText = `⏳ ${h}:${m}:${s} बचा है`;
+    }, 1000);
+
+    let qIdx = 0;
+    setInterval(() => {
+      qIdx = (qIdx + 1) % quotes.length;
+      document.getElementById("mirrorQuote").innerText = quotes[qIdx];
+    }, 6000);
+
+    renderAll();
   </script>
 </body>
 </html>
